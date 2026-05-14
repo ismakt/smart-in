@@ -1,0 +1,392 @@
+
+:root{
+  --bg-1: #060709;
+  --bg-2: #0e1114;
+  --card: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.06);
+  --accent: #ff3b30;
+  --muted: rgba(255,255,255,0.6);
+  --shadow: 0 10px 30px rgba(0,0,0,0.6);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+html,body{
+  height:100%;
+  margin:0;
+  background:linear-gradient(180deg,var(--bg-1),var(--bg-2));
+  color:#eaeef7;
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.dashboard { height:100vh; width:100vw; display:flex; gap:20px; padding:20px; box-sizing:border-box; align-items:stretch; justify-content:center; }
+
+
+.left {
+  width: 300px;
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  height: 100vh;       /* occupe toute la hauteur de l'écran */
+  overflow-y: auto;    /* active le scroll vertical */
+  padding-right: 6px;  /* optionnel : pour éviter que le scroll chevauche le contenu */
+}
+
+
+.brand {
+  width: 50%;        /* largeur fixe du brand */
+  padding: 16px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow: var(--shadow);
+  border: 1px solid var(--glass-border);
+  flex-shrink: 0;     /* ne se réduit pas */
+}
+
+.theme-container {
+  width: 100%;               /* largeur du conteneur */
+  flex: 1 1 auto;            /* prend l’espace restant */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;          /* active le scroll vertical */
+  max-height: 100%;           /* utilise toute la hauteur disponible */
+  padding-right: 6px;        /* espace pour le scroll */
+}
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+.brand { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:14px; padding:16px; box-shadow: var(--shadow); border:1px solid var(--glass-border); }
+.brand h1{ margin:0; font-size:18px; color:#ffd84d; }
+.brand p{ margin:6px 0 0 0; color:var(--muted); font-size:13px; }
+.controls { display:flex; flex-direction:column; gap:10px; }
+.btn { padding:10px 12px; border-radius:10px; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06)); border:1px solid rgba(255,255,255,0.03); color:#eef6ff; cursor:pointer; font-weight:600; box-shadow: 6px 6px 16px rgba(0,0,0,0.6), -4px -4px 10px rgba(255,255,255,0.02); transition: transform .12s ease, box-shadow .12s ease; text-align:center; }
+.btn:active{ transform:translateY(1px); }
+.btn.secondary{ background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.08)); border:1px solid rgba(255,255,255,0.02); }
+.center { flex:1; display:flex; flex-direction:column; gap:14px; min-width:400px; }
+.map-card { flex:1; border-radius:50%; position:relative; display:flex; align-items:center; justify-content:center; overflow:visible; }
+.map-wrapper { width:100%; max-width:650px; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center; position:relative; z-index:1; }
+.map-circle { width:100%; height:100%; border-radius:50%; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+#map { width:100%; height:100%; border-radius:50%; filter: brightness(1) saturate(5) ; }
+.right { width:220px; min-width:220px; display:flex; flex-direction:column; gap:18px; }
+.dropdown { display:none; flex-direction:column; margin-top:6px; gap:4px; background: rgba(255,255,255,0.05); padding:6px 8px; border-radius:10px; border:2px solid rgba(255,255,255,0.03); cursor:pointer; }
+.dropdown div:hover { background: rgba(255,255,255,0.1); }
+.foliumtooltip { background: rgba(10,10,12,0.95); color:#fff; border-radius:8px; padding:8px 10px; border:2px solid rgba(255,255,255,0.04); }
+
+/* Custom Zoom */
+.custom-zoom-container { display: flex; flex-direction: row; gap: 8px; margin-top: 10px; }
+.custom-zoom-container .btn { width: 36px; height: 36px; padding: 0; font-size: 20px; display: flex; justify-content: center; align-items: center; }
+
+
+/* Legend styling */
+.legend { padding:6px; background: rgba(0,0,0,0.4); border-radius:6px; font-size:12px; line-height:1.4; }
+
+@media (max-width:1000px){
+  .dashboard{ flex-direction:column; padding:12px; gap:12px; }
+  .left, .right { width:100%; display:flex; flex-direction:row; gap:10px; }
+  .left { justify-content:space-between; }
+  .right { justify-content:space-between; }
+  .center { width:100%; min-width:0; }
+  #map { border-radius:12px; height:calc(70vh); }
+}
+
+  #btn-filters {
+  background-color: #000000;  /* fond noir */
+  color: #000000;             /* texte noir */
+  border: 1px solid #000000;  /* bordure noire pour qu’on ne voit rien */
+  pointer-events: none;       /* désactive les clics */
+}
+
+
+
+
+  #info-panel {
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.03);
+  border-radius: 10px;
+  padding: 8px;
+  margin-top: 6px;
+  color: #eef6ff;
+  font-size: 13px;
+}
+
+
+
+
+
+
+  .address-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#address-input {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border: 1px solid rgba(255,255,255,0.03);
+  color: #f5f0f0;
+  font-weight: 600;
+  outline: none;
+  box-shadow: 6px 6px 16px rgba(0,0,0,0.6),
+              -4px -4px 10px rgba(255,255,255,0.02);
+}
+
+#address-input::placeholder {
+  color: #fcfcfc;
+}
+
+.address-limit {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+}
+
+
+.address-marker {
+  position: relative;
+}
+
+.address-marker .dot {
+  width: 10px;
+  height: 10px;
+  background: #ff3b30;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.address-marker .close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 14px;
+  height: 14px;
+  font-size: 10px;
+  background: #111;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+  .address-circle {
+  pointer-events: none;
+}
+
+  .custom-zoom-container {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+  .map-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+
+.info-container {
+  position: absolute;  /* pour le placer librement */
+  top: 20px;           /* distance depuis le haut du parent (ex : la map) */
+  left: 20px;          /* distance depuis la gauche */
+  z-index: 1000;       /* pour être au-dessus des autres éléments */
+}
+
+
+.info-dropdown {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  width: 260px;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #111;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  z-index: 1000;
+  display: none;
+}
+
+#protected-content, #protected-content2 {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+
+
+
+
+/* ============================= */
+/* ===== SELECT CITY ===== */
+/* ============================= */
+
+.city-group-toggle {
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border: 1.5px solid rgba(255,255,255,0.15);
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+/* Hover */
+.city-group-toggle:hover {
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.30);
+}
+
+/* Ouvert */
+.city-group-toggle.active {
+  background: rgba(255,255,255,0.16);
+  border: 1.5px solid rgba(255,255,255,0.40);
+  box-shadow: 0 0 12px rgba(255,255,255,0.08);
+}
+
+
+/* Sous-menu city */
+.city-submenu {
+  display: none;
+  padding-left: 12px;
+  margin-top: 8px;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.city-submenu.open {
+  display: flex;
+}
+
+/* Items city */
+.city-submenu div {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+.city-submenu div:hover {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+/* Ville sélectionnée */
+.city-submenu div.selected {
+  background: rgba(255, 59, 48, 0.20);
+  border: 1px solid rgba(255, 59, 48, 0.60);
+  box-shadow: 0 0 10px rgba(255, 59, 48, 0.35);
+  color: #ffffff;
+}
+
+
+
+
+
+
+
+
+/* ============================= */
+/* ===== THEMES PRINCIPAUX ===== */
+/* ============================= */
+
+.theme-group-toggle {
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  border: 1.5px solid rgba(255,255,255,0.15);
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+/* Hover principal */
+.theme-group-toggle:hover {
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.30);
+}
+
+/* Thème déroulé */
+.theme-group-toggle.active {
+  background: rgba(255,255,255,0.16);
+  border: 1.5px solid rgba(255,255,255,0.40);
+  box-shadow: 0 0 12px rgba(255,255,255,0.08);
+}
+
+
+/* ======================= */
+/* ===== SOUS-MENU ======= */
+/* ======================= */
+
+.theme-submenu {
+  display: none;               /* fermé par défaut */
+  padding-left: 12px;
+  margin-top: 8px;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.theme-submenu.open {
+  display: flex;
+}
+
+
+/* ============================= */
+/* ===== ITEMS SECONDAIRES ===== */
+/* ============================= */
+
+.theme-submenu div {
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+}
+
+/* Hover sous-item */
+.theme-submenu div:hover {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+/* Sous-item sélectionné */
+.theme-submenu div.selected {
+  background: rgba(255, 59, 48, 0.20); /* accent */
+  border: 1px solid rgba(255, 59, 48, 0.60);
+  box-shadow: 0 0 10px rgba(255, 59, 48, 0.35);
+  color: #ffffff;
+}
+
+    .my-tooltip {
+    max-width: 200px;   /* largeur max pour forcer les retours à la ligne */
+    white-space: normal; /* permet les retours à la ligne */
+    text-align: left;    /* texte aligné à gauche */
+    font-size: 12px;     /* taille de texte lisible */
+}
+
+
+
+

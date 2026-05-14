@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Brussels Dots Map</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body style="margin:0;">
+
+<svg id="map" width="100%" height="100vh"></svg>
+
+<script>
+// 🗺️ Charger GeoJSON des frontières
+d3.json('brussels.geojson').then(data => {
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  const svg = d3.select('#map');
+  const projection = d3.geoMercator()
+    .fitSize([width, height], data);
+
+  const path = d3.geoPath(projection);
+
+  // 👣 Extraire tous les points le long du polygone
+  const coords = d3.geoMesh()
+    .setRadius(2) // réduire pour plus de points
+    (data);
+
+  // 📍 Scatter points le long du contour
+  const points = [];
+
+  data.features.forEach(f => {
+    const geom = f.geometry.coordinates;
+    geom.forEach(ring => {
+      ring.forEach(([lon, lat]) => {
+        points.push(projection([lon, lat]));
+      });
+    });
+  });
+
+  svg.selectAll('circle')
+    .data(points)
+    .join('circle')
+    .attr('cx', d => d[0])
+    .attr('cy', d => d[1])
+    .attr('r', 1.5)
+    .attr('fill', '#c9a24d');
+});
+</script>
+
+</body>
+</html>

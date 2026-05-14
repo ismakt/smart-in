@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vadilion Digital</title>
+<style>
+:root{
+  --bg:#000000;
+  --panel:#0e0e0e;
+  --panel-2:#151515;
+  --border:#2a2a2a;
+  --gold:#c9a24d;
+  --text:#ffffff;
+  --muted:#b5b5b5;
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial, Helvetica, sans-serif;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  padding:20px;
+}
+.brand{
+  border:1px solid var(--border);
+  padding:14px 18px;
+}
+.brand h1{
+  color:var(--gold);
+  font-size:22px;
+  letter-spacing:1px;
+}
+.brand h2{
+  font-size:13px;
+  font-weight:400;
+  margin-top:4px;
+}
+.lang{
+  border:1px solid var(--border);
+  padding:6px 10px;
+  font-size:12px;
+}
+.lang span{
+  cursor:pointer;
+  margin:0 4px;
+}
+.lang .active{color:var(--gold);}
+
+main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+.menu{
+  display:flex;
+  gap:40px;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.menu button{
+  background:none;
+  border:none;
+  color:var(--text);
+  font-size:16px;
+  cursor:pointer;
+  position:relative;
+}
+.menu button:hover{color:var(--gold);}
+
+.logo{
+  margin-top:25px;
+}
+.logo img{
+  max-width:220px;
+  width:100%;
+}
+
+.panel{
+  display:none;
+  margin-top:20px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  padding:20px;
+  max-width:900px;
+  width:100%;
+}
+.panel h3{
+  margin-bottom:10px;
+  color:var(--gold);
+  cursor:pointer;
+}
+.panel p, .panel li{
+  font-size:14px;
+  line-height:1.6;
+  color:var(--muted);
+}
+.panel ul{margin-left:18px;margin-bottom:10px;}
+.sub{display:none;margin-bottom:10px;}
+
+footer{
+  margin-top:auto;
+}
+.footer-line{
+  height:1px;
+  background:var(--border);
+}
+.footer-content{
+  display:flex;
+  justify-content:space-around;
+  padding:10px;
+  font-size:12px;
+}
+.footer-content span{cursor:pointer;}
+
+/* Contact modal */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.8);
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+.modal-content{
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  padding:20px;
+  max-width:600px;
+  width:100%;
+  position:relative;
+}
+.modal-content h4{color:var(--gold);margin-bottom:10px;}
+.modal-content p{font-size:13px;color:var(--muted);margin-bottom:12px;}
+.modal-content input, .modal-content textarea{
+  width:100%;
+  margin-bottom:10px;
+  background:#000;
+  border:1px solid var(--border);
+  color:#fff;
+  padding:8px;
+}
+.modal-content textarea{max-height:200px;}
+.close{
+  position:absolute;
+  top:8px;right:10px;
+  cursor:pointer;
+}
+
+@media(max-width:768px){
+  main{justify-content:flex-start;}
+  .menu{gap:20px;}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <h1>VADILION DIGITAL</h1>
+    <h2>Data-Driven Digital Solutions</h2>
+  </div>
+  <div class="lang">
+    <span id="fr" class="active">FR</span>|<span id="en">EN</span>
+  </div>
+</header>
+
+<main>
+  <div class="menu">
+    <button onclick="togglePanel('services')">SERVICES</button>
+    <button onclick="togglePanel('solutions')">SOLUTIONS</button>
+    <button onclick="togglePanel('story')">STORY</button>
+    <button onclick="togglePanel('network')">RESEAUX & OFFICES</button>
+  </div>
+
+  <div class="logo" id="logo">
+    <!-- Place the image file in the same folder as this HTML -->
+    <img src="vadiliondigital_logo.png" alt="Vadilion Digital Logo" />
+  </div>
+
+  <!-- SERVICES -->
+  <div class="panel" id="services">
+    <h3 onclick="toggleSub('bse')">BUSINESS STARTER ESSENTIALS</h3>
+    <div class="sub" id="bse">
+      <ul>
+        <li>Design de votre identité visuelle et déclinaisons (logo, cartes de visite, supports).</li>
+        <li>Social Media Management : création d'une présence digitale cohérente, mémorable et différenciante.</li>
+        <li>Développement de sites web et d'applications.</li>
+      </ul>
+    </div>
+    <h3 onclick="toggleSub('fdm')">FULL DATA MANAGEMENT</h3>
+    <div class="sub" id="fdm">
+      <p>Nous concevons et structurons votre base de données, mettons en place des pipelines et des systèmes de mise à jour automatisés. Nous assurons des analyses régulières, du reporting, la création d’outils décisionnels (dashboards) et vous accompagnons dans vos prises de décision grâce à des insights analytiques fiables.</p>
+    </div>
+  </div>
+
+  <!-- SOLUTIONS -->
+  <div class="panel" id="solutions">
+    <h3>SMART-IN</h3>
+    <p>Conscients de la difficulté rencontrée par les acteurs du marché immobilier pour s’informer de manière fiable, nous avons développé un outil décisionnel conçu pour clarifier, structurer et fiabiliser l’information. Trop souvent, les données sont nombreuses, hétérogènes, biaisées par des intérêts commerciaux ou noyées dans des discours de vente. Notre approche est différente : fournir des données claires, analysées, contextualisées et issues de sources vérifiées. Notre unique objectif est de vous informer de manière neutre et transparente afin de gagner votre confiance et, surtout, de la conserver. Que votre projet concerne une habitation, un investissement ou l’ouverture d’un commerce, nous analysons rapidement le marché et la localisation grâce à de multiples indicateurs statistiques, sans discours commercial ni embellissement artificiel.</p>
+  </div>
+
+  <!-- STORY -->
+  <div class="panel" id="story">
+    <p>Issu de parcours en Business Management, Commerce International, Immobilier, Urbanisme et IT, j’ai fondé Vadilion Digital avec la volonté de proposer des solutions réellement utiles, alignées avec mes domaines d’expertise, de connaissance terrain et de passion. L’objectif est simple : transformer la donnée en valeur concrète et exploitable.</p>
+  </div>
+
+  <!-- NETWORK -->
+  <div class="panel" id="network">
+    <h3>Offices</h3>
+    <p>Avenue du Boulevard 21, Bruxelles<br>Rue Meyerbeer 7, Paris<br>Boulevard d'Italie 74, Monaco</p>
+    <h3>Réseaux</h3>
+    <p>LinkedIn : https://www.linkedin.com/company/vadiliondigital<br>Instagram : https://www.instagram.com/vadilion.digital</p>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-line"></div>
+  <div class="footer-content">
+    <span>(c) Vadilion Digital – all rights reserved</span>
+    <span>TVA BExxxxxxxx</span>
+    <span onclick="openModal()">Contact</span>
+  </div>
+</footer>
+
+<div class="modal" id="contactModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">x</span>
+    <h4>Notre méthode – 3 steps</h4>
+    <p>• Nous écoutons attentivement vos besoins et votre budget.<br>
+       • Nous revenons vers vous avec une proposition claire, structurée, précisant livrables et délais.<br>
+       • Nous livrons les résultats.</p>
+    <input required placeholder="Nom (personne ou entreprise)" />
+    <input required placeholder="Contact (email / téléphone / adresse)" />
+    <textarea required maxlength="999" placeholder="Message"></textarea>
+  </div>
+</div>
+
+<script>
+let currentPanel=null;
+function togglePanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.style.display='none');
+  if(currentPanel===id){currentPanel=null;document.getElementById('logo').style.display='block';return;}
+  document.getElementById(id).style.display='block';
+  document.getElementById('logo').style.display='none';
+  currentPanel=id;
+}
+function toggleSub(id){
+  const el=document.getElementById(id);
+  el.style.display = el.style.display==='block'?'none':'block';
+}
+function openModal(){document.getElementById('contactModal').style.display='flex';}
+function closeModal(){document.getElementById('contactModal').style.display='none';}
+</script>
+</body>
+</html>

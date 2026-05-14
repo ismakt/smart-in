@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "merged_StatisticalUnitWideRealEstateRentsAnnual_2024_takermixed_totalrentp50_BX_only",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+
+]
+}
