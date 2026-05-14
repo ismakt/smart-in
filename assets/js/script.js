@@ -19,193 +19,387 @@ var activeTheme = null;
 var polygonsOn = true;
 
 // Themes
-const ALL_THEMES = [
+
+  
+ const ALL_THEMES = [
 
   // ---------------- Immobilier - Transactions ----------------
-  { name: "Total sales 2013-2024", file: "merge_total_sales_2013_2024_BX_only_with_geofile.geojson", property: "total_sales_2013_2024" },
-  { name: "2-3 facades houses total sales 2013-2024", file: "merge_sales_2_3_facades_BX_only_with_geofile.geojson", property: "total_sales" },
-  { name: "4 or plus facades houses total sales 2013-2024", file: "merge_sales_4_or_plus_facades_BX_only_with_geofile.geojson", property: "total_sales" },
-  { name: "apartments total sales 2013-2024", file: "merge_apartments_BX_only_with_geofile.geojson", property: "total_sales" },
-  { name: "Appartements vendus 2011", file: "immo_nb_appart_sales_2011.geojson", property: "total_sales" },
-  { name: "Appartements vendus 2021", file: "immo_nb_appart_sales_2021.geojson", property: "total_sales" },
-  { name: "Maisons vendus 2011", file: "immo_nb_houses_sales_2011.geojson", property: "total_sales" },
-  { name: "Maisons vendus 2021", file: "immo_nb_houses_sales_2021.geojson", property: "total_sales" },
+  { id: "totalSales20132024", name: "Total sales 2013-2024", file: "merge_total_sales_2013_2024_BX_only_with_geofile.geojson", property: "total_sales_2013_2024" },
+
+  { id: "sales23Facades20132024", name: "2-3 facades houses total sales 2013-2024", file: "merge_sales_2_3_facades_BX_only_with_geofile.geojson", property: "total_sales" },
+
+  { id: "sales4PlusFacades20132024", name: "4 or plus facades houses total sales 2013-2024", file: "merge_sales_4_or_plus_facades_BX_only_with_geofile.geojson", property: "total_sales" },
+
+  { id: "salesApartments20132024", name: "apartments total sales 2013-2024", file: "merge_apartments_BX_only_with_geofile.geojson", property: "total_sales" },
+
+  { id: "salesApartments2011", name: "Appartements vendus 2011", file: "immo_nb_appart_sales_2011.geojson", property: "total_sales" },
+
+  { id: "salesApartments2011v2", name: "Appartements vendus 2021", file: "immo_nb_appart_sales_2021.geojson", property: "total_sales" },
+
+  { id: "salesHouses2011", name: "Maisons vendus 2011", file: "immo_nb_houses_sales_2011.geojson", property: "total_sales" },
+
+  { id: "salesHouses2021", name: "Maisons vendus 2021", file: "immo_nb_houses_sales_2021.geojson", property: "total_sales" },
+
 
   // ---------------- Immobilier - Prices ----------------
-  { name: "median sale price 2013", file: "merge_sales_median_2013_BX_only_with_geofile.geojson", property: "MS_P50 (MEDIAN_PRICE)" },
-  { name: "median sale price 2023", file: "merge_sales_median_2023_BX_only_with_geofile.geojson", property: "MS_P50 (MEDIAN_PRICE)" },
-  { name: "median sale price apartment 2013", file: "merge_sales_median_apartment_2013_BX_only_with_geofile.geojson", property: "MS_P50 (MEDIAN_PRICE)" },
-  { name: "median sale price apartment 2023", file: "merge_sales_median_apartment_2023_BX_only_with_geofile.geojson", property: "MS_P50 (MEDIAN_PRICE)" },
+  { id: "medianSalePrice2013", name: "median sale price 2013", file: "merge_sales_median_2013_BX_only_with_geofile.geojson", property: "MS_P50 (MEDIAN_PRICE)" },
 
-  { name: "MS_P10_2013", file: "merge_sales_ms_p10_2013_BX_only_with_geofile.geojson", property: "MS_P10" },
-  { name: "MS_P10_2023", file: "merge_sales_ms_p10_2023_BX_only_with_geofile.geojson", property: "MS_P10" },
-  { name: "MS_P25_2013", file: "merge_sales_ms_p25_2013_BX_only_with_geofile.geojson", property: "MS_P25" },
-  { name: "MS_P25_2023", file: "merge_sales_ms_p25_2023_BX_only_with_geofile.geojson", property: "MS_P25" },
-  { name: "MS_P75_2013", file: "merge_sales_ms_p75_2013_BX_only_with_geofile.geojson", property: "MS_P75" },
-  { name: "MS_P75_2023", file: "merge_sales_ms_p75_2023_BX_only_with_geofile.geojson", property: "MS_P75" },
-  { name: "MS_P90_2013", file: "merge_sales_ms_p90_2013_BX_only_with_geofile.geojson", property: "MS_P90" },
-  { name: "MS_P90_2023", file: "merge_sales_ms_p90_2023_BX_only_with_geofile.geojson", property: "MS_P90" },
+  { id: "medianSalePrice2023", name: "median sale price 2023", file: "merge_sales_median_2023_BX_only_with_geofile.geojson", property: "MS_P50 (MEDIAN_PRICE)" },
 
-  { name: "MS_P10_2013_all_houses", file: "merge_sales_ms_p10_2013_BX_only_with_geofile_all_houses.geojson", property: "MS_P10" },
-  { name: "MS_P10_2013_apartments", file: "merge_sales_ms_p10_2013_BX_only_with_geofile_Appartements.geojson", property: "MS_P10" },
-  { name: "MS_P10_2023_all_houses", file: "merge_sales_ms_p10_2023_BX_only_with_geofile_all_houses.geojson", property: "MS_P10" },
-  { name: "MS_P10_2023_apartments", file: "merge_sales_ms_p10_2023_BX_only_with_geofile_apartments.geojson", property: "MS_P10" },
+  { id: "medianSalePriceApt2013", name: "median sale price apartment 2013", file: "merge_sales_median_apartment_2013_BX_only_with_geofile.geojson", property: "MS_P50 (MEDIAN_PRICE)" },
 
-  { name: "MS_P25_2013_all_houses", file: "merge_sales_ms_p25_2013_BX_only_with_geofile_all_houses.geojson", property: "MS_P25" },
-  { name: "MS_P25_2013_apartments", file: "merge_sales_ms_p25_2013_BX_only_with_geofile_Appartements.geojson", property: "MS_P25" },
-  { name: "MS_P25_2023_all_houses", file: "merge_sales_ms_p25_2023_BX_only_with_geofile_all_houses.geojson", property: "MS_P25" },
-  { name: "MS_P25_2023_apartments", file: "merge_sales_ms_p25_2023_BX_only_with_geofile_apartments.geojson", property: "MS_P25" },
-
-  { name: "MS_P75_2013_all_houses", file: "merge_sales_ms_p75_2013_BX_only_with_geofile_all_houses.geojson", property: "MS_P75" },
-  { name: "MS_P75_2013_apartments", file: "merge_sales_ms_p75_2013_BX_only_with_geofile_apartments.geojson", property: "MS_P75" },
-  { name: "MS_P75_2023_all_houses", file: "merge_sales_ms_p75_2023_BX_only_with_geofile_all_houses.geojson", property: "MS_P75" },
-  { name: "MS_P75_2023_apartments", file: "merge_sales_ms_p75_2023_BX_only_with_geofile_apartments.geojson", property: "MS_P75" },
-
-  { name: "MS_P90_2013_all_houses", file: "merge_sales_ms_p90_2013_BX_only_with_geofile_all_houses.geojson", property: "MS_P90" },
-  { name: "MS_P90_2013_apartments", file: "merge_sales_ms_p90_2013_BX_only_with_geofile_apartments.geojson", property: "MS_P90" },
-  { name: "MS_P90_2023_all_houses", file: "merge_sales_ms_p90_2023_BX_only_with_geofile_all_houses.geojson", property: "MS_P90" },
-  { name: "MS_P90_2023_apartments", file: "merge_sales_ms_p90_2023_BX_only_with_geofile_apartments.geojson", property: "MS_P90" },
-
-  { name: "TotalRentP50LessorLegalPerson2024", file: "merged_StatisticalUnitWideRealEstateRentsAnnual_2024_lessorlegalperson_totalrentp50_BX_only.geojson", property: "TotalRentP50" },
-  { name: "TotalRentP50LessorNeutralPerson2024", file: "merged_StatisticalUnitWideRealEstateRentsAnnual_2024_lessorneutralperson_totalrentp50_BX_only.geojson", property: "TotalRentP50" },
-  { name: "TotalRentP50TakerLegalPerson2024", file: "merged_StatisticalUnitWideRealEstateRentsAnnual_2024_takerlegalperson_totalrentp50_BX_only.geojson", property: "TotalRentP50" },
-
-  { name: "Prix median appartements 2011", file: "immo_median_saleprice_appart_2011.geojson", property: "immo_median_saleprice_appart_2011" },
-  { name: "Prix median appartements 2021", file: "immo_median_saleprice_appart_2021.geojson", property: "immo_median_saleprice_appart_2021" },
-  { name: "Prix median maisons 2011", file: "immo_median_saleprice_house_2011.geojson", property: "immo_median_saleprice_house_2011" },
-  { name: "Prix median maisons 2021", file: "immo_median_saleprice_house_2021.geojson", property: "immo_median_saleprice_house_2021" },
+  { id: "medianSalePriceApt2023", name: "median sale price apartment 2023", file: "merge_sales_median_apartment_2023_BX_only_with_geofile.geojson", property: "MS_P50 (MEDIAN_PRICE)" },
 
 
+  { id: "msP10_2013", name: "MS_P10_2013", file: "merge_sales_ms_p10_2013_BX_only_with_geofile.geojson", property: "MS_P10" },
+  { id: "msP10_2023", name: "MS_P10_2023", file: "merge_sales_ms_p10_2023_BX_only_with_geofile.geojson", property: "MS_P10" },
 
-// ---------------- Population ----------------
-  { name: "Total Population 2014", file: "merged_statsector_population_BX_only_2014_partialmatch.geojson", property: "Total_Population_2014" },
-  { name: "Total Population 2025", file: "merged_statsector_population_BX_only_2025_partialmatch.geojson", property: "Total_Population_2025" },
-  { name: "Avg Revenue 2023", file: "merged_statsector_revenue_BX_only_2023_partialmatch.geojson", property: "MS_AVG_TOT_NET_TAXABLE_INC" },
+  { id: "msP25_2013", name: "MS_P25_2013", file: "merge_sales_ms_p25_2013_BX_only_with_geofile.geojson", property: "MS_P25" },
+  { id: "msP25_2023", name: "MS_P25_2023", file: "merge_sales_ms_p25_2023_BX_only_with_geofile.geojson", property: "MS_P25" },
 
-  // ---------------- Crimes - Vols ----------------
-  { name: "Vols 2000", file: "zp_crime_type_vol_2000_bx_geofile.geojson", property: "vol" },
-  { name: "Vols 2014", file: "zp_crime_type_vol_2014_bx_geofile.geojson", property: "vol" },
-  { name: "Vols 2024", file: "zp_crime_type_vol_2024_bx_geofile.geojson", property: "vol" },
+  { id: "msP75_2013", name: "MS_P75_2013", file: "merge_sales_ms_p75_2013_BX_only_with_geofile.geojson", property: "MS_P75" },
+  { id: "msP75_2023", name: "MS_P75_2023", file: "merge_sales_ms_p75_2023_BX_only_with_geofile.geojson", property: "MS_P75" },
 
-  // ---------------- Crimes - Coups et blessures ----------------
-  { name: "Coups et blessures 2000", file: "zp_crime_type_coups_blessures_2000_bx_geofile.geojson", property: "coups_blessures" },
-  { name: "Coups et blessures 2014", file: "zp_crime_type_coups_blessures_2014_bx_geofile.geojson", property: "coups_blessures" },
-  { name: "Coups et blessures 2024", file: "zp_crime_type_coups_blessures_2024_bx_geofile.geojson", property: "coups_blessures" },
+  { id: "msP90_2013", name: "MS_P90_2013", file: "merge_sales_ms_p90_2013_BX_only_with_geofile.geojson", property: "MS_P90" },
+  { id: "msP90_2023", name: "MS_P90_2023", file: "merge_sales_ms_p90_2023_BX_only_with_geofile.geojson", property: "MS_P90" },
 
-  // ---------------- Crimes - Drogues ----------------
-  { name: "Drogues 2000", file: "zp_crime_type_drogues_2000_bx_geofile.geojson", property: "drogues" },
-  { name: "Drogues 2014", file: "zp_crime_type_drogues_2014_bx_geofile.geojson", property: "drogues" },
-  { name: "Drogues 2024", file: "zp_crime_type_drogues_2024_bx_geofile.geojson", property: "drogues" },
 
-  // ---------------- Crimes - Alcool ----------------
-  { name: "Alcool 2000", file: "zp_crime_type_alcool_2000_bx_geofile.geojson", property: "alcool" },
-  { name: "Alcool 2014", file: "zp_crime_type_alcool_2014_bx_geofile.geojson", property: "alcool" },
-  { name: "Alcool 2024", file: "zp_crime_type_alcool_2024_bx_geofile.geojson", property: "alcool" },
+  { id: "msP10AllHouses2013", name: "MS_P10_2013_all_houses", file: "merge_sales_ms_p10_2013_BX_only_with_geofile_all_houses.geojson", property: "MS_P10" },
+  { id: "msP10Apts2013", name: "MS_P10_2013_apartments", file: "merge_sales_ms_p10_2013_BX_only_with_geofile_Appartements.geojson", property: "MS_P10" },
 
-  // ---------------- Crimes - Armes ----------------
-  { name: "Armes 2024", file: "zp_crime_type_armes_2024_bx_geofile.geojson", property: "armes" },
-   // ---------------- Criminalité - Armes ----------------
-  { name: "Armes 2014", file: "zp_crime_type_armes_2014_bx_geofile.geojson", property: "armes" },
-  { name: "Armes 2000", file: "zp_crime_type_armes_2000_bx_geofile.geojson", property: "armes" },
+  { id: "msP10AllHouses2023", name: "MS_P10_2023_all_houses", file: "merge_sales_ms_p10_2023_BX_only_with_geofile_all_houses.geojson", property: "MS_P10" },
+  { id: "msP10Apts2023", name: "MS_P10_2023_apartments", file: "merge_sales_ms_p10_2023_BX_only_with_geofile_apartments.geojson", property: "MS_P10" },
 
-  // ---------------- Sécurité publique ----------------
-  { name: "Sécurité publique 2024", file: "zp_crime_type_secu_publiq_2024_bx_geofile.geojson", property: "secu_publiq" },
-  { name: "Sécurité publique 2014", file: "zp_crime_type_secu_publiq_2014_bx_geofile.geojson", property: "secu_publiq" },
-  { name: "Sécurité publique 2000", file: "zp_crime_type_secu_publiq_2000_bx_geofile.geojson", property: "secu_publiq" },
 
-  // ---------------- Dégradations / Propriété ----------------
-  { name: "Dégradations propriété 2024", file: "zp_crime_type_degradat_prop_2024_bx_geofile.geojson", property: "degradat_prop" },
-  { name: "Dégradations propriété 2014", file: "zp_crime_type_degradat_prop_2014_bx_geofile.geojson", property: "degradat_prop" },
-  { name: "Dégradations propriété 2000", file: "zp_crime_type_degradat_prop_2000_bx_geofile.geojson", property: "degradat_prop" },
+  { id: "msP25AllHouses2013", name: "MS_P25_2013_all_houses", file: "merge_sales_ms_p25_2013_BX_only_with_geofile_all_houses.geojson", property: "MS_P25" },
+  { id: "msP25Apts2013", name: "MS_P25_2013_apartments", file: "merge_sales_ms_p25_2013_BX_only_with_geofile_Appartements.geojson", property: "MS_P25" },
 
-  // ---------------- Cambriolages ----------------
-  { name: "Cambriolages 2024", file: "zp_crime_type_cambriolage_2024_bx_geofile.geojson", property: "cambriolage" },
-  { name: "Cambriolages 2014", file: "zp_crime_type_cambriolage_2014_bx_geofile.geojson", property: "cambriolage" },
-  { name: "Cambriolages 2000", file: "zp_crime_type_cambriolage_2000_bx_geofile.geojson", property: "cambriolage" },
+  { id: "msP25AllHouses2023", name: "MS_P25_2023_all_houses", file: "merge_sales_ms_p25_2023_BX_only_with_geofile_all_houses.geojson", property: "MS_P25" },
+  { id: "msP25Apts2023", name: "MS_P25_2023_apartments", file: "merge_sales_ms_p25_2023_BX_only_with_geofile_apartments.geojson", property: "MS_P25" },
+
+
+  { id: "msP75AllHouses2013", name: "MS_P75_2013_all_houses", file: "merge_sales_ms_p75_2013_BX_only_with_geofile_all_houses.geojson", property: "MS_P75" },
+  { id: "msP75Apts2013", name: "MS_P75_2013_apartments", file: "merge_sales_ms_p75_2013_BX_only_with_geofile_apartments.geojson", property: "MS_P75" },
+
+  { id: "msP75AllHouses2023", name: "MS_P75_2023_all_houses", file: "merge_sales_ms_p75_2023_BX_only_with_geofile_all_houses.geojson", property: "MS_P75" },
+  { id: "msP75Apts2023", name: "MS_P75_2023_apartments", file: "merge_sales_ms_p75_2023_BX_only_with_geofile_apartments.geojson", property: "MS_P75" },
+
+
+  { id: "msP90AllHouses2013", name: "MS_P90_2013_all_houses", file: "merge_sales_ms_p90_2013_BX_only_with_geofile_all_houses.geojson", property: "MS_P90" },
+  { id: "msP90Apts2013", name: "MS_P90_2013_apartments", file: "merge_sales_ms_p90_2013_BX_only_with_geofile_apartments.geojson", property: "MS_P90" },
+
+  { id: "msP90AllHouses2023", name: "MS_P90_2023_all_houses", file: "merge_sales_ms_p90_2023_BX_only_with_geofile_all_houses.geojson", property: "MS_P90" },
+  { id: "msP90Apts2023", name: "MS_P90_2023_apartments", file: "merge_sales_ms_p90_2023_BX_only_with_geofile_apartments.geojson", property: "MS_P90" },
+
+
+  { id: "rentP50LessorLegal2024", name: "TotalRentP50LessorLegalPerson2024", file: "merged_StatisticalUnitWideRealEstateRentsAnnual_2024_lessorlegalperson_totalrentp50_BX_only.geojson", property: "TotalRentP50" },
+
+  { id: "rentP50LessorNeutral2024", name: "TotalRentP50LessorNeutralPerson2024", file: "merged_StatisticalUnitWideRealEstateRentsAnnual_2024_lessorneutralperson_totalrentp50_BX_only.geojson", property: "TotalRentP50" },
+
+  { id: "rentP50TakerLegal2024", name: "TotalRentP50TakerLegalPerson2024", file: "merged_StatisticalUnitWideRealEstateRentsAnnual_2024_takerlegalperson_totalrentp50_BX_only.geojson", property: "TotalRentP50" },
+
+
+  { id: "medianAptPrice2011", name: "Prix median appartements 2011", file: "immo_median_saleprice_appart_2011.geojson", property: "immo_median_saleprice_appart_2011" },
+  { id: "medianAptPrice2021", name: "Prix median appartements 2021", file: "immo_median_saleprice_appart_2021.geojson", property: "immo_median_saleprice_appart_2021" },
+
+  { id: "medianHousePrice2011", name: "Prix median maisons 2011", file: "immo_median_saleprice_house_2011.geojson", property: "immo_median_saleprice_house_2011" },
+  { id: "medianHousePrice2021", name: "Prix median maisons 2021", file: "immo_median_saleprice_house_2021.geojson", property: "immo_median_saleprice_house_2021" },
+
 
   // ---------------- Population ----------------
-  { name: "Evolution Population 2012-2022 en %", file: "pop_evo_2012_2022.geojson", property: "pop_tx_aug_2012_2022" },
-  { name: "Population en 2022", file: "pop_2022_ok.geojson", property: "pop_nb_2022" },
-  { name: "Densité de Population", file: "hab_km2.geojson", property: "hab/km2" },
-  { name: "% Population âgée de 18 à 64 ans", file: "pop_tx_agegroup_18_64_2022.geojson", property: "pop_tx_agegroup_18_64_2022" },
-  { name: "Solde migratoire interne", file: "pop_soldmig_intern.geojson", property: "pop_soldmig_intern" },
-  { name: "Solde migratoire international", file: "pop_soldmig_internat.geojson", property: "pop_soldmig_internat" },
-{ name: "% Population étrangère 2022", file: "pop_tx_immig_2022.geojson", property: "pop_tx_immig_2022" },
-    { name: "Population Croissance Annuelle", file: "pop_croissance_an.geojson", property: "pop_croissance_an" },
-    { name: "% Population immigrée", file: "pop_tx_immig_2022.geojson", property: "pop_tx_immig_2022" },
-    { name: "% Population immigrée UE", file: "pop_tx_immig_fromEU.geojson", property: "pop_tx_immig_fromEU" },
-    { name: "% Population immigrée UE14", file: "pop_tx_immig_fromEU14.geojson", property: "pop_tx_immig_fromEU14" },
-    { name: "% Population immigrée UE13", file: "pop_tx_immig_fromEU13.geojson", property: "pop_tx_immig_fromEU13" },
-    { name: "Population immigrée reste UE + non UE", file: "pop_tx_immig_resteEu+nonEU.geojson", property: "pop_tx_immig_resteEu+nonEU" },
-    { name: "% Population immigrée nationalité étrangère à la naissance", file: "pop_tx_nationalite_etrg_alanaissance.geojson", property: "pop_tx_nationalite_etrg_alanaissance" },
-    { name: "Taux natalité", file: "pop_tx_natalite.geojson", property: "pop_tx_natalite" },
-    { name: "Revenu Médian", file: "fin_med_rev.geojson", property: "fin_med_rev" },
-    { name: "Taux emploi", file: "fin_tx_emploi.geojson", property: "fin_tx_emploi" },
-    { name: "Taux emploi 15 à 24 ans", file: "fin_tx_emploi_15_24.geojson", property: "fin_tx_emploi_15_24" },
-    { name: "Taux emploi 25 à 49 ans", file: "fin_tx_emploi_25_49.geojson", property: "fin_tx_emploi_25_49" },
-    { name: "Taux emploi 50 à 64 ans", file: "fin_tx_emploi_50_64.geojson", property: "fin_tx_emploi_50_64" },
-    { name: "Taux salariés", file: "fin_tx_sal.geojson", property: "fin_tx_sal" },
-    { name: "Taux indépendants", file: "fin_tx_indep.geojson", property: "fin_tx_indep" },
-{ name: "Taux ouvriers", file: "fin_tx_ouvr.geojson", property: "fin_tx_ouvr" },
-    { name: "Taux employés", file: "fin_tx_employee.geojson", property: "fin_tx_employee" },
-    { name: "Emplois Institutions Internationales", file: "fin_nb_internat_instit_jobs.geojson", property: "fin_nb_internat_instit_jobs" },
-    { name: "Taux fonctionnaires", file: "fin_tx_fonct.geojson", property: "fin_tx_fonct" },
-    { name: "Taux chomage", file: "fin_tx_chomg.geojson", property: "fin_tx_chomg" },
-    { name: "Taux chomage LD", file: "fin_tx_chom_longduree.geojson", property: "fin_tx_chom_longduree" },
-    { name: "Taux chomage 15 a 24 ans", file: "fin_15_24yo_tx_chom.geojson", property: "fin_15_24yo_tx_chom" },
-    { name: "Taux chomage 25 a 49 ans", file: "fin_tx_chom_25_49.geojson", property: "fin_tx_chom_25_49" },
-    { name: "Taux chomage 50 a 64 ans", file: "fin_tx_chom_50_64.geojson", property: "fin_tx_chom_50_64" },
-    { name: "Taux GRAPA 65+", file: "GRAPA_65+_2022.geojson", property: "GRAPA_65+_2022" },
-    { name: "Taux CPAS 18 a 24 ans", file: "tx_CPAS_18_24_2021.geojson", property: "tx_CPAS_18_24_2021" },
-    { name: "Taux naissances sans revenu de travail", file: "fin_tx_births_noworkrevenue.geojson", property: "fin_tx_births_noworkrevenue" },
-    { name: "Taux cadres", file: "pop_tx_immig_2022.geojson", property: "fin_tx_cadres" },
-    /*{ name: "Taux employés", file: "fin_tx_employees.geojson", property: "fin_tx_employees" },*/
-    { name: "Taux naissances mères étrangères", file: "fin_tx_naissances_mere_etrang.geojson", property: "fin_tx_naissances_mere_etrang" },
-    { name: "Taux retard scolaire", file: "ensign_retard_scol.geojson", property: "ensign_retard_scol" },
-    { name: "Etablissements", file: "fin_nb_etabls.geojson", property: "fin_nb_etabls" },
-    { name: "Sieges sociaux", file: "fin_soc_siege.geojson", property: "fin_soc_siege" },
-    { name: "Solde migration entreprises 2009 a 2020", file: "fin_soldmig_firms_total_2009_2020.geojson", property: "fin_soldmig_firms_total_2009_2020" },
-    { name: "Solde migration entreprises 2009 a 2020 Horeca", file: "fin_soldmig_2009_2020_horeca.geojson", property: "fin_soldmig_2009_2020_horeca" },
-    { name: "Solde migration entreprises 2009 a 2020 commerce detail", file: "fin_soldmig_2009_2020_commrcdetail.geojson", property: "fin_soldmig_2009_2020_commrcdetail" },
-    { name: "Solde migration entreprises 2009 a 2020 IT", file: "fin_soldmig_2009_2020_IT.geojson", property: "fin_soldmig_2009_2020_IT" },
-    { name: "Solde migration entreprises 2009 a 2020 RBC", file: "fin_soldmig_RBC_2009_2022.geojson", property: "fin_soldmig_RBC_2009_2022" },
-    { name: "Solde migration entreprises 2009 a 2020 Régions", file: "fin_soldmig_ firms_Wal_Flan_2009_2022.geojson", property: "fin_soldmig_firms_Wal_Flan_2009_2022" },
-    { name: "Taux vegetation", file: "eco_tx_veget.geojson", property: "eco_tx_veget" },
-    { name: "Taux espaces verts accessibles public", file: "eco_tx_espacevert_accesspublic.geojson", property: "eco_tx_espacevert_accesspublic" },
-    { name: "Logements sociaux", file: "immo_nb_logsoc.geojson", property: "immo_nb_logsoc" },
-    { name: "Batiments residentiels", file: "immo_nb_bat_resid.geojson", property: "immo_nb_bat_resid" },
-    { name: "Loyer moyen", file: "immo_avg_rent.geojson", property: "immo_avg_rent" },
+  { id: "popTotal2014", name: "Total Population 2014", file: "merged_statsector_population_BX_only_2014_partialmatch.geojson", property: "Total_Population_2014" },
 
-    { name: 'Parc immobilier 2 a 3 facades', file: 'immo_tx_23fac_houses.geojson', property: 'immo_tx_23fac_houses' },
-    { name: 'Parc immobilier 4 facades', file: 'immo_tx_4f_houses.geojson', property: 'immo_tx_4f_houses' },
-    { name: 'Parc immobilier immeuble appartements', file: 'immo_tx_immeub_appart.geojson', property: 'immo_tx_immeub_appart' },
-    { name: 'Secteurs economiques majeures', file: 'caract_economiq.geojson', property: 'caract_economiq' },
-    { name: 'Gentrification', file: 'gentrification.geojson', property: 'gentrification' },
+  { id: "popTotal2025", name: "Total Population 2025", file: "merged_statsector_population_BX_only_2025_partialmatch.geojson", property: "Total_Population_2025" },
 
-    { name: '% Roumains', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_roum_2022' },
-    { name: '% Marocains', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_maroc_2022' },
-    { name: '% Syrie', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_syrie_2022' },
-    { name: '% Francais', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_fr_2022' },
-    { name: '% Inde', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_inde_2022' },
-    { name: '% Turc', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_turc_2022' },
-    { name: '% Italie', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_it_2022' },
-    { name: '% Portugal', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_portugal_2022' },
-    { name: '% Espagne', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_es_2022' },
-    { name: '% Pologne', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_pl_2022' },
-    { name: '% Bresil', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_bresil_2022' },
-    { name: '% Allemagne', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_al_2022' },
-    { name: '% RDC', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_rdc_2022' },
-    { name: '% Bulgarie', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_boulg_2022' },
-    { name: '% Japon', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_jap_2022' },
-    { name: '% Grece', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_grece_2022' },
-    { name: '% NL', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_nl_2022' },
-    { name: '% Moldovie', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_mold_2022' },
-    { name: '% UK', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_uk_2022' },
-    { name: '% Guinee', file: 'merged_tx_origins_municipality_BX_only_2022.geojson', property: 'tx_guinee_2022' }
+  { id: "avgRevenue2023", name: "Avg Revenue 2023", file: "merged_statsector_revenue_BX_only_2023_partialmatch.geojson", property: "MS_AVG_TOT_NET_TAXABLE_INC" },
+
+
+  // ---------------- Crimes - Vols ----------------
+  { id: "vols2000", name: "Vols 2000", file: "zp_crime_type_vol_2000_bx_geofile.geojson", property: "vol" },
+  { id: "vols2014", name: "Vols 2014", file: "zp_crime_type_vol_2014_bx_geofile.geojson", property: "vol" },
+  { id: "vols2024", name: "Vols 2024", file: "zp_crime_type_vol_2024_bx_geofile.geojson", property: "vol" },
+
+
+  // ---------------- Crimes - Coups ----------------
+  { id: "coups2000", name: "Coups et blessures 2000", file: "zp_crime_type_coups_blessures_2000_bx_geofile.geojson", property: "coups_blessures" },
+
+  { id: "coups2014", name: "Coups et blessures 2014", file: "zp_crime_type_coups_blessures_2014_bx_geofile.geojson", property: "coups_blessures" },
+
+  { id: "coups2024", name: "Coups et blessures 2024", file: "zp_crime_type_coups_blessures_2024_bx_geofile.geojson", property: "coups_blessures" },
+
+
+  // ---------------- Crimes - Drogues ----------------
+  { id: "drogues2000", name: "Drogues 2000", file: "zp_crime_type_drogues_2000_bx_geofile.geojson", property: "drogues" },
+
+  { id: "drogues2014", name: "Drogues 2014", file: "zp_crime_type_drogues_2014_bx_geofile.geojson", property: "drogues" },
+
+  { id: "drogues2024", name: "Drogues 2024", file: "zp_crime_type_drogues_2024_bx_geofile.geojson", property: "drogues" },
+
+
+  // ---------------- Crimes - Alcool ----------------
+  { id: "alcool2000", name: "Alcool 2000", file: "zp_crime_type_alcool_2000_bx_geofile.geojson", property: "alcool" },
+
+  { id: "alcool2014", name: "Alcool 2014", file: "zp_crime_type_alcool_2014_bx_geofile.geojson", property: "alcool" },
+
+  { id: "alcool2024", name: "Alcool 2024", file: "zp_crime_type_alcool_2024_bx_geofile.geojson", property: "alcool" },
+
+
+  // ---------------- Crimes - Armes ----------------
+  { id: "armes2024", name: "Armes 2024", file: "zp_crime_type_armes_2024_bx_geofile.geojson", property: "armes" },
+
+  { id: "armes2014", name: "Armes 2014", file: "zp_crime_type_armes_2014_bx_geofile.geojson", property: "armes" },
+
+  { id: "armes2000", name: "Armes 2000", file: "zp_crime_type_armes_2000_bx_geofile.geojson", property: "armes" },
+
+
+  // ---------------- Sécurité publique ----------------
+  { id: "secu2024", name: "Sécurité publique 2024", file: "zp_crime_type_secu_publiq_2024_bx_geofile.geojson", property: "secu_publiq" },
+
+  { id: "secu2014", name: "Sécurité publique 2014", file: "zp_crime_type_secu_publiq_2014_bx_geofile.geojson", property: "secu_publiq" },
+
+  { id: "secu2000", name: "Sécurité publique 2000", file: "zp_crime_type_secu_publiq_2000_bx_geofile.geojson", property: "secu_publiq" },
+
+
+  // ---------------- Dégradations ----------------
+  { id: "degrad2024", name: "Dégradations propriété 2024", file: "zp_crime_type_degradat_prop_2024_bx_geofile.geojson", property: "degradat_prop" },
+
+  { id: "degrad2014", name: "Dégradations propriété 2014", file: "zp_crime_type_degradat_prop_2014_bx_geofile.geojson", property: "degradat_prop" },
+
+  { id: "degrad2000", name: "Dégradations propriété 2000", file: "zp_crime_type_degradat_prop_2000_bx_geofile.geojson", property: "degradat_prop" },
+
+
+  // ---------------- Cambriolages ----------------
+  { id: "cambriolages2024", name: "Cambriolages 2024", file: "zp_crime_type_cambriolage_2024_bx_geofile.geojson", property: "cambriolage" },
+
+  { id: "cambriolages2014", name: "Cambriolages 2014", file: "zp_crime_type_cambriolage_2014_bx_geofile.geojson", property: "cambriolage" },
+
+  { id: "cambriolages2000", name: "Cambriolages 2000", file: "zp_crime_type_cambriolage_2000_bx_geofile.geojson", property: "cambriolage" },
+
+
+  // ---------------- Population / socio-éco ----------------
+  { id: "popEvo20122022", name: "Evolution Population 2012-2022 en %", file: "pop_evo_2012_2022.geojson", property: "pop_tx_aug_2012_2022" },
+
+  { id: "popNb2022", name: "Population en 2022", file: "pop_2022_ok.geojson", property: "pop_nb_2022" },
+
+  { id: "popDensity", name: "Densité de Population", file: "hab_km2.geojson", property: "hab/km2" },
+
+  { id: "popAge1864", name: "% Population âgée de 18 à 64 ans", file: "pop_tx_agegroup_18_64_2022.geojson", property: "pop_tx_agegroup_18_64_2022" },
+
+  { id: "migInternal", name: "Solde migratoire interne", file: "pop_soldmig_intern.geojson", property: "pop_soldmig_intern" },
+
+  { id: "migInternational", name: "Solde migratoire international", file: "pop_soldmig_internat.geojson", property: "pop_soldmig_internat" },
+
+  { id: "popForeign2022", name: "% Population étrangère 2022", file: "pop_tx_immig_2022.geojson", property: "pop_tx_immig_2022" },
+
+  { id: "popGrowth", name: "Population Croissance Annuelle", file: "pop_croissance_an.geojson", property: "pop_croissance_an" },
+
+  { id: "popImmigTotal", name: "% Population immigrée", file: "pop_tx_immig_2022.geojson", property: "pop_tx_immig_2022" },
+
+  { id: "popImmigEU", name: "% Population immigrée UE", file: "pop_tx_immig_fromEU.geojson", property: "pop_tx_immig_fromEU" },
+
+  { id: "popImmigEU14", name: "% Population immigrée UE14", file: "pop_tx_immig_fromEU14.geojson", property: "pop_tx_immig_fromEU14" },
+
+  { id: "popImmigEU13", name: "% Population immigrée UE13", file: "pop_tx_immig_fromEU13.geojson", property: "pop_tx_immig_fromEU13" },
+
+  { id: "popImmigRestEU", name: "Population immigrée reste UE + non UE", file: "pop_tx_immig_resteEu+nonEU.geojson", property: "pop_tx_immig_resteEu+nonEU" },
+
+  { id: "popNatForeignBirth", name: "% Population immigrée nationalité étrangère à la naissance", file: "pop_tx_nationalite_etrg_alanaissance.geojson", property: "pop_tx_nationalite_etrg_alanaissance" },
+
+  { id: "birthRate", name: "Taux natalité", file: "pop_tx_natalite.geojson", property: "pop_tx_natalite" },
+
+  { id: "medianIncome", name: "Revenu Médian", file: "fin_med_rev.geojson", property: "fin_med_rev" },
+
+  { id: "employmentRate", name: "Taux emploi", file: "fin_tx_emploi.geojson", property: "fin_tx_emploi" },
+
+  { id: "employmentRate15_24", name: "Taux emploi 15 à 24 ans", file: "fin_tx_emploi_15_24.geojson", property: "fin_tx_emploi_15_24" },
+
+  { id: "employmentRate25_49", name: "Taux emploi 25 à 49 ans", file: "fin_tx_emploi_25_49.geojson", property: "fin_tx_emploi_25_49" },
+
+  { id: "employmentRate50_64", name: "Taux emploi 50 à 64 ans", file: "fin_tx_emploi_50_64.geojson", property: "fin_tx_emploi_50_64" },
+
+  { id: "employeesRate", name: "Taux salariés", file: "fin_tx_sal.geojson", property: "fin_tx_sal" },
+
+  { id: "indepRate", name: "Taux indépendants", file: "fin_tx_indep.geojson", property: "fin_tx_indep" },
+
+  { id: "workersRate", name: "Taux ouvriers", file: "fin_tx_ouvr.geojson", property: "fin_tx_ouvr" },
+
+  { id: "employeesTypeRate", name: "Taux employés", file: "fin_tx_employee.geojson", property: "fin_tx_employee" },
+
+  { id: "intlInstitJobs", name: "Emplois Institutions Internationales", file: "fin_nb_internat_instit_jobs.geojson", property: "fin_nb_internat_instit_jobs" },
+
+  { id: "civilServantsRate", name: "Taux fonctionnaires", file: "fin_tx_fonct.geojson", property: "fin_tx_fonct" },
+
+  { id: "unemploymentRate", name: "Taux chomage", file: "fin_tx_chomg.geojson", property: "fin_tx_chomg" },
+
+  { id: "unemploymentLongTerm", name: "Taux chomage LD", file: "fin_tx_chom_longduree.geojson", property: "fin_tx_chom_longduree" },
+
+  { id: "unemployment1524", name: "Taux chomage 15 a 24 ans", file: "fin_15_24yo_tx_chom.geojson", property: "fin_15_24yo_tx_chom" },
+
+  { id: "unemployment2549", name: "Taux chomage 25 a 49 ans", file: "fin_tx_chom_25_49.geojson", property: "fin_tx_chom_25_49" },
+
+  { id: "unemployment5064", name: "Taux chomage 50 a 64 ans", file: "fin_tx_chom_50_64.geojson", property: "fin_tx_chom_50_64" },
+
+  { id: "grapa65plus", name: "Taux GRAPA 65+", file: "GRAPA_65+_2022.geojson", property: "GRAPA_65+_2022" },
+
+  { id: "cpas1824", name: "Taux CPAS 18 a 24 ans", file: "tx_CPAS_18_24_2021.geojson", property: "tx_CPAS_18_24_2021" },
+
+  { id: "birthNoWorkIncome", name: "Taux naissances sans revenu de travail", file: "fin_tx_births_noworkrevenue.geojson", property: "fin_tx_births_noworkrevenue" },
+
+  { id: "cadresRate", name: "Taux cadres", file: "pop_tx_immig_2022.geojson", property: "fin_tx_cadres" },
+
+  { id: "birthForeignMother", name: "Taux naissances mères étrangères", file: "fin_tx_naissances_mere_etrang.geojson", property: "fin_tx_naissances_mere_etrang" },
+
+  { id: "schoolDelay", name: "Taux retard scolaire", file: "ensign_retard_scol.geojson", property: "ensign_retard_scol" },
+
+  { id: "establishments", name: "Etablissements", file: "fin_nb_etabls.geojson", property: "fin_nb_etabls" },
+
+  { id: "hqCount", name: "Sieges sociaux", file: "fin_soc_siege.geojson", property: "fin_soc_siege" },
+
+  { id: "firmMigrationTotal", name: "Solde migration entreprises 2009 a 2020", file: "fin_soldmig_firms_total_2009_2020.geojson", property: "fin_soldmig_firms_total_2009_2020" },
+
+  { id: "firmMigrationHoreca", name: "Solde migration entreprises 2009 a 2020 Horeca", file: "fin_soldmig_2009_2020_horeca.geojson", property: "fin_soldmig_2009_2020_horeca" },
+
+  { id: "firmMigrationRetail", name: "Solde migration entreprises 2009 a 2020 commerce detail", file: "fin_soldmig_2009_2020_commrcdetail.geojson", property: "fin_soldmig_2009_2020_commrcdetail" },
+
+  { id: "firmMigrationIT", name: "Solde migration entreprises 2009 a 2020 IT", file: "fin_soldmig_2009_2020_IT.geojson", property: "fin_soldmig_2009_2020_IT" },
+
+  { id: "firmMigrationRBC", name: "Solde migration entreprises 2009 a 2020 RBC", file: "fin_soldmig_RBC_2009_2022.geojson", property: "fin_soldmig_RBC_2009_2022" },
+
+  { id: "firmMigrationRegions", name: "Solde migration entreprises 2009 a 2020 Régions", file: "fin_soldmig_ firms_Wal_Flan_2009_2022.geojson", property: "fin_soldmig_firms_Wal_Flan_2009_2022" },
+
+  { id: "vegetationRate", name: "Taux vegetation", file: "eco_tx_veget.geojson", property: "eco_tx_veget" },
+
+  { id: "greenAccess", name: "Taux espaces verts accessibles public", file: "eco_tx_espacevert_accesspublic.geojson", property: "eco_tx_espacevert_accesspublic" },
+
+  { id: "socialHousing", name: "Logements sociaux", file: "immo_nb_logsoc.geojson", property: "immo_nb_logsoc" },
+
+  { id: "residentialBuildings", name: "Batiments residentiels", file: "immo_nb_bat_resid.geojson", property: "immo_nb_bat_resid" },
+
+  { id: "avgRent", name: "Loyer moyen", file: "immo_avg_rent.geojson", property: "immo_avg_rent" },
+
+
+  { id: "immo23FacStock", name: "Parc immobilier 2 a 3 facades", file: "immo_tx_23fac_houses.geojson", property: "immo_tx_23fac_houses" },
+
+  { id: "immo4FacStock", name: "Parc immobilier 4 facades", file: "immo_tx_4f_houses.geojson", property: "immo_tx_4f_houses" },
+
+  { id: "immoAptStock", name: "Parc immobilier immeuble appartements", file: "immo_tx_immeub_appart.geojson", property: "immo_tx_immeub_appart" },
+
+  { id: "economicSectors", name: "Secteurs economiques majeures", file: "caract_economiq.geojson", property: "caract_economiq" },
+
+  { id: "gentrification", name: "Gentrification", file: "gentrification.geojson", property: "gentrification" },
+
+
+  { id: "originRomania", name: "% Roumains", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_roum_2022" },
+
+  { id: "originMorocco", name: "% Marocains", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_maroc_2022" },
+
+  { id: "originSyria", name: "% Syrie", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_syrie_2022" },
+
+  { id: "originFrance", name: "% Francais", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_fr_2022" },
+
+  { id: "originIndia", name: "% Inde", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_inde_2022" },
+
+  { id: "originTurkey", name: "% Turc", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_turc_2022" },
+
+  { id: "originItaly", name: "% Italie", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_it_2022" },
+
+  { id: "originPortugal", name: "% Portugal", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_portugal_2022" },
+
+  { id: "originSpain", name: "% Espagne", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_es_2022" },
+
+  { id: "originPoland", name: "% Pologne", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_pl_2022" },
+
+  { id: "originBrazil", name: "% Bresil", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_bresil_2022" },
+
+  { id: "originGermany", name: "% Allemagne", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_al_2022" },
+
+  { id: "originDRC", name: "% RDC", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_rdc_2022" },
+
+  { id: "originBulgaria", name: "% Bulgarie", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_boulg_2022" },
+
+  { id: "originJapan", name: "% Japon", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_jap_2022" },
+
+  { id: "originGreece", name: "% Grece", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_grece_2022" },
+
+  { id: "originNL", name: "% NL", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_nl_2022" },
+
+  { id: "originMoldova", name: "% Moldovie", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_mold_2022" },
+
+  { id: "originUK", name: "% UK", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_uk_2022" },
+
+  { id: "originGuinea", name: "% Guinee", file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_guinee_2022" }
 
 ];
 
 const themeCache = {};
+
+
+
+
+function showLegend(themeId, values) {
+
+  const theme = ALL_THEMES.find(
+    t => t.id === themeId
+  );
+
+  if (!theme) {
+
+    console.warn(
+      `Theme "${themeId}" not found`
+    );
+
+    return;
+  }
+
+  const legendDiv =
+    document.querySelector(".legend");
+
+  const title = theme.name;
+
+  const ranges =
+    LEGEND_OVERRIDES[themeId]?.ranges
+    || generateLegendRanges(values);
+
+  let html = `<div><b>${title}</b></div>`;
+
+  ranges.forEach(range => {
+
+    const label =
+
+      range.max === Infinity
+        ? `${range.min}+`
+        : `${range.min}–${range.max}`;
+
+    html += `
+
+      <div>
+
+        <span style="
+          display:inline-block;
+          width:20px;
+          height:12px;
+          background:${range.color};
+          margin-right:6px;
+        "></span>
+
+        ${label}
+
+      </div>
+    `;
+  });
+
+  legendDiv.innerHTML = html;
+}
+
+
+
+
+
+
+
+
+
+
 
 // Préchargement
 async function preloadThemes() {
@@ -416,7 +610,7 @@ function addAddressMarker(lat, lon, label) {
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
         map.removeLayer(marker);
-        map.removeLayer(circle500);
+        map.removeLayer(circle100);
         addressMarkers = addressMarkers.filter(m => m.id !== id);
       });
     }
@@ -463,2409 +657,92 @@ fetch('shapefile_BX_only_geojson_4326.geojson')
 
 
 
+// --- SHOW LEGEND ---
 
+function showLegend(themeId, values) {
 
+  const theme = ALL_THEMES.find(
+    t => t.id === themeId
+  );
 
+  if (!theme) {
 
-// --- Legend functions ---
+    console.warn(
+      `Theme "${themeId}" not found`
+    );
 
-function showLegendTotalImmoSales() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Total sales 2013-2024</b></div>
+    return;
+  }
 
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffffcc;margin-right:6px;"></span>1–10</div>
+  const legendDiv =
+    document.querySelector(".legend");
 
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffeda0;margin-right:6px;"></span>11–100</div>
+  const title = theme.name;
 
-<div><span style="display:inline-block;width:20px;height:12px;background:#feb24c;margin-right:6px;"></span>101–300</div>
+  const ranges =
+    LEGEND_OVERRIDES[themeId]?.ranges
+    || generateLegendRanges(values);
 
-<div><span style="display:inline-block;width:20px;height:12px;background:#fd8d3c;margin-right:6px;"></span>301–500</div>
+  let html = `<div><b>${title}</b></div>`;
 
-<div><span style="display:inline-block;width:20px;height:12px;background:#fc4e2a;margin-right:6px;"></span>501–750</div>
+  ranges.forEach(range => {
 
-<div><span style="display:inline-block;width:20px;height:12px;background:#e31a1c;margin-right:6px;"></span>751–1000</div>
+    const label =
 
-<div><span style="display:inline-block;width:20px;height:12px;background:#b10026;margin-right:6px;"></span>> 1000</div>
-  `;
-}
+      range.max === Infinity
+        ? `${range.min}+`
+        : `${range.min}–${range.max}`;
 
+    html += `
 
+      <div>
 
-function showLegend2_3FacadesHouses() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>2–3 facades houses total sales 2013–2024</b></div>
+        <span style="
+          display:inline-block;
+          width:20px;
+          height:12px;
+          background:${range.color};
+          margin-right:6px;
+        "></span>
 
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>151–200</div>
+        ${label}
 
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>101–150</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ccff00;margin-right:6px;"></span>11–100</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#66ff66;margin-right:6px;"></span>1–10</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#2b2b2b;margin-right:6px;"></span>0</div>
-  `;
-}
-
-
-function showLegend4orplusFacades() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>4 or plus facades houses total sales 2013–2024</b></div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ccffcc;margin-right:6px;"></span>0–10</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#33ff33;margin-right:6px;"></span>11–30</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>31+</div>
-  `;
-}
-
-
-
-function showLegendApartments() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Apartments total sales 2013–2024</b></div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ccffcc;margin-right:6px;"></span>0–10</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#33ff33;margin-right:6px;"></span>11–50</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ffeb3b;margin-right:6px;"></span>51–100</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#3d71eb;margin-right:6px;"></span>101–300</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#8f6bdb;margin-right:6px;"></span>301–800</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>801–1000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>1000+</div>
-  `;
-}
-
-
-function showLegendApartments2011() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Apartments sold 2011</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#290101;margin-right:6px;"></span>1000+</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#d7191c;margin-right:6px;"></span>701–1000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#f04e23;margin-right:6px;"></span>501–700</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fd8d3c;margin-right:6px;"></span>201–500</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fed976;margin-right:6px;"></span>101–200</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ffffcc;margin-right:6px;"></span>1–100</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span>0</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#2b2b2b;margin-right:6px;"></span>No data</div>
-  `;
-}
-
-
-function showLegendApartments2021() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Apartments sold 2021</b></div>
-
-  <div><span style="display:inline-block;width:20px;height:12px;background:#0a0a0a;margin-right:6px;"></span>≥ 5000</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#120101;margin-right:6px;"></span>1000 – 4999</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#d7191c;margin-right:6px;"></span>700 – 999</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#f04e23;margin-right:6px;"></span>500 – 699</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#fd8d3c;margin-right:6px;"></span>200 – 499</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#fed976;margin-right:6px;"></span>100 – 199</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffffcc;margin-right:6px;"></span>1 – 99</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span>0</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#2b2b2b;margin-right:6px;"></span>No data</div>
-  `;
-}
-
-
-function showLegendHouses2011() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Houses sold 2011</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#bf0d0d;margin-right:6px;"></span>≥ 200</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#e08f48;margin-right:6px;"></span>100 – 199</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ffffcc;margin-right:6px;"></span>1 – 99</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span>0</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#000000;margin-right:6px;"></span>No data</div>
-  `;
-}
-
-
-
-
-function showLegendHouses2021() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Houses sold 2021</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#bf0d0d;margin-right:6px;"></span>≥ 200</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#e08f48;margin-right:6px;"></span>100 – 199</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ffffcc;margin-right:6px;"></span>1 – 99</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span>0</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#000000;margin-right:6px;"></span>No data</div>
-  `;
-}
-
-
-
-function showLegendSalesMedian2013() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Sales Median Price 2013</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#7f0000;margin-right:6px;"></span>≥ 350,001</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#b30000;margin-right:6px;"></span>300,001 – 350,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#d7301f;margin-right:6px;"></span>250,001 – 300,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ef6548;margin-right:6px;"></span>200,001 – 250,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fc8d59;margin-right:6px;"></span>180,001 – 200,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdbb84;margin-right:6px;"></span>150,001 – 180,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdd49e;margin-right:6px;"></span>120,001 – 150,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fee8c8;margin-right:6px;"></span>100,001 – 120,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff7ec;margin-right:6px;"></span>1 – 100,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span>0</div>
-  `;
-}
-
-
-
-
-function showLegendSalesMedian2023() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Sales Median Price 2023</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#7f0000;margin-right:6px;"></span>≥ 350,001</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#b30000;margin-right:6px;"></span>300,001 – 350,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#d7301f;margin-right:6px;"></span>250,001 – 300,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ef6548;margin-right:6px;"></span>200,001 – 250,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fc8d59;margin-right:6px;"></span>180,001 – 200,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdbb84;margin-right:6px;"></span>150,001 – 180,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdd49e;margin-right:6px;"></span>120,001 – 150,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fee8c8;margin-right:6px;"></span>100,001 – 120,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff7ec;margin-right:6px;"></span>1 – 100,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span>0</div>
-  `;
-}
-
-
-
-
-function showLegendSalesMedianApartment2013() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Sales Median Price Apartment 2013</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#7f0000;margin-right:6px;"></span>350,001+</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#b30000;margin-right:6px;"></span>300,001–350,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#d7301f;margin-right:6px;"></span>250,001–300,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ef6548;margin-right:6px;"></span>200,001–250,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fc8d59;margin-right:6px;"></span>180,001–200,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdbb84;margin-right:6px;"></span>150,001–180,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdd49e;margin-right:6px;"></span>120,001–150,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fee8c8;margin-right:6px;"></span>100,001–120,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff7ec;margin-right:6px;"></span>1–100,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#2b2b2b;margin-right:6px;"></span>0 / No data</div>
-  `;
-}
-
-
-function showLegendSalesMedianApartment2023() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Sales Median Price Apartment 2023</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#7f0000;margin-right:6px;"></span>350,001+</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#b30000;margin-right:6px;"></span>300,001–350,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#d7301f;margin-right:6px;"></span>250,001–300,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ef6548;margin-right:6px;"></span>200,001–250,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fc8d59;margin-right:6px;"></span>180,001–200,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdbb84;margin-right:6px;"></span>150,001–180,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdd49e;margin-right:6px;"></span>120,001–150,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fee8c8;margin-right:6px;"></span>100,001–120,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff7ec;margin-right:6px;"></span>1–100,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#2b2b2b;margin-right:6px;"></span>0 / No data</div>
-  `;
-}
-
-
-
-function showLegendMS_P10_2013() {
-    const legendDiv = document.querySelector('.legend');
-    legendDiv.innerHTML = `
-        <div><b>MS_P10_2013</b></div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#800026;margin-right:6px;"></span> > 350000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#BD0026;margin-right:6px;"></span> 300001 – 350000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#E31A1C;margin-right:6px;"></span> 250001 – 300000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FC4E2A;margin-right:6px;"></span> 200001 – 250000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FD8D3C;margin-right:6px;"></span> 180001 – 200000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FEB24C;margin-right:6px;"></span> 150001 – 180000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FED976;margin-right:6px;"></span> 120001 – 150000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FFEDA0;margin-right:6px;"></span> 100001 – 120000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FFFFCC;margin-right:6px;"></span> 1 – 100000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span> 0</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span> No data</div>
+      </div>
     `;
-}
-
-function showLegendMS_P10_2023() {
-    const legendDiv = document.querySelector('.legend');
-    legendDiv.innerHTML = `
-        <div><b>MS_P10_2023</b></div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#800026;margin-right:6px;"></span> > 350000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#BD0026;margin-right:6px;"></span> 300001 – 350000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#E31A1C;margin-right:6px;"></span> 250001 – 300000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FC4E2A;margin-right:6px;"></span> 200001 – 250000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FD8D3C;margin-right:6px;"></span> 180001 – 200000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FEB24C;margin-right:6px;"></span> 150001 – 180000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FED976;margin-right:6px;"></span> 120001 – 150000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FFEDA0;margin-right:6px;"></span> 100001 – 120000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FFFFCC;margin-right:6px;"></span> 1 – 100000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span> 0</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span> No data</div>
-    `;
-}
-
-
-
-
-
-function showLegendMS_P25_2013() {
-    const legendDiv = document.querySelector('.legend');
-    legendDiv.innerHTML = `
-        <div><b>MS_P25_2013</b></div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#800026;margin-right:6px;"></span> > 350000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#BD0026;margin-right:6px;"></span> 300001 – 350000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#E31A1C;margin-right:6px;"></span> 250001 – 300000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FC4E2A;margin-right:6px;"></span> 200001 – 250000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FD8D3C;margin-right:6px;"></span> 180001 – 200000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FEB24C;margin-right:6px;"></span> 150001 – 180000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FED976;margin-right:6px;"></span> 120001 – 150000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FFEDA0;margin-right:6px;"></span> 100001 – 120000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FFFFCC;margin-right:6px;"></span> 1 – 100000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span> 0</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span> No data</div>
-    `;
-}
-
-
-function showLegendMS_P25_2023() {
-    const legendDiv = document.querySelector('.legend');
-    legendDiv.innerHTML = `
-        <div><b>MS_P25_2023</b></div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#800026;margin-right:6px;"></span> > 350000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#BD0026;margin-right:6px;"></span> 300001 – 350000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#E31A1C;margin-right:6px;"></span> 250001 – 300000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FC4E2A;margin-right:6px;"></span> 200001 – 250000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FD8D3C;margin-right:6px;"></span> 180001 – 200000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FEB24C;margin-right:6px;"></span> 150001 – 180000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FED976;margin-right:6px;"></span> 120001 – 150000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FFEDA0;margin-right:6px;"></span> 100001 – 120000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FFFFCC;margin-right:6px;"></span> 1 – 100000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span> 0</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span> No data</div>
-    `;
-}
-
-
-
-function showLegendMS_P75_2013() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P75_2013</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#800026;margin-right:6px;"></span> > 350000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#BD0026;margin-right:6px;"></span> 300001 – 350000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#E31A1C;margin-right:6px;"></span> 250001 – 300000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FC4E2A;margin-right:6px;"></span> 200001 – 250000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FD8D3C;margin-right:6px;"></span> 180001 – 200000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FEB24C;margin-right:6px;"></span> 150001 – 180000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FED976;margin-right:6px;"></span> 120001 – 150000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FFEDA0;margin-right:6px;"></span> 100001 – 120000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FFFFCC;margin-right:6px;"></span> 1 – 100000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span> 0</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span> No data</div>
-  `;
-}
-
-
-function showLegendMS_P75_2023() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P75_2023</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#800026;margin-right:6px;"></span> > 350000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#BD0026;margin-right:6px;"></span> 300001 – 350000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#E31A1C;margin-right:6px;"></span> 250001 – 300000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FC4E2A;margin-right:6px;"></span> 200001 – 250000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FD8D3C;margin-right:6px;"></span> 180001 – 200000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FEB24C;margin-right:6px;"></span> 150001 – 180000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FED976;margin-right:6px;"></span> 120001 – 150000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FFEDA0;margin-right:6px;"></span> 100001 – 120000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FFFFCC;margin-right:6px;"></span> 1 – 100000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span> 0</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span> No data</div>
-  `;
-}
-
-
-
-function showLegendMS_P90_2013() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P90_2013</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#800026;margin-right:6px;"></span> > 1,000,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#BD0026;margin-right:6px;"></span> 700,001 – 1,000,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#E31A1C;margin-right:6px;"></span> 500,001 – 700,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FC4E2A;margin-right:6px;"></span> 300,001 – 500,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FD8D3C;margin-right:6px;"></span> 200,001 – 300,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FEB24C;margin-right:6px;"></span> 100,001 – 200,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FFFFCC;margin-right:6px;"></span> 1 – 100,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span> 0</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span> No data</div>
-  `;
-}
-
-
-function showLegendMS_P90_2023() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P90_2023</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#800026;margin-right:6px;"></span> > 1,000,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#BD0026;margin-right:6px;"></span> 700,001 – 1,000,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#E31A1C;margin-right:6px;"></span> 500,001 – 700,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FC4E2A;margin-right:6px;"></span> 300,001 – 500,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FD8D3C;margin-right:6px;"></span> 200,001 – 300,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FEB24C;margin-right:6px;"></span> 100,001 – 200,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FFFFCC;margin-right:6px;"></span> 1 – 100,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span> 0</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span> No data</div>
-  `;
-}
-
-
-function showLegendMS_P10_2013_all_houses() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P10_2013_all_houses</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#800026;margin-right:6px;"></span> > 550,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#BD0026;margin-right:6px;"></span> 450,001 – 550,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#E31A1C;margin-right:6px;"></span> 300,001 – 450,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FC4E2A;margin-right:6px;"></span> 200,001 – 300,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FD8D3C;margin-right:6px;"></span> 150,001 – 200,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FEB24C;margin-right:6px;"></span> 100,001 – 150,000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#FFFFCC;margin-right:6px;"></span> 1 – 100,000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#f0f0f0;margin-right:6px;"></span> 0</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span> No data</div>
-  `;
-}
-
-
-
-function showLegendMS_P10_2013_apartments() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P10_2013_apartments</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>0 – 100000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1cf500;margin-right:6px;"></span>100001 – 150000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#3d71eb;margin-right:6px;"></span>150001 – 180000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#020f4a;margin-right:6px;"></span>180001 – 200000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#9d91e6;margin-right:6px;"></span>200001 – 250000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#3404b0;margin-right:6px;"></span>250001 et plus</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>No data</div>
-  `;
-}
-
-
-function showLegendMS_P10_2023_all_houses() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P10_2023_all_houses</b></div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1cf500;margin-right:6px;"></span>150001 – 200000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#3d71eb;margin-right:6px;"></span>200001 – 300000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#3404b0;margin-right:6px;"></span>300001 – 400000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fc001d;margin-right:6px;"></span>400001 – 500000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#800026;margin-right:6px;"></span>500001 et plus</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>0 – 150000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>No data</div>
-  `;
-}
-
-
-function showLegendMS_P10_2023_apartments() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P10_2023_apartments</b></div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fc001d;margin-right:6px;"></span>350001 et plus</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#5e0303;margin-right:6px;"></span>300001-350000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#3404b0;margin-right:6px;"></span>250001-300000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#9d91e6;margin-right:6px;"></span>200001-250000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#020f4a;margin-right:6px;"></span>180001-200000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#3d71eb;margin-right:6px;"></span>150001-180000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#043d1f;margin-right:6px;"></span>120001-150000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1cf500;margin-right:6px;"></span>100001-120000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>1–100000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>0</div>
-        `;
-        }
-
-
-function showLegendMS_P25_2013_all_houses() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P25_2013_all_houses</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff7bc;margin-right:6px;"></span>0 – 179000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdd49e;margin-right:6px;"></span>180000 – 200000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdbb84;margin-right:6px;"></span>200001 – 250000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fc8d59;margin-right:6px;"></span>250001 – 300000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#e34a33;margin-right:6px;"></span>300001 – 350000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#b30000;margin-right:6px;"></span>350001 – 400000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#775ced;margin-right:6px;"></span>400001 – 500000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>No data</div>
-  `;
-}
-
-
-
-
-
-function showLegendMS_P25_2013_apartments() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P25_2013_apartments</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff7bc;margin-right:6px;"></span>0 – 100000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdd49e;margin-right:6px;"></span>100001 – 150000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdbb84;margin-right:6px;"></span>150001 – 200000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#9a8cff;margin-right:6px;"></span>200001 – 250000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#775ced;margin-right:6px;"></span>250001+ </div>
-
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>No data</div>
-  `;
-}
-
-
-function showLegendMS_P25_2023_all_houses() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P25_2023_all_houses</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff7bc;margin-right:6px;"></span>0 – 250000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdd49e;margin-right:6px;"></span>250001 – 300000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdbb84;margin-right:6px;"></span>300001 – 350000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fc8d59;margin-right:6px;"></span>350001 – 400000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#e34a33;margin-right:6px;"></span>400001 – 500000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#b30000;margin-right:6px;"></span>500001 – 700000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#775ced;margin-right:6px;"></span>700001 – 800000+</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>No data</div>
-  `;
-}
-
-
-
-
-function showLegendMS_P25_2023_apartments() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P25_2023_apartments</b></div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff7bc;margin-right:6px;"></span>0 – 150000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdd49e;margin-right:6px;"></span>150001 – 180000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fdbb84;margin-right:6px;"></span>180001 – 200000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fc8d59;margin-right:6px;"></span>200001 – 250000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#b30000;margin-right:6px;"></span>250001 – 300000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#9c27b0;margin-right:6px;"></span>300001 – 350000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#775ced;margin-right:6px;"></span>350001 – 400000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#4b00a0;margin-right:6px;"></span>400001 et plus</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>No data</div>
-  `;
-}
-
-function showLegendMS_P75_2013_all_houses() {
-    const legendDiv = document.querySelector('.legend');
-    legendDiv.innerHTML = `
-        <div><b>MS_P75_2013_all_houses</b></div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fdbb84;margin-right:6px;"></span>300.000 – 350.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#e31a1c;margin-right:6px;"></span>450.000 – 500.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#775ced;margin-right:6px;"></span>1.500.000 – 1.800.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fff7bc;margin-right:6px;"></span>Autres valeurs</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>No data</div>
-    `;
-}
-
-function showLegendMS_P75_2013_apartments() {
-    const legendDiv = document.querySelector('.legend');
-    legendDiv.innerHTML = `
-        <div><b>MS_P75_2013_apartments</b></div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ffffff;margin-right:6px;"></span>1 – 100000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fefef0;margin-right:6px;"></span>100001 – 120000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fdfde6;margin-right:6px;"></span>120001 – 150000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ffffe0;margin-right:6px;"></span>150001 – 180000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#f7fcb9;margin-right:6px;"></span>180001 – 200000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fed976;margin-right:6px;"></span>200001 – 250000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>250001 – 300000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#feb24c;margin-right:6px;"></span>300001 – 350000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fd5f3c;margin-right:6px;"></span>350001 – 400000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fc001d;margin-right:6px;"></span>400001 – 450000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#775ced;margin-right:6px;"></span>450001 – 500000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>No data</div>
-    `;
-}
-
-
-
-function showLegendMS_P75_2023_all_houses() {
-    const legendDiv = document.querySelector('.legend');
-    legendDiv.innerHTML = `
-        <div><b>MS_P75_2023_all_houses</b></div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FFD966;margin-right:6px;"></span>400.000 – 450.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#FF8000;margin-right:6px;"></span>500.000 – 550.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#4B00B5;margin-right:6px;"></span>1.500.000 – 1.800.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#1A1A1A;margin-right:6px;"></span>No data</div>
-    `;
-}
-
-
-function showLegendMS_P75_2023_apartments() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P75_2023_apartments</b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffffe6;margin-right:6px;"></span>0–150.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>150.001–200.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd699;margin-right:6px;"></span>200.001–250.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9933;margin-right:6px;"></span>250.001–350.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#f77e2d;margin-right:6px;"></span>350.001–450.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#823603;margin-right:6px;"></span>450.001–550.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#bd86f7;margin-right:6px;"></span>550.001–650.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#6c04d9;margin-right:6px;"></span>650.001–750.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1f023d;margin-right:6px;"></span>750.001–850.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>0</div>
-        `;
-        }
-
-
-
-function showLegendMS_P90_2013_all_houses() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P90_2013_all_houses</b></div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff8000;margin-right:6px;"></span>350.000–400.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff3300;margin-right:6px;"></span>400.000–450.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#6c04d9;margin-right:6px;"></span>700.000–750.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1f023d;margin-right:6px;"></span>2.000.000–2.100.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>0</div>
-  `;
-}
-
-
-function showLegendMS_P90_2013_apartments() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
- <div><b>MS_P90_2013_apartments</b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffffe6;margin-right:6px;"></span>1–100.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffffcc;margin-right:6px;"></span>100.001–150.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>150.001–200.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd699;margin-right:6px;"></span>200.001–250.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9933;margin-right:6px;"></span>250.001–350.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff8000;margin-right:6px;"></span>350.001–450.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>450.001–550.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#bd86f7;margin-right:6px;"></span>550.001–650.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#6c04d9;margin-right:6px;"></span>650.001–750.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1f023d;margin-right:6px;"></span>750.001 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>0</div>
-        `;
-        }
-
-
-function showLegendMS_P90_2023_all_houses() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>MS_P90_2023_all_houses</b></div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>550.000–600.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#bd86f7;margin-right:6px;"></span>600.000–650.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1f023d;margin-right:6px;"></span>2.000.000–2.500.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>0</div>
-  `;
-}
-
-function showLegendMS_P90_2023_apartments() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-<div><b>MS_P90_2023_apartments</b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>200.000–250.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd699;margin-right:6px;"></span>250.001–350.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9933;margin-right:6px;"></span>350.001–450.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff8000;margin-right:6px;"></span>450.001–550.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>550.001–650.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#bd86f7;margin-right:6px;"></span>650.001–750.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#6c04d9;margin-right:6px;"></span>750.001–1.000.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1f023d;margin-right:6px;"></span>1.000.001–2.000.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>0–199.999</div>
-  `;
-}
-
-function showLegendTotalRentP50LessorLegalPerson2024() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>TotalRentP50LessorLegalPerson2024</b></div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>0–550</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#b59514;margin-right:6px;"></span>550–750</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#bd9904;margin-right:6px;"></span>750–950</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#bf873d;margin-right:6px;"></span>950–1.300</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#bd7313;margin-right:6px;"></span>1.300–1.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#8f5304;margin-right:6px;"></span>1.500–2.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#e64c4c;margin-right:6px;"></span>2.000–2.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#b50000;margin-right:6px;"></span>2.500–3.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#5291e3;margin-right:6px;"></span>3.000–3.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#0f72f5;margin-right:6px;"></span>3.500–4.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#02459e;margin-right:6px;"></span>4.500–5.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#bd86f7;margin-right:6px;"></span>5.500–6.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#6c04d9;margin-right:6px;"></span>6.500–7.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1f023d;margin-right:6px;"></span>7.500–8.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>0 exact</div>
-        `;
-        }
-
-function showLegendTotalRentP50LessorNeutralPerson2024() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>TotalRentP50LessorNeutralPerson2024</b></div>
-   <div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>0–550</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#b59514;margin-right:6px;"></span>550–750</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#bd9904;margin-right:6px;"></span>750–950</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#bf873d;margin-right:6px;"></span>950–1.300</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#bd7313;margin-right:6px;"></span>1.300–1.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#8f5304;margin-right:6px;"></span>1.500–2.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#e64c4c;margin-right:6px;"></span>2.000–2.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#b50000;margin-right:6px;"></span>2.500–3.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#bd86f7;margin-right:6px;"></span>3.000–3.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#6c04d9;margin-right:6px;"></span>3.500–4.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1f023d;margin-right:6px;"></span>4.500–5.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>0 exact</div>
-        `;
-        }
-
-
-function showLegendTotalRentP50TakerLegalPerson2024() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>TotalRentP50TakerLegalPerson2024</b></div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fc001d;margin-right:6px;"></span>350001 et plus</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#5e0303;margin-right:6px;"></span>300001-350000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#3404b0;margin-right:6px;"></span>250001-300000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#9d91e6;margin-right:6px;"></span>200001-250000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#020f4a;margin-right:6px;"></span>180001-200000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#3d71eb;margin-right:6px;"></span>150001-180000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#043d1f;margin-right:6px;"></span>120001-150000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1cf500;margin-right:6px;"></span>100001-120000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>1–100000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>0</div>
-        `;
-        }
-
-
-
-// --- Loyer Moyen ---
-
-function showLegendAvgRent() {
-    const legendDiv = document.querySelector('.legend');  // cible le div existant
-    legendDiv.innerHTML = `
-        <b>Loyer moyen</b><br>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>900 et plus</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>800–899</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>700–799</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>600–699</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>0–599</div>
-    `;
-}
-
-
-
-// --- Median Price Apartment 2011 ---
-
-function showLegendMedianPriceApartment2011() {
-    const legendDiv = document.querySelector('.legend');  // cible le div existant
-    legendDiv.innerHTML = `
-        <b>Median Price Apartment 2011</b><br>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>250.000-300.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>200.000-250.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>150.000-200.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>100.000-150.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>0–100.000</div>
-    `;
-}
-
-// --- Median Price Apartment 2021 ---
-
-function showLegendMedianPriceApartment2021() {
-    const legendDiv = document.querySelector('.legend');  // cible le div existant
-    legendDiv.innerHTML = `
-        <b>Median Price Apartment 2021</b><br>
-                <div><span style="display:inline-block;width:20px;height:12px;background:#320269;margin-right:6px;"></span>300.000-350.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff0015;margin-right:6px;"></span>250.000-300.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>200.000-250.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>150.000-200.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>100.000-150.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>0–100.000</div>
-    `;
-}
-
-
-
-// --- Median Price Houses 2011 ---
-
-function showLegendMedianPriceHouses2011() {
-    const legendDiv = document.querySelector('.legend');  // cible le div existant
-    legendDiv.innerHTML = `
-        <b>Median Price Houses 2011</b><br>
-<div><span style="display:inline-block;width:20px;height:12px;background:#020005;margin-right:6px;"></span>750.000–850.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#1b0138;margin-right:6px;"></span>650.000–750.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#9f59f0;margin-right:6px;"></span>550.000–650.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>500.000–550.000</div>
-
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff0015;margin-right:6px;"></span>450.000–500.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff3300;margin-right:6px;"></span>400.000–450.000</div>
-
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>350.000–400.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#f59207;margin-right:6px;"></span>300.000–350.000</div>
-
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>200.000–300.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>0–200.000</div>
-    `;
-}
-
-// --- Median Price Houses 2021 ---
-
-function showLegendMedianPriceHouses2021() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Median Price Houses 2021</b><br>
-
-        <div><span style="display:inline-block;width:20px;height:12px;background:#020005;margin-right:6px;"></span>750.000–850.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#1b0138;margin-right:6px;"></span>650.000–750.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#9f59f0;margin-right:6px;"></span>550.000–650.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>500.000–550.000</div>
-
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff0015;margin-right:6px;"></span>450.000–500.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff3300;margin-right:6px;"></span>400.000–450.000</div>
-
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>350.000–400.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#f7ee40;margin-right:6px;"></span>300.000–350.000</div>
-
-        <div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>200.000–300.000</div>
-        <div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>0–200.000</div>
-    `;
-}
-
-
-
-
-// --- NbLogSoc ---
-
-function showLegendNbLogSoc() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Nb Log Soc</b><br>
-
-        <div><span style="display:inline-block;width:20px;height:12px;background:#020005;margin-right:6px;"></span>8.000–10.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b0138;margin-right:6px;"></span>6.000–8.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#9f59f0;margin-right:6px;"></span>5.000–6.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>3.000–5.000</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0015;margin-right:6px;"></span>2.500–3.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff3300;margin-right:6px;"></span>2.000–2.500</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>1.500–2.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#f7ee40;margin-right:6px;"></span>1.000–1.500</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>500–1.000</div>
-    `;
-}
-
-
-// --- NbBatResid ---
-
-function showLegendNbLogSoc() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Nb Bat Resid</b><br>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#6a00cc;margin-right:6px;"></span>30.000 – 60.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#9b00ff;margin-right:6px;"></span>15.000 – 30.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#b366f7;margin-right:6px;"></span>10.000 – 15.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff3300;margin-right:6px;"></span>8.000 – 10.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>5.000 – 8.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ffcc00;margin-right:6px;"></span>3.000 – 5.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>0 – 3.000</div>
-    `;
-}
-
-
-// --- Tx2_3_Facades ---
-
-function showLegendTx2_3_Facades() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Taux Bâtiments à 2-3 façades</b><br>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>80–85</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>70–79</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>60–69</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#e6e6e6;margin-right:6px;"></span>0–59</div>
-    `;
-}
-
-
-
-// --- Taux 4 Facades ---
-
-function showLegendTx4_Facades() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Taux Bâtiments à 4 façades</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>10-15</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>5–9</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#faaf2d;margin-right:6px;"></span>1–4</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffffff;margin-right:6px;"></span>0</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-    `;
-}
-
-
-// --- Taux Immeubles Appartements ---
-
-function showLegendImmeubleAppart() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Taux Immeubles Appartements</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>35 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0015;margin-right:6px;"></span>30–34</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#f58840;margin-right:6px;"></span>20–29</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>10–19</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#faaf2d;margin-right:6px;"></span>0–9</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-    `;
-}
-
-
-// --- Gentrification ---
-
-function showLegendGentrification() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Gentrification</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#07eb2d;margin-right:6px;"></span>En cours</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffffff;margin-right:6px;"></span>Non observée</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-    `;
-}
-
-
-// --- Vols 2000 ---
-
-function showLegendVols2000() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Vols 2000</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>30.000–40.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>13.000–16.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>10.000–13.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>7.000–10.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff99;margin-right:6px;"></span>0–7.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-    `;
-}
-
-// --- Vols 2014 ---
-
-function showLegendVols2014() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Vols 2014</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>30.000–40.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>13.000–16.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>10.000–13.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>7.000–10.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff99;margin-right:6px;"></span>0–7.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-    `;
-}
-
-// --- Vols 2024 ---
-
-function showLegendVols2024() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Vols 2024</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>30.000–40.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>13.000–16.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>10.000–13.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>7.000–10.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff99;margin-right:6px;"></span>0–7.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-    `;
-}
-
-
-// --- Coups et Blessures 2000 ---
-
-function showLegendCoupsBlessures2000() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Coups et Blessures 2000</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>4.000 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>2.000–3.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.000–1.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>0–999</div>
-    `;
-}
-
-// --- Coups et Blessures 2014 ---
-
-function showLegendCoupsBlessures2014() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Coups et Blessures 2014</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>4.000 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>2.000–3.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.000–1.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>0–999</div>
-    `;
-}
-
-// --- Coups et Blessures 2024 ---
-
-function showLegendCoupsBlessures2024() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Coups et Blessures 2024</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>4.000 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>2.000–3.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.000–1.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>0–999</div>
-
-
-    `;
-}
-
-
-
-
-
-
-
-// --- Drogues 2024 ---
-
-function showLegendDrogues2024() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Drogues 2024</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>4.000 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>2.000–3.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.000–1.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>0–999</div>
-
-    `;
-}
-
-
-
-
-
-// --- Drogues 2014 ---
-
-function showLegendDrogues2014() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Drogues 2014</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>4.000 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>2.000–3.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.000–1.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>0–999</div>
-
-
-    `;
-}
-
-
-
-// --- Drogues 2000 ---
-
-function showLegendDrogues2000() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Drogues 2000</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>4.000 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>2.000–3.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.000–1.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>0–999</div>
-
-
-    `;
-}
-
-
-
-
-
-// --- Alcool 2000 ---
-
-function showLegendAlcool2000() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Alcool 2000</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#2c136b;margin-right:6px;"></span>1.000–1.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>700–999</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff1a1a;margin-right:6px;"></span>500–699</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>150–499</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>100–149</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>50–99</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>0–49</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-
-
-    `;
-}
-
-
-// --- Alcool 2014 ---
-
-function showLegendAlcool2014() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Alcool 2014</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#2c136b;margin-right:6px;"></span>1.000–1.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>700–999</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff1a1a;margin-right:6px;"></span>500–699</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>150–499</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>100–149</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>50–99</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>0–49</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-
-
-    `;
-}
-
-
-
-// --- Alcool 2024 ---
-
-function showLegendAlcool2024() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Alcool 2024</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#2c136b;margin-right:6px;"></span>1.000–1.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>700–999</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff1a1a;margin-right:6px;"></span>500–699</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>150–499</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>100–149</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>50–99</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>0–49</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-
-
-    `;
-}
-
-
-
-
-
-
-
-
-
-// --- Armes 2024 ---
-
-function showLegendArmes2024() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Armes 2024</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>800 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>300–799</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>180–299</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>0–179</div>
-
-
-    `;
-}
-
-
-// --- Armes 2014 ---
-
-function showLegendArmes2014() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Armes 2014</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>800 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>300–799</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>180–299</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>0–179</div>
-
-
-    `;
-}
-
-
-
-
-// --- Armes 2000 ---
-
-function showLegendArmes2000() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Armes 2000</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>800 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>300–799</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>180–299</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>0–179</div>
-
-
-    `;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// --- Secu Publiq 2000 ---
-
-function showLegendSecuPubliq2000() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Atteintes à la sécurité publique 2000</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#4b0082;margin-right:6px;"></span>1.000–1.750</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>700–999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>500–699</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>300–499</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>0–299</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-
-
-    `;
-}
-
-
-// --- Secu Publiq 2014 ---
-
-function showLegendSecuPubliq2014() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Atteintes à la sécurité publique 2014</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#4b0082;margin-right:6px;"></span>1.000–1.750</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>700–999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>500–699</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>300–499</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>0–299</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-
-
-    `;
-}
-
-
-// --- Secu Publiq 2024 ---
-
-function showLegendSecuPubliq2024() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Atteintes à la sécurité publique 2024</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#4b0082;margin-right:6px;"></span>1.000–1.750</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>700–999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>500–699</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>300–499</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>0–299</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-
-
-    `;
-}
-
-
-
-// --- Dégradation de la propriété 2024 ---
-
-function showLegendDegProp2024() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Dégradation de la propriété 2024</b><br>
-
-    <div><b></b></div>
-<<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>4.000–5.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>3.000–4.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>2.000–3.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.500–2.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>1.000–1.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>500–1.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#e6e6e6;margin-right:6px;"></span>&lt;500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-
-
-    `;
-}
-
-
-// --- Dégradation de la propriété 2014 ---
-
-function showLegendDegProp2014() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Dégradation de la propriété 2014</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>4.000–5.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>3.000–4.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>2.000–3.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.500–2.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>1.000–1.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>500–1.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#e6e6e6;margin-right:6px;"></span>&lt;500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-
-
-    `;
-}
-
-
-// --- Dégradation de la propriété 2000 ---
-
-function showLegendDegProp2000() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Dégradation de la propriété 2000</b><br>
-
-    <div><b></b></div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>4.000–5.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff0000;margin-right:6px;"></span>3.000–4.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>2.000–3.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.500–2.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>1.000–1.500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>500–1.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#e6e6e6;margin-right:6px;"></span>&lt;500</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-
-
-    `;
-}
-
-
-
-
-
-
-
-// --- Cambriolages 2000 ---
-
-function showLegendCambriolages2000() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Cambriolages 2000</b><br>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>2.000 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#f2340a;margin-right:6px;"></span>1.500–1.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.000–1.499</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>500–999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>&lt;500</div>
-
-
-    `;
-}
-
-
-// --- Cambriolages 2014 ---
-
-function showLegendCambriolages2014() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Cambriolages 2014</b><br>
-
- <div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>2.000 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#f2340a;margin-right:6px;"></span>1.500–1.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.000–1.499</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>500–999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>&lt;500</div>
-
-
-    `;
-}
-
-
-
-// --- Cambriolages 2024 ---
-
-function showLegendCambriolages2024() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Cambriolages 2024</b><br>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#1b032b;margin-right:6px;"></span>2.000 et plus</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#f2340a;margin-right:6px;"></span>1.500–1.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>1.000–1.499</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>500–999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffff66;margin-right:6px;"></span>&lt;500</div>
-
-
-    `;
-}
-
-
-
-
-
-// --- Taux Végétation ---
-
-function showLegendTxVeget() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Taux Végétation</b><br>
-
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff9933;margin-right:6px;"></span>15–19</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffb366;margin-right:6px;"></span>20–29</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd699;margin-right:6px;"></span>30–39</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffead1;margin-right:6px;"></span>40–49</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#33cc33;margin-right:6px;"></span>50–59</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#66cc33;margin-right:6px;"></span>60–69</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#009900;margin-right:6px;"></span>70–79</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#006600;margin-right:6px;"></span>80–89</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#003300;margin-right:6px;"></span>90–100</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#454342;margin-right:6px;"></span>Valeur non valide</div>
-
-
-    `;
-}
-
-
-// --- Taux Végétation Accèssible au Public ---
-
-function showLegendTxVegetPubliq() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Taux Végétation Accèssible au Public</b><br>
-
-
-
-<!-- Tranches basses : rouge → orange → jaune -->
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff3300;margin-right:6px;"></span>0–9</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>10–14</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffb366;margin-right:6px;"></span>15–19</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>20–29</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff199;margin-right:6px;"></span>30–39</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff5b1;margin-right:6px;"></span>40–49</div>
-
-<!-- Tranches supérieures : vert clair → vert foncé -->
-<div><span style="display:inline-block;width:20px;height:12px;background:#ccff99;margin-right:6px;"></span>50–59</div>
-
-    `;
-}
-
-
-
-// --- Revenue Median ---
-
-function showLegendRevenuMedian() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Revenue Median</b><br>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>&lt; 13</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>13–15</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>16–18</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#4b0082;margin-right:6px;"></span>19–21</div>
-
-
-    `;
-}
-
-
-// --- Taux Naissances Sans Revenue Travail ---
-
-function showLegendTxNaissSansRevenue() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Taux Naissances Sans Revenue Travail</b><br>
-<div><span style="display:inline-block;width:20px;height:12px;background:#290457;margin-right:6px;"></span>≥ 30</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ed0707;margin-right:6px;"></span>20–29</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#e0a80b;margin-right:6px;"></span>10–19</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#edc707;margin-right:6px;"></span>5–9</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>&lt; 5</div>
-
-    `;
-}
-
-// --- Taux Naissances Meres Etrangeres ---
-
-function showLegendTxNaissMeresEtrangeres() {
-    const legendDiv = document.querySelector('.legend');
-
-    legendDiv.innerHTML = `
-        <b>Taux Naissances Meres Etrangeres</b><br>
-<div><span style="display:inline-block;width:20px;height:12px;background:#290457;margin-right:6px;"></span>≥ 60</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ed0707;margin-right:6px;"></span>50–59</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#e0a80b;margin-right:6px;"></span>40–49</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#edc707;margin-right:6px;"></span>30–39</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>&lt; 30</div>
-
-    `;
-}
-
-
-
-
-// --- Nb Sieges Sociaux ---
-
-function showLegendSiegesSoc() {
-    const legendDiv = document.querySelector('.legend');
+  });
 
-    legendDiv.innerHTML = `
-        <b>Nb Sieges Sociaux</b><br>
-<div><span style="display:inline-block;width:20px;height:12px;background:#4b0082;margin-right:6px;"></span>≥ 10.000</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#30030e;margin-right:6px;"></span>5.000–9.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#cc0000;margin-right:6px;"></span>3.000–4.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>2.000–2.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>1.500–1.999</div>
-<div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>&lt; 1.500</div>
-
-    `;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function showLegendTotal_Population_2014() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Total_Population_2014</b></div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fc001d;margin-right:6px;"></span>350001 et plus</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#5e0303;margin-right:6px;"></span>300001-350000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#3404b0;margin-right:6px;"></span>250001-300000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#9d91e6;margin-right:6px;"></span>200001-250000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#020f4a;margin-right:6px;"></span>180001-200000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#3d71eb;margin-right:6px;"></span>150001-180000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#043d1f;margin-right:6px;"></span>120001-150000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1cf500;margin-right:6px;"></span>100001-120000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>1–100000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>0</div>
-        `;
-        }
-
-
-
-function showLegendTotal_Population_2025() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Total_Population_2025</b></div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#34A853;margin-right:6px;"></span>1–100000000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>0</div>
-        `;
-        }
-
-
-
-
-
-function showLegendAvg_Revenue_2023() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Avg_Revenue_2023</b></div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>0–12.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>12.000–20.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ffb366;margin-right:6px;"></span>20.000–30.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>30.000–40.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>40.000–50.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff3300;margin-right:6px;"></span>50.000–60.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#cc0000;margin-right:6px;"></span>60.000–70.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#990000;margin-right:6px;"></span>70.000–80.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>80.000–90.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#320269;margin-right:6px;"></span>90.000–100.000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>Valeur non valide</div>
-        `;
-        }
-
-function showLegendAvg_Revenue_2013() {
-  const legendDiv = document.querySelector('.legend');
-  legendDiv.innerHTML = `
-    <div><b>Avg_Revenue_2013</b></div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#fff4b8;margin-right:6px;"></span>0–12.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ffd700;margin-right:6px;"></span>12.000–20.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ffb366;margin-right:6px;"></span>20.000–30.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff9900;margin-right:6px;"></span>30.000–40.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff6600;margin-right:6px;"></span>40.000–50.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#ff3300;margin-right:6px;"></span>50.000–60.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#cc0000;margin-right:6px;"></span>60.000–70.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#990000;margin-right:6px;"></span>70.000–80.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#6a0dad;margin-right:6px;"></span>80.000–90.000</div>
-    <div><span style="display:inline-block;width:20px;height:12px;background:#320269;margin-right:6px;"></span>90.000–100.000</div>
-
-    <div><span style="display:inline-block;width:20px;height:12px;background:#1a1a1a;margin-right:6px;"></span>Valeur non valide</div>
-        `;
-        }
-
-
-
-
-
-
-
-
-// --- COLOR FUNCTIONS ---
-
-function getColorTotalImmoSales(d){
-    if(d > 1000) return '#ff0000';   // rouge pur (max impact)
-    if(d > 750)  return '#ff4d00';   // rouge-orange
-    if(d > 500)  return '#ff9900';   // orange fort
-    if(d > 300)  return '#ffcc00';   // jaune-orange
-    if(d > 100)  return '#ccff00';   // jaune-vert flashy
-    if(d > 10)   return '#66ff00';   // vert vif
-    if(d > 0)    return '#ccff99';   // vert très clair
-    return '#2b2b2b';                // no data
-}
-
-
-function getColor2_3FacadesHouses(d){
-    if(d > 150) return '#ff0000';   // rouge (très élevé)
-    if(d > 100) return '#ff9900';   // orange (élevé)
-    if(d > 10)  return '#ccff00';   // jaune-vert (moyen)
-    if(d > 0)   return '#66ff66';   // vert clair (faible)
-    return '#2b2b2b';               // 0 / no data
-}
-
-function getColor4orplusFacades(d){
-    if(d > 30) return '#ff6600';   // orange = élevé
-    if(d > 10) return '#33ff33';   // vert clair = moyen
-    if(d >= 0) return '#ccffcc';   // vert très clair = faible
-    return '#2b2b2b';              // valeur manquante ou 0
-}
-
-function getColorApartments(d){
-    if(d > 1000) return '#ff0000';   // rouge vif = très élevé
-    if(d > 800)  return '#ff6600';   // orange foncé = élevé
-    if(d > 300)  return '#8f6bdb';   // violet = moyen-élevé
-    if(d > 100)  return '#3d71eb';   // bleu = moyen
-    if(d > 50)   return '#ffeb3b';   // jaune = faible-moyen (51-100)
-    if(d > 10)   return '#33ff33';   // vert clair = faible (11-50)
-    if(d >= 0)   return '#ccffcc';   // vert très clair = très faible (0-10)
-    return '#1a1a1a';                // 0 ou valeur manquante
-}
-
-
-function getColorMedianSalesPrice2013(d){
-    if(d > 350000) return '#7f0000';   // très haut → bordeaux profond
-    if(d > 300000) return '#b30000';   // rouge foncé
-    if(d > 250000) return '#d7301f';   // rouge
-    if(d > 200000) return '#ef6548';   // orange-rouge
-    if(d > 180000) return '#fc8d59';   // orange
-    if(d > 150000) return '#fdbb84';   // orange clair
-    if(d > 120000) return '#fdd49e';   // beige/orange
-    if(d > 100000) return '#fee8c8';   // très clair
-    if(d > 0)      return '#fff7ec';   // quasi blanc
-    return '#2b2b2b';                 // 0 / no data
-}
-
-
-function getColorMedianSalesPrice2023(d){
-    if(d > 350000) return '#7f0000';   // très haut → bordeaux profond
-    if(d > 300000) return '#b30000';   // rouge foncé
-    if(d > 250000) return '#d7301f';   // rouge
-    if(d > 200000) return '#ef6548';   // orange-rouge
-    if(d > 180000) return '#fc8d59';   // orange
-    if(d > 150000) return '#fdbb84';   // orange clair
-    if(d > 120000) return '#fdd49e';   // beige/orange
-    if(d > 100000) return '#fee8c8';   // très clair
-    if(d > 0)      return '#fff7ec';   // quasi blanc
-    return '#2b2b2b';                 // 0 / no data
-}
-
-
-
-function getColorMedianSalesPriceApartment2013(d){
-    if(d > 350000) return '#7f0000';   // très haut
-    if(d > 300000) return '#b30000';
-    if(d > 250000) return '#d7301f';
-    if(d > 200000) return '#ef6548';
-    if(d > 180000) return '#fc8d59';
-    if(d > 150000) return '#fdbb84';
-    if(d > 120000) return '#fdd49e';
-    if(d > 100000) return '#fee8c8';
-    if(d > 0)      return '#fff7ec';
-    return '#2b2b2b'; // 0 / no data
-}
-
-
-
-function getColorMedianSalesPriceApartment2023(d){
-    if(d > 350000) return '#7f0000';   // très haut
-    if(d > 300000) return '#b30000';
-    if(d > 250000) return '#d7301f';
-    if(d > 200000) return '#ef6548';
-    if(d > 180000) return '#fc8d59';
-    if(d > 150000) return '#fdbb84';
-    if(d > 120000) return '#fdd49e';
-    if(d > 100000) return '#fee8c8';
-    if(d > 0)      return '#fff7ec';
-    return '#2b2b2b'; // 0 / no data
-}
-
-function getColorMS_P10_2013(d){
-    if (isNaN(d)) return '#1a1a1a';       // pas de données (gris très foncé)
-    if (d > 350000) return '#800026';     // rouge foncé
-    if (d > 300000) return '#BD0026';     // rouge vif
-    if (d > 250000) return '#E31A1C';     // rouge orangé
-    if (d > 200000) return '#FC4E2A';     // orange
-    if (d > 180000) return '#FD8D3C';     // orange clair
-    if (d > 150000) return '#FEB24C';     // jaune-orangée
-    if (d > 120000) return '#FED976';     // jaune clair
-    if (d > 100000) return '#FFEDA0';     // jaune très clair
-    if (d > 0)      return '#FFFFCC';     // jaune très pâle
-    return '#f0f0f0';                     // 0
-}
-
-
-function getColorMS_P10_2023(d){
-    if (isNaN(d)) return '#1a1a1a';       // pas de données (gris très foncé)
-    if (d > 350000) return '#800026';     // rouge foncé
-    if (d > 300000) return '#BD0026';     // rouge vif
-    if (d > 250000) return '#E31A1C';     // rouge orangé
-    if (d > 200000) return '#FC4E2A';     // orange
-    if (d > 180000) return '#FD8D3C';     // orange clair
-    if (d > 150000) return '#FEB24C';     // jaune-orangée
-    if (d > 120000) return '#FED976';     // jaune clair
-    if (d > 100000) return '#FFEDA0';     // jaune très clair
-    if (d > 0)      return '#FFFFCC';     // jaune très pâle
-    return '#f0f0f0';                     // 0
-}
-
-
-function getColorMS_P25_2013(d){
-    if (isNaN(d)) return '#1a1a1a';       // pas de données (gris très foncé)
-    if (d > 350000) return '#800026';     // rouge foncé
-    if (d > 300000) return '#BD0026';     // rouge vif
-    if (d > 250000) return '#E31A1C';     // rouge orangé
-    if (d > 200000) return '#FC4E2A';     // orange
-    if (d > 180000) return '#FD8D3C';     // orange clair
-    if (d > 150000) return '#FEB24C';     // jaune-orangée
-    if (d > 120000) return '#FED976';     // jaune clair
-    if (d > 100000) return '#FFEDA0';     // jaune très clair
-    if (d > 0)      return '#FFFFCC';     // jaune très pâle
-    return '#f0f0f0';                     // 0
-}
-
-
-function getColorMS_P25_2023(d){
-    if (isNaN(d)) return '#1a1a1a';       // pas de données (gris très foncé)
-    if (d > 350000) return '#800026';     // rouge foncé
-    if (d > 300000) return '#BD0026';     // rouge vif
-    if (d > 250000) return '#E31A1C';     // rouge orangé
-    if (d > 200000) return '#FC4E2A';     // orange
-    if (d > 180000) return '#FD8D3C';     // orange clair
-    if (d > 150000) return '#FEB24C';     // jaune-orangée
-    if (d > 120000) return '#FED976';     // jaune clair
-    if (d > 100000) return '#FFEDA0';     // jaune très clair
-    if (d > 0)      return '#FFFFCC';     // jaune très pâle
-    return '#f0f0f0';                     // 0
-}
-
-
-
-
-
-function getColorMS_P75_2013(d){
-    if (isNaN(d)) return '#1a1a1a';   // no data
-
-    if (d > 350000) return '#800026'; // rouge très foncé
-    if (d > 300000) return '#BD0026'; // rouge
-    if (d > 250000) return '#E31A1C'; // rouge clair
-    if (d > 200000) return '#FC4E2A'; // orange-rouge
-    if (d > 180000) return '#FD8D3C'; // orange
-    if (d > 150000) return '#FEB24C'; // orange clair
-    if (d > 120000) return '#FED976'; // jaune
-    if (d > 100000) return '#FFEDA0'; // jaune clair
-    if (d > 0)      return '#FFFFCC'; // très clair
-
-    return '#f0f0f0'; // 0
-}
-
-
-function getColorMS_P75_2023(d){
-    if (isNaN(d)) return '#1a1a1a';   // no data
-
-    if (d > 350000) return '#800026'; // rouge très foncé
-    if (d > 300000) return '#BD0026'; // rouge
-    if (d > 250000) return '#E31A1C'; // rouge clair
-    if (d > 200000) return '#FC4E2A'; // orange-rouge
-    if (d > 180000) return '#FD8D3C'; // orange
-    if (d > 150000) return '#FEB24C'; // orange clair
-    if (d > 120000) return '#FED976'; // jaune
-    if (d > 100000) return '#FFEDA0'; // jaune clair
-    if (d > 0)      return '#FFFFCC'; // très clair
-
-    return '#f0f0f0'; // 0
-}
-
-function getColorMS_P90_2013(d){
-    if (isNaN(d)) return '#1a1a1a';   // no data
-
-    if (d > 1000000) return '#800026'; // très élevé (rouge foncé)
-    if (d > 700000)  return '#BD0026'; // rouge
-    if (d > 500000)  return '#E31A1C'; // rouge clair
-    if (d > 300000)  return '#FC4E2A'; // orange-rouge
-    if (d > 200000)  return '#FD8D3C'; // orange
-    if (d > 100000)  return '#FEB24C'; // orange clair
-    if (d > 0)       return '#FFFFCC'; // très clair (faible)
-
-    return '#f0f0f0'; // 0
-}
-
-function getColorMS_P90_2023(d){
-    if (isNaN(d)) return '#1a1a1a';   // no data
-
-    if (d > 1000000) return '#800026'; // très élevé (rouge foncé)
-    if (d > 700000)  return '#BD0026'; // rouge
-    if (d > 500000)  return '#E31A1C'; // rouge clair
-    if (d > 300000)  return '#FC4E2A'; // orange-rouge
-    if (d > 200000)  return '#FD8D3C'; // orange
-    if (d > 100000)  return '#FEB24C'; // orange clair
-    if (d > 0)       return '#FFFFCC'; // très clair (faible)
-
-    return '#f0f0f0'; // 0
-}
-
-
-function getColorMS_P10_2013_all_houses(d){
-    if (isNaN(d)) return '#2b2b2b';   // no data
-
-    if (d > 550000) return '#7a0177'; // violet foncé (max)
-    if (d > 450000) return '#c51b8a'; // violet
-    if (d > 300000) return '#f768a1'; // rose
-    if (d > 200000) return '#2b8cbe'; // bleu
-    if (d > 150000) return '#41b6c4'; // bleu clair
-    if (d > 100000) return '#7fcdbb'; // turquoise
-    if (d > 0)      return '#ffffb2'; // jaune clair
-
-    return '#f0f0f0'; // 0
-}
-
-
-function getColorMS_P10_2013_apartments(d){
-    if (isNaN(d)) return '#1a1a1a';       // No data
-    if (d > 250000) return '#3404b0';     // violet foncé
-    if (d > 200000) return '#9d91e6';     // violet clair
-    if (d > 180000) return '#020f4a';     // bleu foncé
-    if (d > 150000) return '#3d71eb';     // bleu
-    if (d > 100000) return '#1cf500';     // vert vif
-    if (d > 0)      return '#fff4b8';     // très clair
-    return '#f0f0f0';                     // 0
-}
-
-function getColorMS_P10_2023_all_houses(d){
-if(d > 350000) return '#df71f0';
-    if(d > 300000) return '#fc001d';
-    if(d > 250000) return '#3404b0';
-    if(d > 200000) return '#9d91e6';
-    if(d > 180000) return '#020f4a';
-    if(d > 150000) return '#3d71eb';
-    if(d > 120000) return '#043d1f';
-    if(d > 100000) return '#1cf500';
-    if(d > 0) return '#fff4b8';
-    return '#1a1a1a';
-}
-
-function getColorMS_P10_2023_apartments(d){
-    if (isNaN(d)) return '#1a1a1a';       // No data
-    if (d > 350000) return '#fc001d';     // ≥ 350001
-    if (d > 300000) return '#5e0303';     // 300001 – 350000
-    if (d > 250000) return '#3404b0';     // 250001 – 300000
-    if (d > 200000) return '#9d91e6';     // 200001 – 250000
-    if (d > 180000) return '#020f4a';     // 180001 – 200000
-    if (d > 150000) return '#3d71eb';     // 150001 – 180000
-    if (d > 120000) return '#043d1f';     // 120001 – 150000
-    if (d > 100000) return '#1cf500';     // 100001 – 120000
-    if (d > 0)      return '#fff4b8';     // 1 – 100000
-    return '#f0f0f0';                     // 0
-}
-
-
-function getColorMS_P25_2013_all_houses(d){
-    if (isNaN(d)) return '#1a1a1a'; // No data
-
-    if (d > 400000) return '#775ced'; // 🔥 rouge pur (TRÈS visible)
-    if (d > 350000) return '#b30000'; // rouge foncé
-    if (d > 300000) return '#e34a33'; // rouge
-    if (d > 250000) return '#fc8d59'; // orange foncé
-    if (d > 200000) return '#fdbb84'; // orange
-    if (d > 180000) return '#fdd49e'; // jaune-orange
-    if (d > 0)      return '#fff7bc'; // jaune clair
-
-    return '#f0f0f0'; // 0
-}
-
-function getColorMS_P25_2013_apartments(d){
-    if (isNaN(d)) return '#1a1a1a';
-
-    if (d > 250000) return '#775ced'; // violet clair
-    if (d > 200000) return '#9a8cff'; // orange foncé
-    if (d > 150000) return '#fdbb84'; // orange
-    if (d > 100000) return '#fdd49e'; // jaune-orange
-    if (d > 0)      return '#fff7bc'; // jaune clair
-
-    return '#f0f0f0';
-}
-
-function getColorMS_P25_2023_all_houses(d){
-    if (isNaN(d)) return '#1a1a1a';       // No data
-
-    if (d > 700000) return '#775ced';     // violet (max très visible)
-    if (d > 500000) return '#b30000';     // rouge très foncé
-    if (d > 400000) return '#e34a33';     // rouge
-    if (d > 350000) return '#fc8d59';     // orange-rouge
-    if (d > 300000) return '#fdbb84';     // orange
-    if (d > 250000) return '#fdd49e';     // jaune-orange
-    if (d > 0)      return '#fff7bc';     // jaune clair
-
-    return '#f0f0f0';                     // 0
-}
-
-function getColorMS_P25_2023_apartments(d){
-    if (isNaN(d)) return '#1a1a1a';       // No data
-
-    if (d > 400000) return '#4b00a0';     // violet foncé max
-    if (d > 350000) return '#775ced';     // violet
-    if (d > 300000) return '#9c27b0';     // violet clair
-    if (d > 250000) return '#b30000';     // rouge foncé
-    if (d > 200000) return '#fc8d59';     // rouge-orange
-    if (d > 180000) return '#fdbb84';     // orange
-    if (d > 150000) return '#fdd49e';     // jaune-orange
-    if (d > 0)      return '#fff7bc';     // jaune clair
-
-    return '#f0f0f0';                     // 0
-}
-
-function getColorMS_P75_2013_all_houses(d) {
-    if (isNaN(d) || d === 0) return '#1a1a1a'; // No data ou 0
-
-    if (d >= 1500000 && d <= 1800000) return '#775ced'; // violet pour la tranche supérieure
-    if (d >= 450000 && d <= 500000) return '#e31a1c';   // rouge pour tranche moyenne
-    if (d >= 300000 && d <= 350000) return '#fdbb84';   // orange clair pour tranche inférieure
-
-    return '#fff7bc'; // valeurs en dehors de ces tranches
-}
-
-
-
-function getColorMS_P75_2013_apartments(d) {
-    if (isNaN(d)) return '#1a1a1a'; // pas de données
-
-    if (d > 450000) return '#1f023d'; // violet très intense, sommet
-    if (d > 400000) return '#6600d1'; // violet foncé
-    if (d > 350000) return '#b67ff0'; // violet clair
-
-    if (d > 300000) return '#fc001d'; // rouge vif
-    if (d > 250000) return '#fd5f3c'; // rouge orangé
-    if (d > 200000) return '#feb24c'; // orange
-    if (d > 180000) return '#fed976'; // jaune-orange
-    if (d > 150000) return '#fff4b8'; // jaune clair
-    if (d > 120000) return '#fff7bc'; // très clair
-    if (d > 100000) return '#f7fcb9'; // très très clair
-    if (d > 0)      return '#ffffe0'; // presque blanc
-
-    return '#f0f0f0'; // zéro
-}
-
-
-function getColorMS_P75_2023_all_houses(d) {
-    if (isNaN(d)) return '#1a1a1a'; // pas de données
-
-    if (d > 1500000) return '#4B00B5'; // violet intense pour 1.500.000 – 1.800.000
-    if (d > 500000)  return '#FF8000'; // violet marqué pour 500.000 – 550.000
-    if (d > 400000)  return '#FFD966'; // jaune/orange pour 400.000 – 450.000
-
-
-
-    return '#F0F0F0'; // toutes les autres valeurs restent grisées
-}
-
-
-function getColorMS_P75_2023_apartments(d) {
-    if(d >= 750001) return '#1f023d';       // 750.001–850.000 → violet foncé
-    if(d >= 650001) return '#6c04d9';       // 650.001–750.000 → violet moyen
-    if(d >= 550001) return '#bd86f7';       // 550.001–650.000 → violet clair
-
-    if(d >= 450001) return '#823603';       // 450.001–550.000 → orange foncé
-    if(d >= 350001) return '#f77e2d';       // 350.001–450.000 → orange
-    if(d >= 250001) return '#ff9933';       // 250.001–350.000 → orange clair
-    if(d >= 200001) return '#ffd699';       // 200.001–250.000 → jaune clair
-    if(d >= 150001) return '#fff4b8';       // 150.001–200.000 → jaune très clair
-    if(d >= 1)      return '#ffffe6';       // 0–150.000 → jaune pâle
-    return '#1a1a1a';                        // 0 → noir
-}
-
-
-
-function getColorMS_P90_2013_all_houses(d) {
-    if(d >= 2000000 && d <= 2100000) return '#1f023d';   // 2.000.000–2.100.000 → violet foncé
-    if(d >= 700000 && d <= 750000) return '#6c04d9';     // 700.000–750.000 → violet moyen
-    if(d >= 400000 && d <= 450000) return '#ff3300';     // 400.000–450.000 → orange foncé
-    if(d >= 350000 && d <= 400000) return '#ff8000';     // 350.000–400.000 → orange
-    if(d > 0) return '#1a1a1a';                          // Tout le reste positif → noir
-    return '#1a1a1a';                                     // 0 → noir
-}
-
-
-function getColorMS_P90_2013_apartments(d) {
-    if(d >= 750001) return '#1f023d';       // 750.001 et plus → violet foncé
-    if(d >= 650001) return '#6c04d9';       // 650.001–750.000 → violet moyen
-    if(d >= 550001) return '#bd86f7';       // 550.001–650.000 → violet clair
-
-    if(d >= 450001) return '#ff6600';       // 450.001–550.000 → orange foncé
-    if(d >= 350001) return '#ff8000';       // 350.001–450.000 → orange
-    if(d >= 250001) return '#ff9933';       // 250.001–350.000 → orange clair
-    if(d >= 200001) return '#ffd699';       // 200.001–250.000 → jaune clair
-    if(d >= 150001) return '#fff4b8';       // 150.001–200.000 → jaune très clair
-    if(d >= 100001) return '#ffffcc';       // 100.001–150.000 → jaune pâle
-    if(d >= 1)      return '#ffffe6';       // 1–100.000 → jaune très très clair
-    return '#1a1a1a';                        // 0 → noir
-}
-
-
-function getColorMS_P90_2023_all_houses(d) {
-    if(d >= 2000000 && d <= 2500000) return '#1f023d';  // 2.000.000–2.500.000 → violet foncé
-    if(d >= 600000 && d <= 650000) return '#bd86f7';    // 600.000–650.000 → violet clair
-    if(d >= 550000 && d <= 600000) return '#ff6600';    // 550.000–600.000 → orange foncé
-    if(d > 0) return '#1a1a1a';                          // Tout le reste positif → noir
-    return '#1a1a1a';                                     // 0 → noir
-}
-
-function getColorMS_P90_2023_apartments(d) {
-    if(d >= 1000000 && d <= 2000000) return '#1f023d';   // 1.000.000–2.000.000 → violet foncé
-    if(d >= 750000 && d < 1000000) return '#6c04d9';     // 750.000–1.000.000 → violet moyen
-    if(d >= 650000 && d < 750000) return '#bd86f7';      // 650.000–750.000 → violet clair
-    if(d >= 550000 && d < 650000) return '#ff6600';      // 550.000–650.000 → orange foncé
-    if(d >= 450000 && d < 550000) return '#ff8000';      // 450.000–550.000 → orange
-    if(d >= 350000 && d < 450000) return '#ff9933';      // 350.000–450.000 → orange clair
-    if(d >= 250000 && d < 350000) return '#ffd699';      // 250.000–350.000 → jaune-orangée
-    if(d >= 200000 && d < 250000) return '#fff4b8';      // 200.000–250.000 → jaune très clair
-    return '#1a1a1a';                                     // Tout le reste (<200.000) → noir
-}
-
-function getColorTotalRentP50LessorLegalPerson2024(d) {
- // Violet pour tranches supérieures
-    if(d >= 7500 && d <= 8500) return '#1f023d';   // 7.500–8.500 → violet foncé
-    if(d >= 6500 && d < 7500) return '#6c04d9';    // 6.500–7.500 → violet moyen
-    if(d >= 5500 && d < 6500) return '#bd86f7';    // 5.500–6.500 → violet clair
-
-    // Bleu pour tranches fortes
-    if(d >= 4500 && d < 5500) return '#02459e';    // 4.500–5.500 → rouge foncé
-    if(d >= 3500 && d < 4500) return '#0f72f5';    // 3.500–4.500 → rouge vif
-    if(d >= 3000 && d < 3500) return '#5291e3';    // 3.000–3.500 → rouge clair
-
-    // Rouge pour tranches moyennes
-    if(d >= 2500 && d < 3000) return '#b50000';    // 2.500–3.000 → orange foncé
-    if(d >= 2000 && d < 2500) return '#e64c4c';    // 2.000–2.500 → orange clair
-
-    // Orange pour tranches basses (saturé et visible)
-    if(d >= 1500 && d < 2000) return '#8f5304';    // 1.500–2.000 → jaune vif
-    if(d >= 1300 && d < 1500) return '#bd7313';    // 1.300–1.500 → jaune soutenu
-    if(d >= 950 && d < 1300)  return '#bf873d';    // 950–1.300 → jaune foncé
-
-    // Jaune pour tranches basses (saturé et visible)
-
-    if(d >= 750 && d < 950)   return '#bd9904';    // 750–950 → jaune-orange
-    if(d >= 550 && d < 750)   return '#b59514';    // 550–750 → jaune clair
-    if(d >= 0 && d < 550)     return '#fff199';    // 0–550 → jaune clair visible
-
-    return '#1a1a1a';                               // 0 exact → noir
-}
-
-
-
-
-
-function getColorTotalRentP50LessorNeutralPerson2024(d) {
-   // Violet pour tranches supérieures
-
-    if(d >= 4500 && d < 5500) return '#1f023d';   // 7.500–8.500 → violet foncé
-    if(d >= 3500 && d < 4500) return '#6c04d9';    // 6.500–7.500 → violet moyen
-    if(d >= 3000 && d < 3500) return '#bd86f7';    // 5.500–6.500 → violet clair
-
-    // Rouge pour tranches moyennes
-    if(d >= 2500 && d < 3000) return '#b50000';    // 2.500–3.000 → orange foncé
-    if(d >= 2000 && d < 2500) return '#e64c4c';    // 2.000–2.500 → orange clair
-
-    // Orange pour tranches basses (saturé et visible)
-    if(d >= 1500 && d < 2000) return '#8f5304';    // 1.500–2.000 → jaune vif
-    if(d >= 1300 && d < 1500) return '#bd7313';    // 1.300–1.500 → jaune soutenu
-    if(d >= 950 && d < 1300)  return '#bf873d';    // 950–1.300 → jaune foncé
-
-    // Jaune pour tranches basses (saturé et visible)
-
-    if(d >= 750 && d < 950)   return '#bd9904';    // 750–950 → jaune-orange
-    if(d >= 550 && d < 750)   return '#b59514';    // 550–750 → jaune clair
-    if(d >= 0 && d < 550)     return '#fff199';    // 0–550 → jaune clair visible
-
-    return '#1a1a1a';                               // 0 exact → noir
-}
-
-
-// --- Loyer Moyen ---
-
-function getColorAvgRent(d) {
-    if (isNaN(d)) return '#454342';          // valeur non valide → gris foncé
-
-    if (d >= 900) return '#6a0dad';         // violet foncé
-    if (d >= 800) return '#ff6600';         // orange foncé
-    if (d >= 700) return '#ff9900';         // orange clair
-    if (d >= 600) return '#ffd700';         // jaune saturé
-    if (d >= 0)   return '#fff199';         // jaune clair
-
-    return '#1a1a1a';                        // valeur exacte 0
-}
-
-
-
-
-function getColorMedianPriceApartment2011(d){
-    if (isNaN(d)) return '#2b2b2b';        // no data
-
-    if (d >= 250000) return '#6a0dad';     // 250.000–300.000 → violet
-    if (d >= 200000) return '#ff6600';     // 200.000–250.000 → orange foncé
-    if (d >= 150000) return '#ff9900';     // 150.000–200.000 → orange clair
-    if (d >= 100000) return '#ffd700';     // 100.000–150.000 → jaune
-    if (d >= 0)      return '#fff199';     // 0–100.000 → jaune clair
-
-    return '#2b2b2b';                     // fallback
-}
-
-
-function getColorMedianPriceApartment2021(d){
-    if (isNaN(d)) return '#2b2b2b';        // no data
-
-    if (d >= 300000) return '#320269';     // 300.000-350.000 → violet
-    if (d >= 250000) return '#ff0015';     // 250.000–300.000 → violet
-    if (d >= 200000) return '#ff6600';     // 200.000–250.000 → orange foncé
-    if (d >= 150000) return '#ff9900';     // 150.000–200.000 → orange clair
-    if (d >= 100000) return '#ffd700';     // 100.000–150.000 → jaune
-    if (d >= 0)      return '#fff199';     // 0–100.000 → jaune clair
-
-    return '#2b2b2b';                     // fallback
-}
-
-
-
-function getColorMedianPriceHouses2011(d){
-    if (isNaN(d)) return '#2b2b2b';        // no data
-
-if (d >= 750000) return '#020005';   // 750.000–850.000 → violet foncé
-if (d >= 650000) return '#1b0138 ';   // 650.000–750.000 → violet foncé
-if (d >= 550000) return '#9f59f0';   // 550.000–650.000 → violet foncé
-if (d >= 500000) return '#6a0dad';   // 500.000–550.000 → violet
-if (d >= 450000) return '#ff0015';   // 450.000–500.000 → rouge
-if (d >= 400000) return '#ff3300';   // 400.000–450.000 → rouge-orange
-if (d >= 350000) return '#ff6600';   // 350.000–400.000 → orange foncé
-if (d >= 300000) return '#f59207';   // 300.000–350.000 → orange
-
-// tranches basses (inchangées)
-if (d >= 200000) return '#ffd700';   // jaune
-    if (d >= 0)      return '#fff199';     // 0–100.000 → jaune clair
-
-    return '#2b2b2b';                     // fallback
-}
-
-
-function getColorMedianPriceHouses2021(d){
-    if (isNaN(d)) return '#2b2b2b';        // no data
-
-if (d >= 750000) return '#020005';   // 750.000–850.000 → violet foncé
-if (d >= 650000) return '#1b0138 ';   // 650.000–750.000 → violet foncé
-if (d >= 550000) return '#9f59f0';   // 550.000–650.000 → violet foncé
-if (d >= 500000) return '#6a0dad';   // 500.000–550.000 → violet
-if (d >= 450000) return '#ff0015';   // 450.000–500.000 → rouge
-if (d >= 400000) return '#ff3300';   // 400.000–450.000 → rouge-orange
-if (d >= 350000) return '#ff6600';   // 350.000–400.000 → orange foncé
-if (d >= 300000) return '#f7ee40';   // 300.000–350.000 → orange
-
-// tranches basses (inchangées)
-if (d >= 200000) return '#ffd700';   // jaune
-    if (d >= 0)      return '#fff199';     // 0–100.000 → jaune clair
-
-    return '#2b2b2b';                     // fallback
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function getColorTotal_Population_2014(d) {
-    d = Number(d);
-    if (d > 0)   return '#34A853';
-    return '#1a1a1a';
+  legendDiv.innerHTML = html;
 }
-
-
-function getColorTotal_Population_2025(d){
-    d = Number(d);
-    if (d > 0)   return '#34A853';
-    return '#1a1a1a';
-}
-
 
-function getColorAvg_Revenue_2023(d) {
 
-    if (isNaN(d)) return '#ffffff'; // valeur non valide
+// --- GOLOR ---
 
-    if (d >= 90000) return '#320269';   // 90.000–100.000 → violet foncé
-    if (d >= 80000) return '#6a0dad';   // 80.000–90.000 → violet
 
-    if (d >= 70000) return '#990000';   // 70.000–80.000 → rouge foncé
-    if (d >= 60000) return '#cc0000';   // 60.000–70.000 → rouge
+function getColor(themeId, value, values) {
 
-    if (d >= 50000) return '#ff3300';   // 50.000–60.000 → rouge/orange
-    if (d >= 40000) return '#ff6600';   // 40.000–50.000 → orange foncé
-    if (d >= 30000) return '#ff9900';   // 30.000–40.000 → orange
+  if (
+    value === null ||
+    value === undefined ||
+    isNaN(value)
+  ) {
+    return "#2b2b2b";
+  }
 
-    if (d >= 20000) return '#ffb366';   // 20.000–30.000 → orange clair
-    if (d >= 12000) return '#ffd700';   // 12.000–20.000 → jaune foncé
+  const ranges =
+    LEGEND_OVERRIDES[themeId]?.ranges
+    || generateLegendRanges(values);
 
-    if (d > 0) return '#fff4b8';       // 0–12.000 → jaune clair
+  const found = ranges.find(range =>
 
-    return '#ffffff'; // fallback
-}
-
-function getColorAvg_Revenue_2013(d){
-
-    if (isNaN(d)) return '#000000'; // valeur non valide
-
-    if (d >= 90000) return '#320269';   // 90.000–100.000 → violet foncé
-    if (d >= 80000) return '#6a0dad';   // 80.000–90.000 → violet
+    value >= range.min &&
+    value <= range.max
 
-    if (d >= 70000) return '#990000';   // 70.000–80.000 → rouge foncé
-    if (d >= 60000) return '#cc0000';   // 60.000–70.000 → rouge
+  );
 
-    if (d >= 50000) return '#ff3300';   // 50.000–60.000 → rouge/orange
-    if (d >= 40000) return '#ff6600';   // 40.000–50.000 → orange foncé
-    if (d >= 30000) return '#ff9900';   // 30.000–40.000 → orange
-
-    if (d >= 20000) return '#ffb366';   // 20.000–30.000 → orange clair
-    if (d >= 12000) return '#ffd700';   // 12.000–20.000 → jaune foncé
-
-    if (d > 0) return '#fff4b8';       // 0–12.000 → jaune clair
-
-    return '#000000'; // fallback
+  return found
+    ? found.color
+    : "#2b2b2b";
 }
-
-
 
 
 
@@ -2897,6 +774,34 @@ function loadThemeGeoJSON(filePath, valueProperty, getColorFunc, legendFunc){
           legendFunc(); // Affiche la légende correspondante
       });
 }
+
+
+
+
+function getThemeById(themeId) {
+
+  return ALL_THEMES.find(
+    t => t.id === themeId
+  );
+
+}
+
+
+
+feature.properties[currentTheme.property]
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // --- UI interactions ---
 document.getElementById('btn-center').addEventListener('click', () => map.setView([50.85,4.35],10));
