@@ -840,7 +840,5 @@ document.getElementById('btn-scan-save').addEventListener('click', async () => {
     alert("Error during Scan & Save process");
   }
 
-});
 
 }); 
-
