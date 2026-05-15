@@ -690,12 +690,7 @@ const COLORS = [
 
 
 
-// Appel dans ton code lorsque tu charges ce thème
-// loadThemeGeoJSON('merge_sales_2_3_facades_BX_only_with_geofile.geojson', 'total_sales');
-// showLegend2_3FacadesHouses();
 
-  });
-});
 
 // Leaflet controls inside circle
 map.whenReady(function () {
