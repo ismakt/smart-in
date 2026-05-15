@@ -314,13 +314,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // --------------------------
   // BOUTONS THEME
   // --------------------------
-  const themeButtons = document.querySelectorAll('#theme-dropdown div');
-  themeButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      currentTheme = btn.dataset.theme;
-      console.log('Theme selected:', currentTheme);
-    });
+themeButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+
+    const themeName = btn.dataset.theme;
+    currentTheme = themeName;
+
+    console.log('Theme selected:', currentTheme);
+
+    console.log(btn.dataset.theme);
+console.log(ALL_THEMES.map(t => t.name));
+
+    const theme = ALL_THEMES.find(t => t.name === themeName);
+
+    if (!theme) {
+      console.warn("Theme not found in ALL_THEMES:", themeName);
+      return;
+    }
+
+    loadThemeGeoJSON(theme.file, theme.property, theme.name);
   });
+});
 
 });
 
