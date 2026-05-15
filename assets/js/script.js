@@ -233,13 +233,18 @@ function getValueFromTheme(theme, lat, lon) {
   if (!data) return "ERROR";
 
   let value = null;
-  L.geoJSON(data).eachLayer(layer => {
+
+  for (let f of data.features) {
+    const layer = L.geoJSON(f);
     if (layer.getBounds().contains([lat, lon])) {
-      value = layer.feature.properties[theme.property];
+      value = f.properties[theme.property];
+      break;
     }
-  });
+  }
+
   return value ?? "N/A";
 }
+
 
 async function captureMap() {
   const mapElement = document.getElementById("map");
@@ -622,12 +627,19 @@ const themeFilters = {
 // Theme selection
 
 document.querySelectorAll('#theme-dropdown div').forEach(el => {
-  el.addEventListener('click', function(){
+  el.addEventListener('click', function () {
+
     var theme = this.dataset.theme;
     activeTheme = theme;
+
     var filtersDiv = document.getElementById('filters-content');
     var filters = themeFilters[theme] || [];
-    filtersDiv.innerHTML = filters.length>0 ? filters.join(', ') : 'choose a theme';
+
+    filtersDiv.textContent =
+  filters.length > 0 ? filters.join(', ') : 'choose a theme';
+
+  });
+});
 
     /* document.getElementById('theme-dropdown').style.display = 'none';*/
 
@@ -704,28 +716,6 @@ document.getElementById('btn-info').addEventListener('click', function(){
   var panel = document.getElementById('info-panel');
   panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
 });
-
-document.getElementById('address-input').addEventListener('keydown', async function(e) {
-  if (e.key !== 'Enter') return;
-
-  const value = this.value.trim();
-  if (!value) return;
-
-  if (addressMarkers.length >= MAX_ADDRESS_MARKERS) {
-    alert('Maximum 5 markers reached');
-    return;
-  }
-
-  const result = await geocodeAddress(value);
-  if (!result) {
-    alert('Address not found in Brussels');
-    return;
-  }
-
-  addAddressMarker(result.lat, result.lon, value);
-  this.value = '';
-});
-
 
 
 // MOT DE PASSE "1" LE TEMPS DE DEV
