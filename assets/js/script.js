@@ -715,7 +715,7 @@ document.getElementById('btn-info').addEventListener('click', function(){
 
 // MOT DE PASSE "1" LE TEMPS DE DEV
 
-  function unlockInternal() {
+window.unlockInternal = function () {
     const keyInput = document.getElementById("internalKey").value;
     const PASSWORD = "1";
     const contentCenter = document.getElementById("protected-content");
@@ -737,7 +737,7 @@ document.getElementById('btn-info').addEventListener('click', function(){
         message.textContent = "Invalid key";
         message.style.color = "red";
     }
-}
+};
 
 
 
