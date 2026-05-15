@@ -842,5 +842,5 @@ document.getElementById('btn-scan-save').addEventListener('click', async () => {
 
 });
 
-
-
+                          }); // <- ferme btn-scan-save click
+}); // <- ferme DOMContentLoaded
