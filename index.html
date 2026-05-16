@@ -31,17 +31,22 @@
 
 <body>
 
-<!--Champ mot de passe, toujours visible-->
-
+<!-- Écran visible avant connexion -->
 <div id="password-container">
-  <!-- Carte Europe intégrée en iframe -->
   <iframe 
     id="europe-map-frame"
     src="europe-map.html"
     style="width:100%; height:340px; border:none; border-radius:14px;"
     scrolling="no">
   </iframe>
+
+  <!-- Champ mot de passe -->
+  <input type="password" id="password-input" placeholder="Mot de passe">
+  <button id="btn-login">Entrer</button>
 </div>
+
+<!-- Toute l'application cachée au départ -->
+<div class="dashboard" id="main-app" style="display:none;">
 
 
 
