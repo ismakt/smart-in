@@ -805,4 +805,53 @@ window.addEventListener("message", function(event) {
   }
 });
 
+// ============================
+// LOGIN SCREEN
+// ============================
 
+document.addEventListener("DOMContentLoaded", () => {
+
+  // cacher toute l'app au démarrage
+  const app = document.querySelector(".dashboard");
+  if (app) {
+    app.style.display = "none";
+  }
+
+  const btnLogin = document.getElementById("btn-login");
+
+  if (btnLogin) {
+
+    btnLogin.addEventListener("click", () => {
+
+      const passwordInput = document.getElementById("password-input");
+
+      if (!passwordInput) return;
+
+      const password = passwordInput.value;
+
+      // MOT DE PASSE
+      if (password === "1") {
+
+        // cacher écran password
+        const passwordContainer = document.getElementById("password-container");
+
+        if (passwordContainer) {
+          passwordContainer.style.display = "none";
+        }
+
+        // afficher app
+        if (app) {
+          app.style.display = "flex";
+        }
+
+      } else {
+
+        alert("Mot de passe incorrect");
+
+      }
+
+    });
+
+  }
+
+});
