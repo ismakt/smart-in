@@ -1,0 +1,342 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{background:#060709;border-radius:14px;overflow:hidden;position:relative;font-family:"Inter",system-ui,sans-serif}
+.top-bar{display:flex;justify-content:space-between;align-items:flex-start;padding:18px 22px 0}
+.brand-name{font-size:13px;font-weight:700;letter-spacing:.09em;color:#ffd84d;opacity:0;animation:fu .5s ease forwards .3s}
+.brand-sub{font-size:11px;color:rgba(255,255,255,.38);margin-top:3px;opacity:0;animation:fu .5s ease forwards .5s}
+.live-badge{display:flex;align-items:center;gap:6px;background:rgba(255,59,48,.12);border:1px solid rgba(255,59,48,.35);border-radius:20px;padding:4px 10px;opacity:0;animation:fu .5s ease forwards .7s}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#ff3b30;animation:blink 1.3s ease-in-out infinite}
+.live-txt{font-size:10px;font-weight:600;color:#ff7b73;letter-spacing:.06em}
+#map-svg{display:block;width:100%}
+.map-container{position:relative}
+
+#pw-panel{
+  position:absolute;bottom:28px;right:24px;
+  background:rgba(6,7,9,0.92);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;padding:12px 16px;
+  display:flex;align-items:center;gap:10px;
+  opacity:0;transform:translateX(-80px);
+  min-width:240px;
+}
+#pw-panel.slide-in{animation:slideIn .7s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes slideIn{from{opacity:0;transform:translateX(-80px)}to{opacity:1;transform:translateX(0)}}
+
+#pw-label{font-size:11px;font-weight:600;color:rgba(255,255,255,0.45);letter-spacing:.07em;white-space:nowrap}
+#pw-input{
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
+  border-radius:7px;padding:6px 10px;color:#eaeef7;
+  font-size:12px;font-family:"Inter",system-ui,sans-serif;
+  outline:none;width:120px;transition:border-color .2s;
+}
+#pw-input:focus{border-color:rgba(255,59,48,0.5)}
+#pw-input::placeholder{color:rgba(255,255,255,0.2)}
+#pw-input.error{border-color:rgba(255,59,48,0.8);animation:shake .3s ease}
+#pw-input.success{border-color:rgba(80,220,120,0.7)}
+#pw-btn{
+  background:rgba(255,59,48,0.15);border:1px solid rgba(255,59,48,0.35);
+  border-radius:7px;padding:6px 10px;color:#ff7b73;
+  font-size:11px;font-weight:600;cursor:pointer;
+  font-family:"Inter",system-ui,sans-serif;transition:background .2s;white-space:nowrap;
+}
+#pw-btn:hover{background:rgba(255,59,48,0.28)}
+#pw-msg{font-size:10px;white-space:nowrap;opacity:0;transition:opacity .3s;min-width:60px}
+
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+#overlay-brand{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;opacity:0;pointer-events:none;transition:opacity .8s ease;
+}
+#overlay-brand.show{opacity:1}
+.ob-name{font-size:32px;font-weight:800;color:#ffd84d;letter-spacing:.12em}
+.ob-sub{font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);letter-spacing:.15em;margin-top:6px}
+
+#city-tooltip{
+  position:absolute;background:rgba(8,10,18,0.95);
+  border:1px solid rgba(255,59,48,0.45);border-radius:8px;
+  padding:7px 12px;pointer-events:none;opacity:0;transition:opacity .15s;
+  font-size:11px;color:#eaeef7;white-space:nowrap;z-index:10;
+}
+.tt-name{font-weight:700;font-size:12px;color:#ff7b73;margin-bottom:2px}
+.tt-status{color:rgba(255,255,255,0.5);font-size:10px}
+#city-tooltip.soon .tt-name{color:rgba(255,255,255,0.6)}
+#city-tooltip.soon{border-color:rgba(255,255,255,0.15)}
+
+@keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes pulseRing{0%{r:8;opacity:.55}100%{r:22;opacity:0}}
+@keyframes popDot{0%{opacity:0;r:0}70%{opacity:1}100%{opacity:1}}
+@keyframes fadeLabel{from{opacity:0}to{opacity:1}}
+@keyframes pulseSoon{0%{r:8;opacity:.3}100%{r:18;opacity:0}}
+</style>
+
+<div class="wrap">
+  <div class="top-bar">
+    <div>
+      <div class="brand-name">VADILION DIGITAL</div>
+      <div class="brand-sub">Smart-In &nbsp;·&nbsp; Brussels</div>
+    </div>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      <div class="live-txt">LIVE</div>
+    </div>
+  </div>
+
+  <div class="map-container">
+    <svg id="map-svg" viewBox="0 0 680 460" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div id="overlay-brand">
+      <div class="ob-name">VADILION DIGITAL</div>
+      <div class="ob-sub">SMART-IN &nbsp;·&nbsp; BRUSSELS</div>
+    </div>
+    <div id="pw-panel">
+      <span id="pw-label">ENTER PASSWORD</span>
+      <input id="pw-input" type="password" placeholder="••••••••"/>
+      <button id="pw-btn">Unlock</button>
+      <span id="pw-msg"></span>
+    </div>
+    <div id="city-tooltip">
+      <div class="tt-name" id="tt-name"></div>
+      <div class="tt-status" id="tt-status"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+<script>
+(async () => {
+  const PASSWORD_FREE = "1";
+  const PASSWORD_PREMIUM = "premium123";
+
+  const svg = d3.select("#map-svg");
+  const W = 680, H = 460;
+
+  const projection = d3.geoMercator()
+    .center([15,54]).scale(580).translate([W/2,H/2]);
+  const path = d3.geoPath().projection(projection);
+
+  const world = await d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json");
+  const countries = topojson.feature(world, world.objects.countries);
+  const borders   = topojson.mesh(world, world.objects.countries, (a,b) => a!==b);
+
+  const europeIds = new Set([
+    "008","040","056","100","191","196","203","208","233","246","250","276","300",
+    "348","352","372","380","428","440","442","470","528","578","616","620","642",
+    "703","705","724","752","756","804","826","807","688","020","031","051","070",
+    "112","498","499","336","674","744"
+  ]);
+
+  svg.append("rect").attr("width",W).attr("height",H).attr("fill","#0a0f1a");
+
+  svg.append("g").selectAll("path")
+    .data(countries.features.filter(d=>europeIds.has(d.id)))
+    .join("path").attr("d",path)
+    .attr("fill","#111827").attr("stroke","#1e2d45").attr("stroke-width",0.7);
+
+  svg.append("path").datum(borders).attr("d",path)
+    .attr("fill","none").attr("stroke","#1e3050").attr("stroke-width",0.5);
+
+  const graticule = d3.geoGraticule().step([10,10]);
+  svg.append("path").datum(graticule()).attr("d",path)
+    .attr("fill","none").attr("stroke","rgba(255,255,255,0.035)").attr("stroke-width",0.4);
+
+  const cities = [
+    {name:"Brussels",  lon:4.35,  lat:50.85, status:"ready",    delay:1.4},
+    {name:"Paris",     lon:2.35,  lat:48.85, status:"soon",     delay:1.7},
+    {name:"Nice",      lon:7.26,  lat:43.71, status:"soon",     delay:2.0},
+    {name:"London",    lon:-0.12, lat:51.51, status:"secondary",delay:1.0},
+    {name:"Amsterdam", lon:4.90,  lat:52.37, status:"secondary",delay:1.05},
+    {name:"Berlin",    lon:13.40, lat:52.52, status:"secondary",delay:1.1},
+    {name:"Madrid",    lon:-3.70, lat:40.42, status:"secondary",delay:1.15},
+    {name:"Rome",      lon:12.50, lat:41.90, status:"secondary",delay:1.2},
+    {name:"Vienna",    lon:16.37, lat:48.21, status:"secondary",delay:1.22},
+    {name:"Zurich",    lon:8.54,  lat:47.38, status:"secondary",delay:1.25},
+    {name:"Barcelona", lon:2.17,  lat:41.39, status:"secondary",delay:1.27},
+    {name:"Milan",     lon:9.19,  lat:45.46, status:"secondary",delay:1.28},
+    {name:"Stockholm", lon:18.07, lat:59.33, status:"secondary",delay:1.3},
+    {name:"Warsaw",    lon:21.01, lat:52.23, status:"secondary",delay:1.32},
+    {name:"Prague",    lon:14.42, lat:50.08, status:"secondary",delay:1.33},
+    {name:"Munich",    lon:11.58, lat:48.14, status:"secondary",delay:1.34},
+    {name:"Lisbon",    lon:-9.14, lat:38.72, status:"secondary",delay:1.35},
+    {name:"Athens",    lon:23.73, lat:37.98, status:"secondary",delay:1.36},
+    {name:"Budapest",  lon:19.04, lat:47.50, status:"secondary",delay:1.37},
+    {name:"Copenhagen",lon:12.57, lat:55.68, status:"secondary",delay:1.38},
+  ];
+
+  const primaryCities  = ["Brussels","Paris","Nice"];
+  const labelCities    = ["London","Amsterdam","Berlin","Madrid","Rome","Stockholm","Vienna","Barcelona","Lisbon","Athens"];
+
+  const connLines = [["Brussels","Paris"],["Paris","Nice"]];
+  connLines.forEach(([a,b])=>{
+    const ca=cities.find(c=>c.name===a), cb=cities.find(c=>c.name===b);
+    const pa=projection([ca.lon,ca.lat]), pb=projection([cb.lon,cb.lat]);
+    const delay=Math.max(ca.delay,cb.delay)+0.25;
+    const line=svg.append("line")
+      .attr("x1",pa[0]).attr("y1",pa[1]).attr("x2",pb[0]).attr("y2",pb[1])
+      .attr("stroke","rgba(255,255,255,0.12)").attr("stroke-width",0.8)
+      .attr("stroke-dasharray","3 3").style("opacity",0);
+    setTimeout(()=>line.transition().duration(600).style("opacity",1),delay*1000);
+  });
+
+  const tooltip  = document.getElementById("city-tooltip");
+  const ttName   = document.getElementById("tt-name");
+  const ttStatus = document.getElementById("tt-status");
+  const wrapEl   = document.querySelector(".wrap");
+  const svgEl    = document.getElementById("map-svg");
+
+  function showTooltip(cx,cy,name,statusText,isSoon){
+    const svgRect  = svgEl.getBoundingClientRect();
+    const wrapRect = wrapEl.getBoundingClientRect();
+    const scaleX   = svgRect.width/W;
+    const scaleY   = svgRect.height/H;
+    const tx = cx*scaleX + svgRect.left - wrapRect.left;
+    const ty = cy*scaleY + svgRect.top  - wrapRect.top;
+    ttName.textContent   = name.toUpperCase();
+    ttStatus.textContent = statusText;
+    tooltip.className    = isSoon ? "soon" : "";
+    tooltip.style.left   = (tx+14)+"px";
+    tooltip.style.top    = (ty-28)+"px";
+    tooltip.style.opacity= "1";
+  }
+  function hideTooltip(){ tooltip.style.opacity="0"; }
+
+  cities.forEach(c=>{
+    const [cx,cy] = projection([c.lon,c.lat]);
+    const isPrimary = primaryCities.includes(c.name);
+    const isReady   = c.status==="ready";
+    const isSoon    = c.status==="soon";
+
+    const dotColor  = isReady ? "#ff3b30" : "rgba(255,255,255,0.45)";
+    const dotStroke = isReady ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.2)";
+    const dotR      = isPrimary ? 5 : 2.5;
+    const strokeW   = isPrimary ? 1.5 : 1;
+
+    if (isReady) {
+      const r1=svg.append("circle").attr("cx",cx).attr("cy",cy).attr("r",8)
+        .attr("fill","none").attr("stroke","rgba(255,59,48,0.5)").attr("stroke-width",1).style("opacity",0);
+      const r2=svg.append("circle").attr("cx",cx).attr("cy",cy).attr("r",8)
+        .attr("fill","none").attr("stroke","rgba(255,59,48,0.3)").attr("stroke-width",1).style("opacity",0);
+      setTimeout(()=>{
+        r1.style("opacity",1).attr("class","city-ring");
+        r2.style("opacity",1).attr("class","city-ring").style("animation-delay","1.3s");
+      },(c.delay+0.1)*1000);
+    }
+
+    if (isSoon) {
+      const rs=svg.append("circle").attr("cx",cx).attr("cy",cy).attr("r",8)
+        .attr("fill","none").attr("stroke","rgba(255,255,255,0.2)").attr("stroke-width",1).style("opacity",0);
+      setTimeout(()=>{
+        rs.style("opacity",1)
+          .attr("class","city-ring")
+          .style("animation-name","pulseSoon")
+          .style("animation-duration","2.8s")
+          .style("animation-timing-function","ease-out")
+          .style("animation-iteration-count","infinite");
+      },(c.delay+0.1)*1000);
+    }
+
+    const grp = svg.append("g").style("cursor", (isReady||isSoon) ? "pointer" : "default");
+
+    const dot = grp.append("circle")
+      .attr("cx",cx).attr("cy",cy).attr("r",dotR)
+      .attr("fill",dotColor).attr("stroke",dotStroke).attr("stroke-width",strokeW)
+      .style("opacity",0);
+    setTimeout(()=>{
+      dot.attr("class","popDot").style("animation","popDot .4s cubic-bezier(.34,1.56,.64,1) forwards");
+    }, c.delay*1000);
+
+    if (isReady) {
+      grp
+        .on("mouseenter",()=>{
+          dot.transition().duration(150).attr("fill","#ff8a82").attr("r",7);
+          showTooltip(cx,cy,c.name,"● Ready · Click to explore",false);
+        })
+        .on("mouseleave",()=>{
+          dot.transition().duration(150).attr("fill",dotColor).attr("r",dotR);
+          hideTooltip();
+        })
+        .on("click",()=>{
+          sendPrompt("Je veux en savoir plus sur Brussels dans Vadilion Digital Smart-In");
+        });
+    }
+
+    if (isSoon) {
+      grp
+        .on("mouseenter",()=>{
+          dot.transition().duration(150).attr("r",dotR+1.5).attr("fill","rgba(255,255,255,0.6)");
+          showTooltip(cx,cy,c.name,"Coming Soon",true);
+        })
+        .on("mouseleave",()=>{
+          dot.transition().duration(150).attr("r",dotR).attr("fill",dotColor);
+          hideTooltip();
+        });
+    }
+
+    if (isPrimary || labelCities.includes(c.name)) {
+      const lx = cx + (isPrimary ? 8 : 5);
+      const ly = cy - (isPrimary ? 8 : 3);
+
+      if (isPrimary) {
+        const labelFill = isReady ? "#ff8a82" : "rgba(255,255,255,0.45)";
+        const bgStroke  = isReady ? "rgba(255,59,48,0.4)" : "rgba(255,255,255,0.12)";
+        const bg = svg.append("rect")
+          .attr("x",lx-1).attr("y",ly-10)
+          .attr("width",c.name.length*6.2+10).attr("height",14).attr("rx",3)
+          .attr("fill","rgba(8,10,18,0.85)").attr("stroke",bgStroke).attr("stroke-width",0.7)
+          .style("opacity",0);
+        const lbl = svg.append("text")
+          .attr("x",lx+4).attr("y",ly)
+          .attr("font-family","Inter,system-ui,sans-serif")
+          .attr("font-size",8.5).attr("font-weight",700)
+          .attr("fill",labelFill).attr("letter-spacing","0.05em")
+          .text(c.name.toUpperCase()).style("opacity",0);
+        setTimeout(()=>{
+          bg.style("animation","fadeLabel .4s ease forwards");
+          lbl.style("animation","fadeLabel .4s ease forwards");
+        },(c.delay+0.25)*1000);
+      } else {
+        const lbl = svg.append("text")
+          .attr("x",lx).attr("y",ly)
+          .attr("font-family","Inter,system-ui,sans-serif")
+          .attr("font-size",7.5).attr("font-weight",500)
+          .attr("fill","rgba(255,255,255,0.38)")
+          .text(c.name.toUpperCase()).style("opacity",0);
+        setTimeout(()=>{
+          lbl.style("animation","fadeLabel .4s ease forwards");
+        },(c.delay+0.2)*1000);
+      }
+    }
+  });
+
+  setTimeout(()=>document.getElementById("overlay-brand").classList.add("show"), 3200);
+  setTimeout(()=>document.getElementById("pw-panel").classList.add("slide-in"), 4000);
+
+  const pwInput = document.getElementById("pw-input");
+  const pwBtn   = document.getElementById("pw-btn");
+  const pwMsg   = document.getElementById("pw-msg");
+
+  function tryPassword() {
+  const val = pwInput.value.trim();
+  if (val === PASSWORD_FREE) {
+    // Succès visuel dans la carte
+    pwInput.classList.add("success");
+    pwMsg.style.color = "rgba(80,220,120,0.9)";
+    pwMsg.style.opacity = "1";
+    pwMsg.textContent = "✓ Access granted";
+    // Envoie le signal à la page principale
+    window.parent.postMessage({ type: "unlock", password: val }, "*");
+  } else {
+    pwInput.classList.add("error");
+    pwMsg.textContent = "✕ Wrong password";
+    pwMsg.style.opacity = "1";
+    setTimeout(() => { pwInput.classList.remove("error"); pwMsg.style.opacity = "0"; }, 1500);
+  }
+}
+
+  pwBtn.addEventListener("click", tryPassword);
+  pwInput.addEventListener("keydown", e=>{ if(e.key==="Enter") tryPassword(); });
+})();
+</script>
