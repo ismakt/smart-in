@@ -793,3 +793,16 @@ window.unlockInternal = function () {
     message.style.color = granted ? "green" : "red";
   }
 };
+
+window.addEventListener("message", function(event) {
+  if (event.data && event.data.type === "unlock") {
+    // Simule l'entrée du mot de passe dans le champ caché
+    const keyInput = document.getElementById("internalKey");
+    if (keyInput) {
+      keyInput.value = event.data.password;
+      window.unlockInternal();
+    }
+  }
+});
+
+
