@@ -1,22 +1,22 @@
 // ============================
 // VARIABLES GLOBALES
 // ============================
- 
+
 let addressMarkers = [];
 let activeAddress = null;
 let activeSector = null;
 let addressInput;
 const MAX_ADDRESS_MARKERS = 3;
- 
+
 var bruxellesLayer;
 var currentThemeLayer = null;
 var activeTheme = null;
 var polygonsOn = true;
- 
+
 // ============================
 // COULEURS & UTILITAIRES
 // ============================
- 
+
 const COLORS = [
   "#f7fbff",
   "#c6dbef",
@@ -24,13 +24,13 @@ const COLORS = [
   "#2171b5",
   "#08306b"
 ];
- 
+
 function parseDecimal(val) {
   if (val == null) return NaN;
   const str = String(val).replace(',', '.').replace(/\s/g, '').replace('%', '');
   return parseFloat(str);
 }
- 
+
 function computeQuantiles(values, n = 5) {
   const sorted = [...values].sort((a, b) => a - b);
   const breaks = [];
@@ -39,11 +39,11 @@ function computeQuantiles(values, n = 5) {
   }
   return breaks;
 }
- 
+
 // ============================
 // THEMES
 // ============================
- 
+
 const ALL_THEMES = [
   // ---------------- Immobilier - Transactions ----------------
   { name: "Total sales 2013-2024",                        file: "merge_total_sales_2013_2024_BX_only_with_geofile.geojson",                  property: "total_sales_2013_2024" },
@@ -54,7 +54,7 @@ const ALL_THEMES = [
   { name: "Appartements vendus 2021",                     file: "immo_nb_appart_sales_2021.geojson",                                        property: "total_sales" },
   { name: "Maisons vendus 2011",                          file: "immo_nb_houses_sales_2011.geojson",                                        property: "total_sales" },
   { name: "Maisons vendus 2021",                          file: "immo_nb_houses_sales_2021.geojson",                                        property: "total_sales" },
- 
+
   // ---------------- Immobilier - Prix ----------------
   { name: "median sale price 2013",                       file: "merge_sales_median_2013_BX_only_with_geofile.geojson",                     property: "MS_P50 (MEDIAN_PRICE)" },
   { name: "median sale price 2023",                       file: "merge_sales_median_2023_BX_only_with_geofile.geojson",                     property: "MS_P50 (MEDIAN_PRICE)" },
@@ -92,17 +92,17 @@ const ALL_THEMES = [
   { name: "Prix median appartements 2021",                file: "immo_median_saleprice_appart_2021.geojson",                                property: "immo_median_saleprice_appart_2021" },
   { name: "Prix median maisons 2011",                     file: "immo_median_saleprice_house_2011.geojson",                                 property: "immo_median_saleprice_house_2011" },
   { name: "Prix median maisons 2021",                     file: "immo_median_saleprice_house_2021.geojson",                                 property: "immo_median_saleprice_house_2021" },
- 
+
   // ---------------- Immobilier - Parc ----------------
   { name: "Logements sociaux",                            file: "immo_nb_logsoc.geojson",                                                   property: "immo_nb_logsoc" },
   { name: "Batiments residentiels",                       file: "immo_nb_bat_resid.geojson",                                                property: "immo_nb_bat_resid" },
   { name: "Parc immobilier 2 a 3 facades",                file: "immo_tx_23fac_houses.geojson",                                             property: "immo_tx_23fac_houses" },
   { name: "Parc immobilier 4 facades",                    file: "immo_tx_4f_houses.geojson",                                                property: "immo_tx_4f_houses" },
   { name: "Parc immobilier immeuble appartements",        file: "immo_tx_immeub_appart.geojson",                                            property: "immo_tx_immeub_appart" },
- 
+
   // ---------------- Tendances ----------------
   { name: "Gentrification",                               file: "gentrification.geojson",                                                   property: "gentrification" },
- 
+
   // ---------------- Sécurité ----------------
   { name: "Vols_2024",         file: "zp_crime_type_vol_2024_bx_geofile.geojson",              property: "vol" },
   { name: "Vols_2014",         file: "zp_crime_type_vol_2014_bx_geofile.geojson",              property: "vol" },
@@ -128,11 +128,11 @@ const ALL_THEMES = [
   { name: "Cambriolages_2024", file: "zp_crime_type_cambriolage_2024_bx_geofile.geojson",      property: "cambriolage" },
   { name: "Cambriolages_2014", file: "zp_crime_type_cambriolage_2014_bx_geofile.geojson",      property: "cambriolage" },
   { name: "Cambriolages_2000", file: "zp_crime_type_cambriolage_2000_bx_geofile.geojson",      property: "cambriolage" },
- 
+
   // ---------------- Espaces verts ----------------
   { name: "Taux vegetation",                        file: "eco_tx_veget.geojson",                          property: "eco_tx_veget" },
   { name: "Taux espaces verts accessibles public",  file: "eco_tx_espacevert_accesspublic.geojson",         property: "eco_tx_espacevert_accesspublic" },
- 
+
   // ---------------- Economics ----------------
   { name: "Avg_Revenue_2023",                       file: "merged_statsector_revenue_BX_only_2023_partialmatch.geojson", property: "MS_AVG_TOT_NET_TAXABLE_INC" },
   { name: "Revenu Médian",                          file: "fin_med_rev.geojson",                            property: "fin_med_rev" },
@@ -164,7 +164,7 @@ const ALL_THEMES = [
   { name: "Taux chomage 50 a 64 ans",              file: "fin_tx_chom_50_64.geojson",                      property: "fin_tx_chom_50_64" },
   { name: "Taux CPAS 18 a 24 ans",                 file: "tx_CPAS_18_24_2021.geojson",                     property: "tx_CPAS_18_24_2021" },
   { name: "Taux GRAPA 65+",                         file: "GRAPA_65+_2022.geojson",                         property: "GRAPA_65+_2022" },
- 
+
   // ---------------- Sociology ----------------
   { name: "Evolution Population 2012-2022 en %",   file: "pop_evo_2012_2022.geojson",                      property: "pop_tx_aug_2012_2022" },
   { name: "Total_Population_2014",                  file: "merged_statsector_population_BX_only_2014_partialmatch.geojson", property: "Total_Population_2014" },
@@ -204,16 +204,16 @@ const ALL_THEMES = [
   { name: "% UK",        file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_uk_2022" },
   { name: "% Guinee",    file: "merged_tx_origins_municipality_BX_only_2022.geojson", property: "tx_guinee_2022" }
 ];
- 
+
 const THEME_INDEX = {};
 ALL_THEMES.forEach(t => { THEME_INDEX[t.name] = t; });
- 
+
 // ============================
 // CACHE DES THEMES
 // ============================
- 
+
 const themeCache = {};
- 
+
 async function preloadThemes() {
   for (const theme of ALL_THEMES) {
     if (theme.name.startsWith('///')) continue;
@@ -226,29 +226,42 @@ async function preloadThemes() {
     }
   }
 }
- 
+
 // Preload après le login pour ne pas bloquer l'affichage initial
 function startPreload() {
   setTimeout(preloadThemes, 1000);
 }
- 
+
 // ============================
-// INITIALISATION CARTE
+// INITIALISATION CARTE (différée au login)
 // ============================
- 
-var map = L.map('map', { zoomControl: false }).setView([50.85, 4.35], 10);
- 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
- 
-map.createPane('communesPane');
-map.getPane('communesPane').style.zIndex = 650;
- 
+
+var map = null; // initialisé après login
+
+function initMap() {
+  if (map) return; // déjà initialisé
+
+  map = L.map('map', { zoomControl: false }).setView([50.85, 4.35], 10);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  map.createPane('communesPane');
+  map.getPane('communesPane').style.zIndex = 650;
+
+  // Charger la couche de base
+  loadBaseLayer();
+
+  // Forcer le recalcul des dimensions après rendu
+  setTimeout(() => map.invalidateSize(), 100);
+  setTimeout(() => map.invalidateSize(), 500);
+}
+
 // ============================
 // UTILITAIRES CARTE
 // ============================
- 
+
 /**
  * FIX : Utilise turf-like point-in-polygon via Leaflet bounds + ray casting
  * Gère les features de type Polygon et MultiPolygon sans planter sur les points
@@ -275,7 +288,7 @@ function pointInFeature(lat, lon, feature) {
     return false;
   }
 }
- 
+
 function leafletRaycast(point, layer) {
   const latlngs = layer.getLatLngs ? layer.getLatLngs() : [];
   const rings = Array.isArray(latlngs[0]) ? latlngs : [latlngs];
@@ -293,7 +306,7 @@ function leafletRaycast(point, layer) {
   }
   return inside;
 }
- 
+
 function getValueFromTheme(theme, lat, lon) {
   const data = themeCache[theme.name];
   if (!data) return "N/A";
@@ -307,7 +320,7 @@ function getValueFromTheme(theme, lat, lon) {
   }
   return "N/A";
 }
- 
+
 async function captureMap() {
   const mapElement = document.getElementById("map");
   // FIX : allowTaint + useCORS pour les tuiles CartoDB
@@ -318,19 +331,19 @@ async function captureMap() {
   });
   return canvas.toDataURL("image/png");
 }
- 
+
 function exportToExcel(data) {
   const worksheet = XLSX.utils.json_to_sheet(data);
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, "Scan Results");
   XLSX.writeFile(workbook, "scan_results.xlsx");
 }
- 
+
 function generatePDF(results, screenshots) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   let y = 10;
- 
+
   doc.setFontSize(14);
   doc.text("Smart-In Report", 10, y);
   y += 10;
@@ -339,7 +352,7 @@ function generatePDF(results, screenshots) {
     doc.text(`Address: ${results[0].address}`, 10, y);
     y += 10;
   }
- 
+
   screenshots.forEach((item) => {
     if (y > 250) { doc.addPage(); y = 10; }
     doc.text(`Theme: ${item.theme}`, 10, y); y += 5;
@@ -349,14 +362,14 @@ function generatePDF(results, screenshots) {
     } catch (e) { /* skip if image fails */ }
     y += 90;
   });
- 
+
   doc.save("scan_report.pdf");
 }
- 
+
 // ============================
 // SECTEUR & MARKERS
 // ============================
- 
+
 function getSectorFromLatlon([lat, lon]) {
   if (!bruxellesLayer) return null;
   let found = null;
@@ -370,7 +383,7 @@ function getSectorFromLatlon([lat, lon]) {
   });
   return found;
 }
- 
+
 function createAddressIcon(id) {
   return L.divIcon({
     className: '',
@@ -384,7 +397,7 @@ function createAddressIcon(id) {
     iconAnchor: [10, 10]
   });
 }
- 
+
 async function geocodeAddress(address) {
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
     address + ', Brussels, Belgium'
@@ -399,16 +412,16 @@ async function geocodeAddress(address) {
     return null;
   }
 }
- 
+
 function addAddressMarker(lat, lon, label) {
   if (addressMarkers.length >= MAX_ADDRESS_MARKERS) return;
   const id = Date.now().toString();
- 
+
   const marker = L.marker([lat, lon], {
     icon: createAddressIcon(id),
     pane: 'markerPane'
   }).addTo(map);
- 
+
   const circle500 = L.circle([lat, lon], {
     radius: 500,
     color: '#ff3b30',
@@ -416,12 +429,12 @@ function addAddressMarker(lat, lon, label) {
     fillColor: '#ff3b30',
     fillOpacity: 0.08
   }).addTo(map);
- 
+
   marker.bindTooltip(label);
   addressMarkers.push({ id, marker, circle500 });
   activeAddress = { lat, lon, text: label };
   activeSector = getSectorFromLatlon([lat, lon]);
- 
+
   setTimeout(() => {
     const closeBtn = document.querySelector(`.close[data-id="${id}"]`);
     if (closeBtn) {
@@ -436,14 +449,14 @@ function addAddressMarker(lat, lon, label) {
       });
     }
   }, 50);
- 
+
   map.setView([lat, lon], Math.max(map.getZoom(), 13));
 }
- 
+
 // ============================
 // LÉGENDE
 // ============================
- 
+
 function renderLegendAuto(title, breaks) {
   const legendDiv = document.querySelector('.legend');
   if (!legendDiv) return;
@@ -460,24 +473,24 @@ function renderLegendAuto(title, breaks) {
   }
   legendDiv.innerHTML = html;
 }
- 
+
 // ============================
 // CHOROPLÈTHE
 // ============================
- 
+
 function buildChoropleth(data, property, themeName) {
   const values = data.features
     .map(f => parseDecimal(f.properties[property]))
     .filter(v => !isNaN(v));
- 
+
   if (values.length === 0) {
     console.warn(`Aucune valeur numérique pour "${property}"`);
     renderLegendAuto(themeName, []);
     return L.geoJSON(data);
   }
- 
+
   const breaks = computeQuantiles(values, 5);
- 
+
   function getColor(d) {
     if (isNaN(d))      return '#cccccc';
     if (d > breaks[3]) return COLORS[4];
@@ -486,7 +499,7 @@ function buildChoropleth(data, property, themeName) {
     if (d > breaks[0]) return COLORS[1];
     return COLORS[0];
   }
- 
+
   const layer = L.geoJSON(data, {
     style: (feature) => {
       const v = parseDecimal(feature.properties[property]);
@@ -497,15 +510,15 @@ function buildChoropleth(data, property, themeName) {
       layer.bindTooltip(`<b>${property}</b>: ${v ?? 'N/A'}`);
     }
   });
- 
+
   renderLegendAuto(themeName, breaks);
   return layer;
 }
- 
+
 // ============================
 // APPLIQUER UN THÈME
 // ============================
- 
+
 function applyTheme(themeName) {
   const theme = THEME_INDEX[themeName];
   if (!theme) {
@@ -521,13 +534,13 @@ function applyTheme(themeName) {
     currentThemeLayer = null;
   }
   activeTheme = themeName;
- 
+
   const loadAndRender = (data) => {
     themeCache[themeName] = data;
     currentThemeLayer = buildChoropleth(data, theme.property, themeName);
     currentThemeLayer.addTo(map);
   };
- 
+
   if (themeCache[themeName]) {
     loadAndRender(themeCache[themeName]);
   } else {
@@ -543,74 +556,85 @@ function applyTheme(themeName) {
       });
   }
 }
- 
+
 // ============================
 // COUCHE DE BASE
 // ============================
- 
-fetch('shapefile_BX_only_geojson_4326.geojson')
-  .then(res => res.json())
-  .then(data => {
-    bruxellesLayer = L.geoJSON(data, {
-      pane: 'communesPane',
-      style: () => ({ color: '#000', weight: 2, fillColor: 'none', fillOpacity: 0 }),
-      onEachFeature: (feature, layer) => {
-        layer.bindTooltip(
-          Object.entries(feature.properties).slice(0, 5).map(([k, v]) => `${k}: ${v}`).join('<br>')
-        );
-      }
-    }).addTo(map);
-    map.fitBounds(bruxellesLayer.getBounds());
-  })
-  .catch(err => console.error("Erreur chargement shapefile:", err));
- 
+
+// ============================
+// COUCHE DE BASE (appelée depuis initMap)
+// ============================
+
+function loadBaseLayer() {
+  fetch('shapefile_BX_only_geojson_4326.geojson')
+    .then(res => res.json())
+    .then(data => {
+      bruxellesLayer = L.geoJSON(data, {
+        pane: 'communesPane',
+        style: () => ({ color: '#000', weight: 2, fillColor: 'none', fillOpacity: 0 }),
+        onEachFeature: (feature, layer) => {
+          layer.bindTooltip(
+            Object.entries(feature.properties).slice(0, 5).map(([k, v]) => `${k}: ${v}`).join('<br>')
+          );
+        }
+      }).addTo(map);
+      map.fitBounds(bruxellesLayer.getBounds());
+    })
+    .catch(err => console.error("Erreur chargement shapefile:", err));
+}
+
 // ============================
 // FIX LOGIN — UN SEUL DOMContentLoaded
 // ============================
- 
+
 document.addEventListener('DOMContentLoaded', () => {
- 
+
   // ── Login ──────────────────────────────────────────────
   const PASSWORD = "1";
   const btnLogin       = document.getElementById("btn-login");
   const passwordInput  = document.getElementById("password-input");
   const passwordCont   = document.getElementById("password-container");
   const mainApp        = document.getElementById("main-app");
- 
+
   function doLogin(pwd) {
     if (pwd === PASSWORD || pwd === "premium123") {
       if (passwordCont) passwordCont.style.display = "none";
       if (mainApp)      mainApp.style.display = "flex";
- 
-      // FIX : révéler la carte et le panneau droit directement
-      // sans dépendre de #internalKey qui n'existe plus
+
+      // Révéler la carte et le panneau droit
       const contentCenter = document.getElementById("protected-content");
       const contentRight  = document.getElementById("protected-content2");
       if (contentCenter) { contentCenter.style.opacity = "1"; contentCenter.style.pointerEvents = "auto"; }
       if (contentRight)  { contentRight.style.opacity  = "1"; contentRight.style.pointerEvents  = "auto"; }
- 
-      // Invalider la taille de la carte après affichage
-      setTimeout(() => map.invalidateSize(), 300);
- 
+
+      // FIX PRINCIPAL : initialiser la carte APRÈS que le DOM soit visible
+      // Leaflet calcule les dimensions de #map — si celui-ci est caché (opacity:0 ou display:none),
+      // la carte se retrouve en 0x0 et ne s'affiche jamais.
+      requestAnimationFrame(() => {
+        initMap();
+        setTimeout(() => { if (map) map.invalidateSize(); }, 200);
+        setTimeout(() => { if (map) map.invalidateSize(); }, 700);
+      });
+
       // Démarrer le préchargement des GeoJSON
       startPreload();
     } else {
       alert("Mot de passe incorrect");
     }
   }
- 
+
   if (btnLogin) {
     btnLogin.addEventListener("click", () => {
       doLogin(passwordInput ? passwordInput.value : "");
     });
   }
- 
+
   if (passwordInput) {
     passwordInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") doLogin(passwordInput.value);
     });
   }
- 
+
   // ── Message depuis l'iframe europe-map ─────────────────
   window.addEventListener("message", (event) => {
     if (!event.data) return;
@@ -624,7 +648,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (city === "Brussels") map.setView([50.85, 4.35], 10);
     }
   });
- 
+
   // ── Input adresse ──────────────────────────────────────
   addressInput = document.getElementById('address-input');
   if (addressInput) {
@@ -642,17 +666,17 @@ document.addEventListener('DOMContentLoaded', () => {
       addressInput.value = '';
     });
   }
- 
+
   // ── Zoom ───────────────────────────────────────────────
   const btnZoomIn  = document.getElementById('zoom-in');
   const btnZoomOut = document.getElementById('zoom-out');
   if (btnZoomIn)  btnZoomIn.addEventListener('click',  () => map.zoomIn());
   if (btnZoomOut) btnZoomOut.addEventListener('click', () => map.zoomOut());
- 
+
   // ── Centrer ────────────────────────────────────────────
   const btnCenter = document.getElementById('btn-center');
   if (btnCenter) btnCenter.addEventListener('click', () => map.setView([50.85, 4.35], 10));
- 
+
   // ── Toggle polygones ───────────────────────────────────
   const btnToggle = document.getElementById('btn-toggle');
   if (btnToggle) {
@@ -669,7 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
- 
+
   // ── Filters OFF ────────────────────────────────────────
   const btnFiltersOff = document.getElementById('btn-filters-off');
   if (btnFiltersOff) {
@@ -687,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
       map.setView([50.85, 4.35], 10);
     });
   }
- 
+
   // ── Dropdowns ──────────────────────────────────────────
   function toggleDropdown(btnId, dropdownId) {
     const btn = document.getElementById(btnId);
@@ -705,11 +729,11 @@ document.addEventListener('DOMContentLoaded', () => {
       dd.style.display = dd.style.display === 'flex' ? 'none' : 'flex';
     });
   }
- 
+
   toggleDropdown('btn-city', 'city-dropdown');
   toggleDropdown('btn-theme', 'theme-dropdown');
   toggleDropdown('btn-filters', 'filters-dropdown');
- 
+
   // ── Info panel ─────────────────────────────────────────
   const btnInfo = document.getElementById('btn-info');
   if (btnInfo) {
@@ -718,7 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (panel) panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
     });
   }
- 
+
   // ── Accordéon thèmes ───────────────────────────────────
   document.querySelectorAll('.theme-group-toggle').forEach(toggle => {
     const baseText = toggle.textContent.replace(/\s*[▸▾]/g, '').trim();
@@ -739,7 +763,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
- 
+
   // ── Clic sur un thème ──────────────────────────────────
   document.querySelectorAll('.theme-submenu div[data-theme]').forEach(item => {
     item.addEventListener('click', function (e) {
@@ -752,7 +776,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (dd) dd.style.display = 'none';
     });
   });
- 
+
   // ── City dropdown ──────────────────────────────────────
   document.querySelectorAll('#city-dropdown div[data-city]').forEach(item => {
     item.addEventListener('click', function () {
@@ -767,7 +791,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
- 
+
   // ── Scan & Save ────────────────────────────────────────
   const btnScanSave = document.getElementById('btn-scan-save');
   if (btnScanSave) {
@@ -777,16 +801,16 @@ document.addEventListener('DOMContentLoaded', () => {
           alert("Veuillez saisir une adresse d'abord");
           return;
         }
- 
+
         btnScanSave.textContent = "Scanning...";
         btnScanSave.disabled = true;
- 
+
         const results    = [];
         const screenshots = [];
- 
+
         for (const theme of ALL_THEMES) {
           if (theme.name.startsWith('///')) continue;
- 
+
           // Charger le thème si pas encore en cache
           if (!themeCache[theme.name]) {
             try {
@@ -794,9 +818,9 @@ document.addEventListener('DOMContentLoaded', () => {
               if (res.ok) themeCache[theme.name] = await res.json();
             } catch (e) { /* skip */ }
           }
- 
+
           const value = getValueFromTheme(theme, activeAddress.lat, activeAddress.lon);
- 
+
           results.push({
             address: activeAddress.text,
             lat:     activeAddress.lat,
@@ -804,7 +828,7 @@ document.addEventListener('DOMContentLoaded', () => {
             theme:   theme.name,
             value:   value
           });
- 
+
           // Screenshot uniquement si le thème est actif (évite 100 captures)
           if (activeTheme === theme.name) {
             try {
@@ -813,12 +837,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (e) { /* skip */ }
           }
         }
- 
+
         exportToExcel(results);
         if (screenshots.length > 0) generatePDF(results, screenshots);
- 
+
         alert("Scan & Save terminé !\nExcel exporté. PDF généré si un thème était actif.");
- 
+
       } catch (err) {
         console.error(err);
         alert("Erreur lors du Scan & Save : " + err.message);
@@ -828,9 +852,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
- 
+
   // ── Resize ─────────────────────────────────────────────
   window.addEventListener('resize', () => setTimeout(() => map.invalidateSize(), 200));
- 
+
   window._map = map;
 });
