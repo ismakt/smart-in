@@ -417,16 +417,7 @@ html, body {
   flex: 1;
 }
  
-/* ============================
-   FIX : #protected-content invisible par défaut
-   Révélé par JS après login
-   ============================ */
-#protected-content,
-#protected-content2 {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-}
+/* #protected-content supprimé — non utilisé dans index.html */
  
 /* ============================
    TOOLTIPS LEAFLET
