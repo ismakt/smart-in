@@ -3,63 +3,63 @@
 <head>
 <meta charset="UTF-8" />
 <title>Smart-In App</title>
- 
+
 <!-- Leaflet CSS & JS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
- 
+
 <!-- Excel -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
- 
+
 <!-- PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
- 
+
 <!-- Screenshot — CDN fiable -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
- 
+
 <!-- Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
- 
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
- 
+
 <body>
- 
+
 <!-- ===================== ÉCRAN LOGIN ===================== -->
 <div id="password-container">
- 
+
   <iframe
     id="europe-map-frame"
     src="europe-map.html"
     style="width:100%; height:340px; border:none; border-radius:14px;"
     scrolling="no">
   </iframe>
- 
+
   <input
     type="password"
     id="password-input"
     placeholder="Enter password"
   >
- 
+
   <button id="btn-login" class="btn">
     Enter
   </button>
- 
+
 </div>
- 
+
 <!-- ===================== APPLICATION ===================== -->
 <!-- FIX : id="main-app" + class="dashboard" alignés avec le JS -->
 <div class="dashboard" id="main-app" style="display:none;">
- 
+
   <div class="left">
     <div class="brand">
       <h1>Vadilion Digital</h1>
       <p>Smart-In — Brussels</p>
     </div>
- 
+
     <div class="controls">
- 
+
       <!-- City -->
       <button id="btn-city" class="btn">Select city</button>
       <div id="city-dropdown" class="dropdown">
@@ -68,16 +68,16 @@
         <div data-city="Nice-Monaco">Nice-Monaco</div>
         <div data-city="Dubai">Dubai</div>
       </div>
- 
+
       <!-- Theme -->
       <button id="btn-theme" class="btn">Select Theme</button>
       <div id="theme-dropdown" class="dropdown">
- 
+
         <!-- Immobilier -->
         <div class="theme-group">
           <div class="theme-group-toggle">Immobilier ▸</div>
           <div class="theme-submenu">
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Transactions ▸</div>
               <div class="theme-submenu">
@@ -91,7 +91,7 @@
                 <div data-theme="Maisons vendus 2021">Maisons vendus 2021</div>
               </div>
             </div>
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Prices ▸</div>
               <div class="theme-submenu">
@@ -133,7 +133,7 @@
                 <div data-theme="///M2 sales price///">///M2 sales price///</div>
               </div>
             </div>
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Parc Immobilier ▸</div>
               <div class="theme-submenu">
@@ -144,7 +144,7 @@
                 <div data-theme="Parc immobilier immeuble appartements">Parc immobilier immeuble appartements</div>
               </div>
             </div>
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Tendances et Projets ▸</div>
               <div class="theme-submenu">
@@ -152,15 +152,15 @@
                 <div data-theme="Gentrification">Gentrification</div>
               </div>
             </div>
- 
+
           </div>
         </div>
- 
+
         <!-- Life Quality -->
         <div class="theme-group">
           <div class="theme-group-toggle">Life Quality ▸</div>
           <div class="theme-submenu">
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Security ▸</div>
               <div class="theme-submenu">
@@ -190,7 +190,7 @@
                 <div data-theme="Cambriolages_2000">Cambriolages_2000</div>
               </div>
             </div>
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Green Space ▸</div>
               <div class="theme-submenu">
@@ -198,22 +198,22 @@
                 <div data-theme="Taux espaces verts accessibles public">Taux espaces verts accessibles public</div>
               </div>
             </div>
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Pollution ▸</div>
               <div class="theme-submenu">
                 <div data-theme="///Air and Noise Pollutions///">///Air and Noise Pollutions///</div>
               </div>
             </div>
- 
+
           </div>
         </div>
- 
+
         <!-- Economics -->
         <div class="theme-group">
           <div class="theme-group-toggle">Economics ▸</div>
           <div class="theme-submenu">
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Niveau de Vie ▸</div>
               <div class="theme-submenu">
@@ -223,11 +223,11 @@
                 <div data-theme="Taux naissances meres etrangeres">Taux naissances meres etrangeres</div>
               </div>
             </div>
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Emploi ▸</div>
               <div class="theme-submenu">
- 
+
                 <div class="theme-group">
                   <div class="theme-group-toggle">Entreprises ▸</div>
                   <div class="theme-submenu">
@@ -242,7 +242,7 @@
                     <div data-theme="Solde migration entreprises 2009 a 2020 Régions">Solde migration Régions</div>
                   </div>
                 </div>
- 
+
                 <div data-theme="Taux emploi">Taux emploi</div>
                 <div data-theme="Taux emploi 15 à 24 ans">Taux emploi 15 à 24 ans</div>
                 <div data-theme="Taux emploi 25 à 49 ans">Taux emploi 25 à 49 ans</div>
@@ -253,10 +253,10 @@
                 <div data-theme="Taux employés">Taux employés</div>
                 <div data-theme="Emplois Institutions Internationales">Emplois Institutions Internationales</div>
                 <div data-theme="Taux fonctionnaires">Taux fonctionnaires</div>
- 
+
               </div>
             </div>
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Difficultées sociales ▸</div>
               <div class="theme-submenu">
@@ -269,15 +269,15 @@
                 <div data-theme="Taux GRAPA 65+">Taux GRAPA 65+</div>
               </div>
             </div>
- 
+
           </div>
         </div>
- 
+
         <!-- Sociology -->
         <div class="theme-group">
           <div class="theme-group-toggle">Sociology ▸</div>
           <div class="theme-submenu">
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Evolutions ▸</div>
               <div class="theme-submenu">
@@ -293,7 +293,7 @@
                 <div data-theme="Densité de Population">Densité de Population</div>
               </div>
             </div>
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Composition Sociale ▸</div>
               <div class="theme-submenu">
@@ -306,7 +306,7 @@
                 <div data-theme="% Population immigrée nationalité étrangère naissance">% Pop. immigrée nat. étrangère</div>
               </div>
             </div>
- 
+
             <div class="theme-group">
               <div class="theme-group-toggle">Composition Origines ▸</div>
               <div class="theme-submenu">
@@ -332,21 +332,21 @@
                 <div data-theme="% Guinee">% Guinee</div>
               </div>
             </div>
- 
+
           </div>
         </div>
- 
+
       </div><!-- /theme-dropdown -->
- 
+
       <!-- FIX : #btn-filters rendu visible et fonctionnel -->
       <button id="btn-filters" class="btn">Filtres</button>
       <div id="filters-dropdown" class="dropdown">
         <div id="filters-content">choose a theme</div>
       </div>
- 
+
     </div><!-- /controls -->
   </div><!-- /left -->
- 
+
   <!-- CENTER -->
   <div class="center">
     <div class="map-card">
@@ -357,44 +357,43 @@
       </div>
     </div>
   </div>
- 
+
   <!-- RIGHT -->
   <div class="right">
     <div class="controls">
- 
+
       <div class="legend"></div>
- 
+
       <div class="custom-info-container">
         <button id="btn-info" class="btn secondary">Info</button>
       </div>
- 
+
       <div id="info-panel" class="dropdown" style="display:none; flex-direction:column; max-height:200px; overflow-y:auto; margin-top:20px;">
         <div class="info-content"></div>
         <button id="btn-save-pdf" class="btn" style="display:none;">Save as PDF</button>
       </div>
- 
+
       <!-- Address -->
       <div class="address-control">
         <input id="address-input" type="text" placeholder="Enter address (Max 3 marks)" title="Enter address" />
         <div id="address-limit" class="address-limit"></div>
       </div>
- 
+
       <button id="btn-scan-save" class="btn">Scan &amp; Save</button>
       <button id="btn-center" class="btn">Center map</button>
       <button id="btn-toggle" class="btn secondary">Polygones OFF</button>
       <button id="btn-filters-off" class="btn secondary">Filters OFF</button>
- 
+
       <div class="custom-zoom-container">
         <button id="zoom-in" class="btn">+</button>
         <button id="zoom-out" class="btn">-</button>
       </div>
- 
+
     </div>
   </div>
- 
+
 </div><!-- /main-app -->
- 
+
 <script src="assets/js/script.js"></script>
 </body>
 </html>
- 
