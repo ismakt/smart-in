@@ -184,7 +184,7 @@ function makeProjection(W, H) {
   const scale = Math.min(W, H) * 2.2;
 
   return d3.geoMercator()
-    .center([10, 47])
+    .center([10, 43])
     .scale(scale)
     .translate([W * 0.50, H * 0.58]);
 }
