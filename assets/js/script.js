@@ -364,19 +364,7 @@ function hideProgress() {
   if (overlay) overlay.remove();
 }
 
-// ── Attendre la fin du chargement des tuiles Leaflet ─────────
-function waitForTiles(timeoutMs = 3000) {
-  return new Promise(resolve => {
-    const deadline = Date.now() + timeoutMs;
-    const check = () => {
-      const loading = document.querySelectorAll('.leaflet-tile-loading');
-      if (loading.length === 0 || Date.now() >= deadline) resolve();
-      else requestAnimationFrame(check);
-    };
-    // Petit délai initial pour que Leaflet lance le chargement
-    setTimeout(check, 120);
-  });
-}
+
 
 // ── Appliquer un thème et attendre son rendu complet ─────────
 function applyThemeAndWait(themeName) {
@@ -411,63 +399,13 @@ function applyThemeAndWait(themeName) {
 }
 
 // ── Capture de la carte — sans déformation ───────────────────
-async function captureMapClean() {
-  const mapEl = document.getElementById('map');
-  if (!mapEl) throw new Error('#map introuvable');
-
-  if (map) { map.invalidateSize({ animate: false }); }
-  await waitForTiles(2500);
-  await sleep(350); // laisser le navigateur finir le repaint
-
-  // Neutraliser les transforms problématiques sur les parents
-  const restored = [];
-  let el = mapEl.parentElement;
-  while (el && el !== document.body) {
-    const t = window.getComputedStyle(el).transform;
-    if (t && t !== 'none') {
-      restored.push({ el, val: el.style.transform });
-      el.style.transform = 'none';
-    }
-    el = el.parentElement;
-  }
-
-  const rect = mapEl.getBoundingClientRect();
-  let dataUrl = null;
-
-  try {
-    const canvas = await html2canvas(mapEl, {
-      useCORS:      true,
-      allowTaint:   false,
-      logging:      false,
-      scale:        window.devicePixelRatio || 1,
-      width:        Math.round(rect.width),
-      height:       Math.round(rect.height),
-      x:            0,
-      y:            0,
-      scrollX:      0,
-      scrollY:      0,
-      windowWidth:  Math.round(rect.width),
-      windowHeight: Math.round(rect.height),
-      onclone: (clonedDoc) => {
-        const cm = clonedDoc.getElementById('map');
-        if (cm) {
-          cm.style.transform   = 'none';
-          cm.style.perspective = 'none';
-          cm.style.overflow    = 'hidden';
-          cm.querySelectorAll('.leaflet-pane, .leaflet-layer, .leaflet-tile-container')
-            .forEach(p => {
-              p.style.transform        = 'none';
-              p.style.webkitTransform  = 'none';
-            });
-        }
-      }
+function captureMapClean() {
+  return new Promise((resolve, reject) => {
+    leafletImage(map, (err, canvas) => {
+      if (err) { reject(err); return; }
+      resolve(canvas.toDataURL('image/png'));
     });
-    dataUrl = canvas.toDataURL('image/png');
-  } finally {
-    restored.forEach(({ el, val }) => { el.style.transform = val; });
-  }
-
-  return dataUrl;
+  });
 }
 
 // ── Export Excel ──────────────────────────────────────────────
@@ -1034,6 +972,22 @@ document.addEventListener('DOMContentLoaded', () => {
           const theme = themes[i];
           showProgress(i, total, theme.name);
 
+
+function waitForTiles(timeoutMs = 3000) {
+  return new Promise(resolve => {
+    const deadline = Date.now() + timeoutMs;
+    const check = () => {
+      const loading = document.querySelectorAll('.leaflet-tile-loading');
+      if (loading.length === 0 || Date.now() >= deadline) resolve();
+      else requestAnimationFrame(check);
+    };
+    setTimeout(check, 120);
+  });
+}
+
+
+
+          
           // 1. Charger et afficher le thème sur la carte
           try {
             await applyThemeAndWait(theme.name);
