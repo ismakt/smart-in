@@ -33,22 +33,29 @@
 <!-- ===================== ÉCRAN LOGIN ===================== -->
 <div id="password-container">
 
-  <iframe
-    id="europe-map-frame"
-    src="europe-map.html"
-    style="width:100%; height:auto; border:none; border-radius:14px;"
-    scrolling="no">
-  </iframe>
+  <div class="login-card">
 
-  <input
-    type="password"
-    id="password-input"
-    placeholder="Enter password"
-  >
+    <iframe
+      id="europe-map-frame"
+      src="europe-map.html"
+      scrolling="no">
+    </iframe>
 
-  <button id="btn-login" class="btn">
-    Enter
-  </button>
+    <div class="login-overlay">
+
+      <input
+        type="password"
+        id="password-input"
+        placeholder="Enter password"
+      >
+
+      <button id="btn-login" class="btn">
+        Unlock
+      </button>
+
+    </div>
+
+  </div>
 
 </div>
 
