@@ -364,15 +364,18 @@ function hideProgress() {
   if (overlay) overlay.remove();
 }
 
-function waitForTiles(timeoutMs = 3000) {
+function waitForTiles(timeoutMs = 4000) {
   return new Promise(resolve => {
     const deadline = Date.now() + timeoutMs;
     const check = () => {
       const loading = document.querySelectorAll('.leaflet-tile-loading');
-      if (loading.length === 0 || Date.now() >= deadline) resolve();
-      else requestAnimationFrame(check);
+      if (loading.length === 0 || Date.now() >= deadline) {
+        setTimeout(resolve, 300); // petit délai post-rendu
+      } else {
+        requestAnimationFrame(check);
+      }
     };
-    setTimeout(check, 120);
+    setTimeout(check, 200);
   });
 }
 
@@ -385,14 +388,17 @@ function applyThemeAndWait(themeName) {
     if (currentThemeLayer) { map.removeLayer(currentThemeLayer); currentThemeLayer = null; }
     activeTheme = themeName;
 
-    const render = (data) => {
-      themeCache[themeName] = data;
-      try {
-        currentThemeLayer = buildChoropleth(data, theme.property, themeName);
-        currentThemeLayer.addTo(map);
-        waitForTiles(2500).then(resolve).catch(resolve);
-      } catch (e) { reject(e); }
-    };
+const render = (data) => {
+  themeCache[themeName] = data;
+  try {
+    currentThemeLayer = buildChoropleth(data, theme.property, themeName);
+    currentThemeLayer.addTo(map);
+    // Laisser le temps au moteur de rendu SVG/Canvas de Leaflet
+    setTimeout(() => {
+      waitForTiles(3000).then(resolve).catch(resolve);
+    }, 500); // ← ajout
+  } catch (e) { reject(e); }
+};
 
     if (themeCache[themeName]) {
       render(themeCache[themeName]);
@@ -408,12 +414,19 @@ function applyThemeAndWait(themeName) {
   });
 }
 
-// ── Capture de la carte — sans déformation ───────────────────
+// ── Capture de la carte 
+
 function captureMapClean() {
   return new Promise((resolve, reject) => {
-    leafletImage(map, (err, canvas) => {
-      if (err) { reject(err); return; }
-      resolve(canvas.toDataURL('image/png'));
+    // Force Leaflet à redessiner tous ses layers
+    map.invalidateSize();
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        leafletImage(map, (err, canvas) => {
+          if (err) { reject(err); return; }
+          resolve(canvas.toDataURL('image/png'));
+        });
+      }, 400);
     });
   });
 }
@@ -996,7 +1009,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
           // 2. Délai repaint visuel
-          await sleep(280);
+          await sleep(800);
 
           // 3. Valeur pour l'adresse (si présente) ou mention globale
           let value = 'N/A';
