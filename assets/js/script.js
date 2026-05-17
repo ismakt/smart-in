@@ -424,9 +424,11 @@ function applyThemeAndWait(themeName) {
 
 function captureMapClean() {
   return new Promise((resolve, reject) => {
+    const mapEl = document.getElementById('map');
+
+    // Masquer markers, cercles, popups
     const paneNames = ['markerPane', 'shadowPane', 'overlayPane', 'popupPane', 'tooltipPane'];
     const saved = {};
-
     paneNames.forEach(name => {
       const el = map.getPane(name);
       if (el) { saved[name] = el.style.display; el.style.display = 'none'; }
@@ -436,16 +438,25 @@ function captureMapClean() {
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        leafletImage(map, (err, canvas) => {
-
-          // Restaurer tous les panes
+        html2canvas(mapEl, {
+          useCORS: true,
+          allowTaint: false,
+          logging: false,
+          scale: 1
+        }).then(canvas => {
+          // Restaurer
           paneNames.forEach(name => {
             const el = map.getPane(name);
             if (el) el.style.display = saved[name] ?? '';
           });
-
-          if (err) { reject(err); return; }
           resolve(canvas.toDataURL('image/png'));
+        }).catch(err => {
+          // Restaurer même en cas d'erreur
+          paneNames.forEach(name => {
+            const el = map.getPane(name);
+            if (el) el.style.display = saved[name] ?? '';
+          });
+          reject(err);
         });
       });
     });
