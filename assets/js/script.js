@@ -424,20 +424,26 @@ function applyThemeAndWait(themeName) {
 
 function captureMapClean() {
   return new Promise((resolve, reject) => {
-    const markerPaneEl = map.getPane('markerPane');
-    const shadowPaneEl = map.getPane('shadowPane');
-    const prevMarker   = markerPaneEl ? markerPaneEl.style.display : '';
-    const prevShadow   = shadowPaneEl ? shadowPaneEl.style.display : '';
-    if (markerPaneEl) markerPaneEl.style.display = 'none';
-    if (shadowPaneEl) shadowPaneEl.style.display = 'none';
+    const paneNames = ['markerPane', 'shadowPane', 'overlayPane', 'popupPane', 'tooltipPane'];
+    const saved = {};
+
+    paneNames.forEach(name => {
+      const el = map.getPane(name);
+      if (el) { saved[name] = el.style.display; el.style.display = 'none'; }
+    });
 
     map.invalidateSize();
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         leafletImage(map, (err, canvas) => {
-          if (markerPaneEl) markerPaneEl.style.display = prevMarker;
-          if (shadowPaneEl) shadowPaneEl.style.display = prevShadow;
+
+          // Restaurer tous les panes
+          paneNames.forEach(name => {
+            const el = map.getPane(name);
+            if (el) el.style.display = saved[name] ?? '';
+          });
+
           if (err) { reject(err); return; }
           resolve(canvas.toDataURL('image/png'));
         });
