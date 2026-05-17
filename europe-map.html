@@ -184,10 +184,13 @@ function makeProjection(W, H) {
   const scale = Math.min(W, H) * 2.5;
 
   return d3.geoMercator()
-    .center([15, 43])
+    .center([15, 47])
     .scale(scale)
     .translate([W * 0.50, H * 0.58]);
 }
+
+
+  
 
   const world     = await d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json");
   const countries = topojson.feature(world, world.objects.countries);
