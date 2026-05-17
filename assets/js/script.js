@@ -387,20 +387,24 @@ function applyThemeAndWait(themeName) {
     const theme = THEME_INDEX[themeName];
     if (!theme) return reject(new Error(`Thème inconnu : ${themeName}`));
 
-    if (currentThemeLayer) { map.removeLayer(currentThemeLayer); currentThemeLayer = null; }
+    if (currentThemeLayer) {
+      try { map.removeLayer(currentThemeLayer); } catch(e) {}
+      currentThemeLayer = null;
+    }
     activeTheme = themeName;
 
-const render = (data) => {
-  themeCache[themeName] = data;
-  try {
-    currentThemeLayer = buildChoropleth(data, theme.property, themeName);
-    currentThemeLayer.addTo(map);
-    // Laisser le temps au moteur de rendu SVG/Canvas de Leaflet
-    setTimeout(() => {
-      waitForTiles(3000).then(resolve).catch(resolve);
-    }, 500); // ← ajout
-  } catch (e) { reject(e); }
-};
+    const render = (data) => {
+      themeCache[themeName] = data;
+      try {
+        currentThemeLayer = buildChoropleth(data, theme.property, themeName);
+        currentThemeLayer.addTo(map);
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            setTimeout(resolve, 800);
+          });
+        });
+      } catch (e) { reject(e); }
+    };
 
     if (themeCache[themeName]) {
       render(themeCache[themeName]);
@@ -410,7 +414,7 @@ const render = (data) => {
         .then(render)
         .catch(err => {
           console.warn(`Chargement échoué : ${themeName}`, err);
-          resolve(); // on continue même si le fichier manque
+          resolve();
         });
     }
   });
@@ -420,15 +424,24 @@ const render = (data) => {
 
 function captureMapClean() {
   return new Promise((resolve, reject) => {
-    // Force Leaflet à redessiner tous ses layers
+    const markerPaneEl = map.getPane('markerPane');
+    const shadowPaneEl = map.getPane('shadowPane');
+    const prevMarker   = markerPaneEl ? markerPaneEl.style.display : '';
+    const prevShadow   = shadowPaneEl ? shadowPaneEl.style.display : '';
+    if (markerPaneEl) markerPaneEl.style.display = 'none';
+    if (shadowPaneEl) shadowPaneEl.style.display = 'none';
+
     map.invalidateSize();
+
     requestAnimationFrame(() => {
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         leafletImage(map, (err, canvas) => {
+          if (markerPaneEl) markerPaneEl.style.display = prevMarker;
+          if (shadowPaneEl) shadowPaneEl.style.display = prevShadow;
           if (err) { reject(err); return; }
           resolve(canvas.toDataURL('image/png'));
         });
-      }, 400);
+      });
     });
   });
 }
@@ -993,27 +1006,25 @@ document.addEventListener('DOMContentLoaded', () => {
       const screenshots = [];
 
       try {
-        for (let i = 0; i < themes.length; i++) {
+for (let i = 0; i < themes.length; i++) {
           const theme = themes[i];
           showProgress(i, total, theme.name);
 
-
-
-
-
-
-          
-          // 1. Charger et afficher le thème sur la carte
+          // 1. Charger et afficher le thème (attend rendu complet)
           try {
             await applyThemeAndWait(theme.name);
           } catch (e) {
             console.warn(`Thème ignoré (erreur) : ${theme.name}`, e);
+            if (currentThemeLayer) {
+              try { map.removeLayer(currentThemeLayer); } catch(_) {}
+              currentThemeLayer = null;
+            }
           }
 
-          // 2. Délai repaint visuel
-          await sleep(800);
+          // 2. Délai supplémentaire tuiles + SVG
+          await sleep(600);
 
-          // 3. Valeur pour l'adresse (si présente) ou mention globale
+          // 3. Valeur pour l'adresse
           let value = 'N/A';
           if (hasAddr && lat !== null && lon !== null) {
             value = getValueFromTheme(theme, lat, lon);
@@ -1021,7 +1032,7 @@ document.addEventListener('DOMContentLoaded', () => {
             value = '(global — aucune adresse sélectionnée)';
           }
 
-          // 4. Capture de la carte
+          // 4. Capture
           let shot = null;
           try {
             shot = await captureMapClean();
