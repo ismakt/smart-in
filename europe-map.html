@@ -192,12 +192,102 @@ html,body{width:100%;height:100%;overflow:hidden}
   const countries = topojson.feature(world, world.objects.countries);
   const borders   = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
 
-  const europeIds = new Set([
-    "008","040","056","100","191","196","203","208","233","246","250","276","300",
-    "348","352","372","380","428","440","442","470","528","578","616","620","642",
-    "703","705","724","752","756","804","826","807","688","020","031","051","070",
-    "112","498","499","336","674","744"
-  ]);
+const europeIds = new Set([
+  // Europe occidentale
+  "250", // France
+  "056", // Belgium
+  "528", // Netherlands
+  "276", // Germany
+  "442", // Luxembourg
+  "756", // Switzerland
+  "040", // Austria
+  "826", // United Kingdom
+  "372", // Ireland
+
+  // Europe du Sud
+  "724", // Spain
+  "620", // Portugal
+  "380", // Italy
+  "470", // Malta
+  "300", // Greece
+  "196", // Cyprus
+
+  // Scandinavie / Nord
+  "578", // Norway
+  "752", // Sweden
+  "246", // Finland
+  "208", // Denmark
+  "352", // Iceland
+
+  // Europe centrale
+  "616", // Poland
+  "203", // Czechia
+  "703", // Slovakia
+  "348", // Hungary
+  "705", // Slovenia
+
+  // Balkans
+  "191", // Croatia
+  "070", // Bosnia and Herzegovina
+  "688", // Serbia
+  "499", // Montenegro
+  "807", // North Macedonia
+  "008", // Albania
+  "300", // Greece
+  "100", // Bulgaria
+  "642", // Romania
+  "498", // Moldova
+  "688", // Serbia
+  "070", // Bosnia
+
+  // Baltique
+  "233", // Estonia
+  "428", // Latvia
+  "440", // Lithuania
+
+  // Europe de l’Est
+  "804", // Ukraine
+  "112", // Belarus
+
+  // Caucase
+  "268", // Georgia
+  "051", // Armenia
+  "031", // Azerbaijan
+
+  // Russie européenne
+  "643", // Russia
+
+  // Turquie
+  "792", // Turkey
+
+  // Microstates
+  "020", // Andorra
+  "674", // San Marino
+  "336", // Vatican
+  "438", // Liechtenstein
+  "492", // Monaco
+
+  // Kosovo (souvent absent selon dataset)
+  "383", // Kosovo
+
+  // Maghreb (optionnel géopolitique/méditerranéen)
+  "012", // Algeria
+  "504", // Morocco
+  "788", // Tunisia
+  "434", // Libya
+  "818", // Egypt
+
+  // Levant (optionnel)
+  "422", // Lebanon
+  "376", // Israel
+  "400", // Jordan
+  "760", // Syria
+
+  // Mer Noire / Eurasie
+  "398", // Kazakhstan
+]);
+
+  
 
 const cities = [
   {name:"Brussels",     lon:4.35,  lat:50.85, status:"ready",          delay:1.0},
