@@ -377,9 +377,27 @@ const labelCities = [
       const isReady   = c.status === "ready";
       const isSoon    = c.status === "development..";
       const dotR      = isPrimary ? Math.max(3, W * 0.007) : Math.max(2, W * 0.004);
-      const dotColor  = isReady ? "#ff3b30" : "rgba(255,255,255,0.45)";
-      const dotStroke = isReady ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.55)";
 
+      
+let dotColor;
+let dotStroke;
+
+if (c.name === "Brussels") {
+  dotColor = "#32d74b"; // vert
+  dotStroke = "rgba(255,255,255,0.95)";
+}
+else if (c.name === "Paris" || c.name === "Nice-Monaco") {
+  dotColor = "#ffd84d"; // jaune
+  dotStroke = "rgba(255,255,255,0.9)";
+}
+else {
+  dotColor = "rgba(255,255,255,0.45)"; // gris
+  dotStroke = "rgba(255,255,255,0.55)";
+}
+
+
+
+      
       if (isReady) {
         [0, 1].forEach(i => {
           const r = svg.append("circle")
