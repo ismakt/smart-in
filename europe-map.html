@@ -180,13 +180,14 @@ html,body{width:100%;height:100%;overflow:hidden}
     return { W: container.clientWidth, H: container.clientHeight };
   }
 
-  function makeProjection(W, H) {
-    const scale = Math.min(W, H) * 1.22;
-    return d3.geoMercator()
-      .center([14, 53])
-      .scale(scale)
-      .translate([W * 0.50, H * 0.52]);
-  }
+function makeProjection(W, H) {
+  const scale = Math.min(W, H) * 1.00;
+
+  return d3.geoMercator()
+    .center([20, 43])
+    .scale(scale)
+    .translate([W * 0.50, H * 0.58]);
+}
 
   const world     = await d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json");
   const countries = topojson.feature(world, world.objects.countries);
