@@ -8,12 +8,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;overflow:hidden}
 .wrap{
-background:linear-gradient(
-  180deg,
-  #0f1724 0%,
-  #111827 45%,
-  #0b1220 100%
-);
+  background:#060709;
   width:100%;
   height:100vh;
   display:flex;
@@ -30,14 +25,13 @@ background:linear-gradient(
   flex-shrink:0;
 }
 .brand-name{
-  font-size:clamp(20px,2.4vw,26px);
+  font-size:clamp(10px,1.2vw,13px);
   font-weight:700;letter-spacing:.09em;color:#ffd84d;
   opacity:0;animation:fu .5s ease forwards .3s;
 }
-  
 .brand-sub{
-  font-size:clamp(16px,1.8vw,20px);
-  color:rgba(255,255,255,.82);
+  font-size:clamp(9px,1vw,11px);
+  color:rgba(255,255,255,.38);margin-top:2px;
   opacity:0;animation:fu .5s ease forwards .5s;
 }
 .live-badge{
@@ -50,12 +44,10 @@ background:linear-gradient(
 .live-dot{width:5px;height:5px;border-radius:50%;background:#ff3b30;animation:blink 1.3s ease-in-out infinite}
 .live-txt{font-size:clamp(8px,.9vw,10px);font-weight:600;color:#ff7b73;letter-spacing:.06em}
 .map-container{
-  
   flex:1;
   position:relative;
   overflow:hidden;
   min-height:0;
-  filter: brightness(1.08) contrast(1.08);
 }
 #map-svg{
   display:block;
@@ -157,6 +149,10 @@ background:linear-gradient(
 
   <div class="map-container">
     <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"></svg>
+    <div id="overlay-brand">
+      <div class="ob-name">VADILION DIGITAL</div>
+      <div class="ob-sub">SMART-IN &nbsp;·&nbsp; BRUSSELS</div>
+    </div>
     <div id="pw-panel">
       <span id="pw-label">ENTER PASSWORD</span>
       <input id="pw-input" type="password" placeholder="••••••••"/>
@@ -206,15 +202,26 @@ background:linear-gradient(
   ]);
 
   const cities = [
-    {name:"Brussels",  lon:4.35,  lat:50.85, status:"ready",    delay:1.0},
-    {name:"Paris",     lon:2.35,  lat:48.85, status:"in development...",     delay:1.2},
-    {name:"Nice-Monaco",      lon:7.26,  lat:43.71, status:"in development...",     delay:1.3},
-    {name:"London",    lon:-0.12, lat:51.51, status:"in development...",delay:1.5},
-    {name:"Liège",     lon:5.56,  lat:50.62, status:"in development...",    delay:1.6},
-    {name:"Barcelona", lon:2.17,  lat:41.39, status:"in development...",delay:1.7},
-    {name:"Milan",     lon:9.19,  lat:45.46, status:"in development...",delay:1.8},
-    {name:"Lisbon",    lon:-9.14, lat:38.72, status:"in development...",delay:1.9},
-
+    {name:"Brussels",  lon:4.35,  lat:50.85, status:"ready",    delay:1.4},
+    {name:"Paris",     lon:2.35,  lat:48.85, status:"soon",     delay:1.7},
+    {name:"Nice",      lon:7.26,  lat:43.71, status:"soon",     delay:2.0},
+    {name:"London",    lon:-0.12, lat:51.51, status:"secondary",delay:1.0},
+    {name:"Amsterdam", lon:4.90,  lat:52.37, status:"secondary",delay:1.05},
+    {name:"Berlin",    lon:13.40, lat:52.52, status:"secondary",delay:1.1},
+    {name:"Madrid",    lon:-3.70, lat:40.42, status:"secondary",delay:1.15},
+    {name:"Rome",      lon:12.50, lat:41.90, status:"secondary",delay:1.2},
+    {name:"Vienna",    lon:16.37, lat:48.21, status:"secondary",delay:1.22},
+    {name:"Zurich",    lon:8.54,  lat:47.38, status:"secondary",delay:1.25},
+    {name:"Barcelona", lon:2.17,  lat:41.39, status:"secondary",delay:1.27},
+    {name:"Milan",     lon:9.19,  lat:45.46, status:"secondary",delay:1.28},
+    {name:"Stockholm", lon:18.07, lat:59.33, status:"secondary",delay:1.3},
+    {name:"Warsaw",    lon:21.01, lat:52.23, status:"secondary",delay:1.32},
+    {name:"Prague",    lon:14.42, lat:50.08, status:"secondary",delay:1.33},
+    {name:"Munich",    lon:11.58, lat:48.14, status:"secondary",delay:1.34},
+    {name:"Lisbon",    lon:-9.14, lat:38.72, status:"secondary",delay:1.35},
+    {name:"Athens",    lon:23.73, lat:37.98, status:"secondary",delay:1.36},
+    {name:"Budapest",  lon:19.04, lat:47.50, status:"secondary",delay:1.37},
+    {name:"Copenhagen",lon:12.57, lat:55.68, status:"secondary",delay:1.38},
   ];
 
   const primaryCities = ["Brussels","Paris","Nice"];
@@ -249,26 +256,20 @@ background:linear-gradient(
 
     svg.selectAll("*").remove();
 
-    svg.append("rect")
-  .attr("width", W)
-  .attr("height", H)
-  .attr("fill", "#101826");
+    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#0a0f1a");
 
     const grat = d3.geoGraticule().step([10, 10]);
     svg.append("path").datum(grat()).attr("d", path)
-      .attr("fill","none").attr("stroke","rgba(255,255,255,0.07)").attr("stroke-width",0.4);
+      .attr("fill","none").attr("stroke","rgba(255,255,255,0.035)").attr("stroke-width",0.4);
 
     svg.append("g").selectAll("path")
       .data(countries.features.filter(d => europeIds.has(d.id)))
       .join("path").attr("d", path)
-      .attr("fill","#1a2433")
-.attr("stroke","#3a4d6b")
-.attr("stroke-width",1.1);
+      .attr("fill","#111827").attr("stroke","#1e2d45").attr("stroke-width",0.7);
 
     svg.append("path").datum(borders).attr("d", path)
-.attr("stroke","rgba(120,160,220,0.35)")
-.attr("stroke-width",0.9);
-    
+      .attr("fill","none").attr("stroke","#1e3050").attr("stroke-width",0.5);
+
     const connPairs = [["Brussels","Paris"],["Paris","Nice"]];
     connPairs.forEach(([a, b]) => {
       const ca = cities.find(c => c.name === a);
@@ -446,3 +447,29 @@ background:linear-gradient(
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
