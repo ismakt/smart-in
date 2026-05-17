@@ -198,32 +198,28 @@ html,body{width:100%;height:100%;overflow:hidden}
     "112","498","499","336","674","744"
   ]);
 
-  const cities = [
-    {name:"Brussels",  lon:4.35,  lat:50.85, status:"ready",    delay:1.4},
-    {name:"Paris",     lon:2.35,  lat:48.85, status:"soon",     delay:1.7},
-    {name:"Nice",      lon:7.26,  lat:43.71, status:"soon",     delay:2.0},
-    {name:"London",    lon:-0.12, lat:51.51, status:"secondary",delay:1.0},
-    {name:"Amsterdam", lon:4.90,  lat:52.37, status:"secondary",delay:1.05},
-    {name:"Berlin",    lon:13.40, lat:52.52, status:"secondary",delay:1.1},
-    {name:"Madrid",    lon:-3.70, lat:40.42, status:"secondary",delay:1.15},
-    {name:"Rome",      lon:12.50, lat:41.90, status:"secondary",delay:1.2},
-    {name:"Vienna",    lon:16.37, lat:48.21, status:"secondary",delay:1.22},
-    {name:"Zurich",    lon:8.54,  lat:47.38, status:"secondary",delay:1.25},
-    {name:"Barcelona", lon:2.17,  lat:41.39, status:"secondary",delay:1.27},
-    {name:"Milan",     lon:9.19,  lat:45.46, status:"secondary",delay:1.28},
-    {name:"Stockholm", lon:18.07, lat:59.33, status:"secondary",delay:1.3},
-    {name:"Warsaw",    lon:21.01, lat:52.23, status:"secondary",delay:1.32},
-    {name:"Prague",    lon:14.42, lat:50.08, status:"secondary",delay:1.33},
-    {name:"Munich",    lon:11.58, lat:48.14, status:"secondary",delay:1.34},
-    {name:"Lisbon",    lon:-9.14, lat:38.72, status:"secondary",delay:1.35},
-    {name:"Athens",    lon:23.73, lat:37.98, status:"secondary",delay:1.36},
-    {name:"Budapest",  lon:19.04, lat:47.50, status:"secondary",delay:1.37},
-    {name:"Copenhagen",lon:12.57, lat:55.68, status:"secondary",delay:1.38},
-  ];
+const cities = [
+  {name:"Brussels",     lon:4.35,  lat:50.85, status:"ready",          delay:1.0},
 
-  const primaryCities = ["Brussels","Paris","Nice"];
-  const labelCities   = ["London","Amsterdam","Berlin","Madrid","Rome","Stockholm","Vienna","Barcelona","Lisbon","Athens"];
+  {name:"Paris",        lon:2.35,  lat:48.85, status:"development..",    delay:1.2},
+  {name:"Nice-Monaco",  lon:7.26,  lat:43.71, status:"development..",    delay:1.3},
+  {name:"London",       lon:-0.12, lat:51.51, status:"development..",    delay:1.5},
+  {name:"Liège",        lon:5.56,  lat:50.62, status:"development..",    delay:1.6},
+  {name:"Barcelona",    lon:2.17,  lat:41.39, status:"development..",    delay:1.7},
+  {name:"Milan",        lon:9.19,  lat:45.46, status:"development..",    delay:1.8},
+  {name:"Lisbon",       lon:-9.14, lat:38.72, status:"development..",    delay:1.9},
+];
 
+  const primaryCities = ["Brussels"];
+const labelCities = [
+  "Paris",
+  "Nice-Monaco",
+  "London",
+  "Liège",
+  "Barcelona",
+  "Milan",
+  "Lisbon"
+];
   const tooltip  = document.getElementById("city-tooltip");
   const ttName   = document.getElementById("tt-name");
   const ttStatus = document.getElementById("tt-status");
@@ -253,7 +249,7 @@ html,body{width:100%;height:100%;overflow:hidden}
 
     svg.selectAll("*").remove();
 
-    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#0a0f1a");
+    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#101826");
 
     const grat = d3.geoGraticule().step([10, 10]);
     svg.append("path").datum(grat()).attr("d", path)
@@ -286,7 +282,7 @@ html,body{width:100%;height:100%;overflow:hidden}
       const [cx, cy] = proj([c.lon, c.lat]);
       const isPrimary = primaryCities.includes(c.name);
       const isReady   = c.status === "ready";
-      const isSoon    = c.status === "soon";
+      const isSoon    = c.status === "development..";
       const dotR      = isPrimary ? Math.max(3, W * 0.007) : Math.max(2, W * 0.004);
       const dotColor  = isReady ? "#ff3b30" : "rgba(255,255,255,0.45)";
       const dotStroke = isReady ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.2)";
@@ -349,7 +345,7 @@ html,body{width:100%;height:100%;overflow:hidden}
         grp
           .on("mouseenter", () => {
             dot.transition().duration(150).attr("r", dotR * 1.4).attr("fill","rgba(255,255,255,0.65)");
-            showTooltip(cx, cy, c.name, "Coming Soon", true);
+            showTooltip(cx, cy, c.name, "In Development..", true);
           })
           .on("mouseleave", () => {
             dot.transition().duration(150).attr("r",dotR).attr("fill",dotColor);
@@ -444,29 +440,4 @@ html,body{width:100%;height:100%;overflow:hidden}
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
