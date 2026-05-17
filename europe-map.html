@@ -250,7 +250,7 @@ const labelCities = [
 
     svg.selectAll("*").remove();
 
-    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#101826");
+    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#223047");
 
     const grat = d3.geoGraticule().step([10, 10]);
     svg.append("path").datum(grat()).attr("d", path)
@@ -286,7 +286,7 @@ const labelCities = [
       const isSoon    = c.status === "development..";
       const dotR      = isPrimary ? Math.max(3, W * 0.007) : Math.max(2, W * 0.004);
       const dotColor  = isReady ? "#ff3b30" : "rgba(255,255,255,0.45)";
-      const dotStroke = isReady ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.2)";
+      const dotStroke = isReady ? "rgba(255,255,255,1)" : "rgba(255,255,255,0.55)";
 
       if (isReady) {
         [0, 1].forEach(i => {
@@ -358,7 +358,13 @@ const labelCities = [
       if (isPrimary || labelCities.includes(c.name)) {
         const lx = cx + dotR + 3;
         const ly = cy - dotR - 2;
-        const labelFill = isReady ? "#ff8a82" : isSoon ? "rgba(255,255,255,0.45)" : "rgba(255,255,255,0.38)";
+        
+const labelFill = isReady
+  ? "#ffb0aa"
+  : isSoon
+    ? "rgba(255,255,255,0.88)"
+    : "rgba(255,255,255,0.75)";
+        
         const labelW = c.name.length * fontSize * 0.62 + 8;
 
         if (isPrimary) {
