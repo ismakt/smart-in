@@ -1093,7 +1093,15 @@ for (let i = 0; i < themes.length; i++) {
   }
 
   // ── Resize ──────────────────────────────────────────────────
-  window.addEventListener('resize', () => setTimeout(() => map.invalidateSize(), 200));
+  
+window.addEventListener('resize', () => {
+  setTimeout(() => {
+    if (map) {
+      map.invalidateSize();
+    }
+  }, 200);
+});
 
+  
   window._map = map;
 });
