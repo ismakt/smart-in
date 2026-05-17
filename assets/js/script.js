@@ -364,7 +364,17 @@ function hideProgress() {
   if (overlay) overlay.remove();
 }
 
-
+function waitForTiles(timeoutMs = 3000) {
+  return new Promise(resolve => {
+    const deadline = Date.now() + timeoutMs;
+    const check = () => {
+      const loading = document.querySelectorAll('.leaflet-tile-loading');
+      if (loading.length === 0 || Date.now() >= deadline) resolve();
+      else requestAnimationFrame(check);
+    };
+    setTimeout(check, 120);
+  });
+}
 
 // ── Appliquer un thème et attendre son rendu complet ─────────
 function applyThemeAndWait(themeName) {
@@ -973,17 +983,7 @@ document.addEventListener('DOMContentLoaded', () => {
           showProgress(i, total, theme.name);
 
 
-function waitForTiles(timeoutMs = 3000) {
-  return new Promise(resolve => {
-    const deadline = Date.now() + timeoutMs;
-    const check = () => {
-      const loading = document.querySelectorAll('.leaflet-tile-loading');
-      if (loading.length === 0 || Date.now() >= deadline) resolve();
-      else requestAnimationFrame(check);
-    };
-    setTimeout(check, 120);
-  });
-}
+
 
 
 
