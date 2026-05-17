@@ -241,13 +241,14 @@ function startPreload() {
 
 var map = null;
 
+
 function initMap() {
   if (map) return;
-
   map = L.map('map', { zoomControl: false }).setView([50.85, 4.35], 10);
 
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
+    attribution: '&copy; OpenStreetMap contributors',
+    crossOrigin: true
   }).addTo(map);
 
   map.createPane('communesPane');
@@ -258,6 +259,7 @@ function initMap() {
   setTimeout(() => map.invalidateSize(), 100);
   setTimeout(() => map.invalidateSize(), 500);
 }
+
 
 // ============================
 // UTILITAIRES CARTE
