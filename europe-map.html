@@ -6,7 +6,7 @@
 <title>Vadilion Digital — Europe Map</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden; background:#000}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
 .wrap{
   background:#060709;
   width:100%;
@@ -23,7 +23,7 @@ html,body{width:100%;height:100%;overflow:hidden; background:#000}
   align-items:flex-start;
   padding:clamp(8px,2vh,18px) clamp(10px,2vw,22px) 0;
   flex-shrink:0;
-   min-height:72px;
+  min-height:72px;
 }
 .brand-name{
   font-size:clamp(13px,1.6vw,17px);
@@ -57,64 +57,84 @@ html,body{width:100%;height:100%;overflow:hidden; background:#000}
   position:absolute;
   top:0;left:0;
 }
-#overlay-brand{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  text-align:center;opacity:0;pointer-events:none;
-  transition:opacity .8s ease;z-index:5;
-}
-#overlay-brand.show{opacity:1}
-.ob-name{
-  font-size:clamp(18px,3.5vw,36px);
-  font-weight:800;color:#ffd84d;letter-spacing:.1em;
-  text-shadow:0 0 40px rgba(255,216,77,0.2);
-  white-space:nowrap;
-}
-.ob-sub{
-  font-size:clamp(9px,1.2vw,13px);
-  font-weight:500;color:rgba(255,255,255,0.45);
-  letter-spacing:.14em;margin-top:4px;
-}
-#pw-panel{
+
+/* AUTH PANEL */
+#auth-panel{
   position:absolute;
   bottom:clamp(12px,2.5vh,28px);
   right:clamp(10px,2vw,24px);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  opacity:0;
+  transform:translateX(-80px);
+  z-index:10;
+}
+#auth-panel.slide-in{animation:slideIn .7s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes slideIn{from{opacity:0;transform:translateX(-80px)}to{opacity:1;transform:translateX(0)}}
+
+.auth-block{
   background:rgba(6,7,9,0.92);
   border:1px solid rgba(255,255,255,0.08);
   border-radius:10px;
-  padding:clamp(8px,1.2vh,12px) clamp(10px,1.5vw,16px);
-  display:flex;align-items:center;
-  gap:clamp(6px,1vw,10px);
-  opacity:0;transform:translateX(-80px);
-  z-index:10;
-  flex-wrap:wrap;
-  max-width:calc(100% - 20px);
+  padding:12px 16px;
+  display:flex;
+  flex-direction:column;
+  gap:9px;
+  width:220px;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
 }
-#pw-panel.slide-in{animation:slideIn .7s cubic-bezier(.22,1,.36,1) forwards}
-@keyframes slideIn{from{opacity:0;transform:translateX(-80px)}to{opacity:1;transform:translateX(0)}}
-#pw-label{
-  font-size:clamp(9px,1vw,11px);font-weight:600;
-  color:rgba(255,255,255,0.45);letter-spacing:.07em;white-space:nowrap;
+
+.block-title{
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  margin-bottom:2px;
 }
-#pw-input{
-  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);
-  border-radius:7px;padding:5px 8px;color:#eaeef7;
-  font-size:clamp(10px,1.1vw,12px);
+.block-title.free{color:#39e07a;text-shadow:0 0 8px rgba(57,224,122,0.4)}
+.block-title.premium{color:#ff7b73}
+
+.pw-input{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:7px;padding:5px 9px;color:#eaeef7;
+  font-size:12px;
   font-family:"Inter",system-ui,sans-serif;
-  outline:none;width:clamp(80px,12vw,130px);transition:border-color .2s;
+  outline:none;width:100%;transition:border-color .2s;
 }
-#pw-input:focus{border-color:rgba(255,59,48,0.5)}
-#pw-input::placeholder{color:rgba(255,255,255,0.2)}
-#pw-input.error{border-color:rgba(255,59,48,0.8);animation:shake .3s ease}
-#pw-input.success{border-color:rgba(80,220,120,0.7)}
-#pw-btn{
-  background:rgba(255,59,48,0.15);border:1px solid rgba(255,59,48,0.35);
-  border-radius:7px;padding:5px 10px;color:#ff7b73;
-  font-size:clamp(9px,1vw,11px);font-weight:600;cursor:pointer;
-  font-family:"Inter",system-ui,sans-serif;transition:background .2s;white-space:nowrap;
+.pw-input:focus{border-color:rgba(255,59,48,0.5)}
+.pw-input::placeholder{color:rgba(255,255,255,0.2)}
+.pw-input.error{border-color:rgba(255,59,48,0.8);animation:shake .3s ease}
+.pw-input.success{border-color:rgba(80,220,120,0.7)}
+
+.auth-btn{
+  border-radius:7px;padding:6px 12px;
+  font-size:11px;font-weight:700;cursor:pointer;
+  font-family:"Inter",system-ui,sans-serif;
+  transition:background .2s;
+  white-space:nowrap;letter-spacing:.06em;
+  width:100%;
 }
-#pw-btn:hover{background:rgba(255,59,48,0.28)}
-#pw-msg{font-size:clamp(9px,1vw,10px);white-space:nowrap;opacity:0;transition:opacity .3s}
+.auth-btn.free{
+  background:rgba(57,224,122,0.12);
+  border:1px solid rgba(57,224,122,0.4);
+  color:#39e07a;
+}
+.auth-btn.free:hover{background:rgba(57,224,122,0.25)}
+.auth-btn.premium{
+  background:rgba(255,59,48,0.12);
+  border:1px solid rgba(255,59,48,0.38);
+  color:#ff7b73;
+}
+.auth-btn.premium:hover{background:rgba(255,59,48,0.25)}
+
+.auth-msg{
+  font-size:10px;white-space:nowrap;
+  opacity:0;transition:opacity .3s;min-height:13px;
+}
+
 #city-tooltip{
   position:absolute;background:rgba(8,10,18,0.95);
   border:1px solid rgba(255,59,48,0.45);border-radius:8px;
@@ -123,20 +143,9 @@ html,body{width:100%;height:100%;overflow:hidden; background:#000}
 }
 .tt-name{font-weight:700;font-size:clamp(10px,1.1vw,12px);color:#ff7b73;margin-bottom:2px}
 .tt-status{color:rgba(255,255,255,0.5);font-size:clamp(8px,.9vw,10px)}
-
-.pw-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: #ffd84d; /* vert */
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-
-  
 #city-tooltip.soon .tt-name{color:rgba(255,255,255,0.6)}
 #city-tooltip.soon{border-color:rgba(255,255,255,0.15)}
+
 @keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
@@ -162,21 +171,25 @@ html,body{width:100%;height:100%;overflow:hidden; background:#000}
 
   <div class="map-container">
     <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"></svg>
-    
-    <div id="pw-panel">
-      <div class="pw-title">PREMIUM ACCESS</div>
-      <span id="pw-label">ENTER PASSWORD</span>
-      <input id="pw-input" type="password" placeholder="••••••••"/>
-      <button id="pw-btn">Unlock</button>
-      <span id="pw-msg"></span>
+
+    <!-- AUTH : FREE (haut) + PREMIUM (bas) -->
+    <div id="auth-panel">
+
+      <div class="auth-block">
+        <div class="block-title free">FREE LIMITED ACCESS</div>
+        <button class="auth-btn free" id="free-btn">Enter</button>
+        <span class="auth-msg" id="free-msg"></span>
+      </div>
+
+      <div class="auth-block">
+        <div class="block-title premium">PREMIUM ACCESS</div>
+        <input class="pw-input" id="pw-input" type="password" placeholder="••••••••"/>
+        <button class="auth-btn premium" id="pw-btn">Unlock</button>
+        <span class="auth-msg" id="pw-msg"></span>
+      </div>
+
     </div>
 
-        <div id="pw-panel">
-      <div class="pw-title">FREE LIMITED ACCESS</div>
-      <button id="pw-btn">Enter</button>
-      <span id="pw-msg"></span>
-    </div>
-    
     <div id="city-tooltip">
       <div class="tt-name" id="tt-name"></div>
       <div class="tt-status" id="tt-status"></div>
@@ -188,6 +201,7 @@ html,body{width:100%;height:100%;overflow:hidden; background:#000}
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script>
 (async () => {
+  const PASSWORD_FREE    = "free";
   const PASSWORD_PREMIUM = "1";
 
   const svgEl     = document.getElementById("map-svg");
@@ -195,160 +209,61 @@ html,body{width:100%;height:100%;overflow:hidden; background:#000}
   const container = document.querySelector(".map-container");
   const svg       = d3.select(svgEl);
 
-  function getDims() {
-    return { W: container.clientWidth, H: container.clientHeight };
+  function getDims() { return { W: container.clientWidth, H: container.clientHeight }; }
+
+  function makeProjection(W, H) {
+    return d3.geoMercator()
+      .center([8, 43])
+      .scale(Math.min(W, H) * 2.0)
+      .translate([W * 0.50, H * 0.58]);
   }
-
-function makeProjection(W, H) {
-  const scale = Math.min(W, H) * 2.0;
-
-  return d3.geoMercator()
-    .center([8, 43])
-    .scale(scale)
-    .translate([W * 0.50, H * 0.58]);
-}
-
-
-  
 
   const world     = await d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json");
   const countries = topojson.feature(world, world.objects.countries);
   const borders   = topojson.mesh(world, world.objects.countries, (a, b) => a !== b);
 
-const europeIds = new Set([
-  // Europe occidentale
-  "250", // France
-  "056", // Belgium
-  "528", // Netherlands
-  "276", // Germany
-  "442", // Luxembourg
-  "756", // Switzerland
-  "040", // Austria
-  "826", // United Kingdom
-  "372", // Ireland
+  const europeIds = new Set([
+    "250","056","528","276","442","756","040","826","372",
+    "724","620","380","470","300","196",
+    "578","752","246","208","352",
+    "616","203","703","348","705",
+    "191","070","688","499","807","008","100","642","498",
+    "233","428","440",
+    "804","112","268","051","031",
+    "643","792",
+    "020","674","336","438","492","383",
+    "012","504","788","434","818",
+    "422","376","400","760","398",
+  ]);
 
-  // Europe du Sud
-  "724", // Spain
-  "620", // Portugal
-  "380", // Italy
-  "470", // Malta
-  "300", // Greece
-  "196", // Cyprus
-
-  // Scandinavie / Nord
-  "578", // Norway
-  "752", // Sweden
-  "246", // Finland
-  "208", // Denmark
-  "352", // Iceland
-
-  // Europe centrale
-  "616", // Poland
-  "203", // Czechia
-  "703", // Slovakia
-  "348", // Hungary
-  "705", // Slovenia
-
-  // Balkans
-  "191", // Croatia
-  "070", // Bosnia and Herzegovina
-  "688", // Serbia
-  "499", // Montenegro
-  "807", // North Macedonia
-  "008", // Albania
-  "300", // Greece
-  "100", // Bulgaria
-  "642", // Romania
-  "498", // Moldova
-  "688", // Serbia
-  "070", // Bosnia
-
-  // Baltique
-  "233", // Estonia
-  "428", // Latvia
-  "440", // Lithuania
-
-  // Europe de l’Est
-  "804", // Ukraine
-  "112", // Belarus
-
-  // Caucase
-  "268", // Georgia
-  "051", // Armenia
-  "031", // Azerbaijan
-
-  // Russie européenne
-  "643", // Russia
-
-  // Turquie
-  "792", // Turkey
-
-  // Microstates
-  "020", // Andorra
-  "674", // San Marino
-  "336", // Vatican
-  "438", // Liechtenstein
-  "492", // Monaco
-
-  // Kosovo (souvent absent selon dataset)
-  "383", // Kosovo
-
-  // Maghreb (optionnel géopolitique/méditerranéen)
-  "012", // Algeria
-  "504", // Morocco
-  "788", // Tunisia
-  "434", // Libya
-  "818", // Egypt
-
-  // Levant (optionnel)
-  "422", // Lebanon
-  "376", // Israel
-  "400", // Jordan
-  "760", // Syria
-
-  // Mer Noire / Eurasie
-  "398", // Kazakhstan
-]);
-
-  
-
-const cities = [
-  {name:"Brussels",     lon:4.35,  lat:50.85, status:"ready",          delay:1.0},
-
-  {name:"Paris",        lon:2.35,  lat:48.85, status:"development..",    delay:1.2},
-  {name:"Nice-Monaco",  lon:7.26,  lat:43.71, status:"development..",    delay:1.3},
-  {name:"London",       lon:-0.12, lat:51.51, status:"development..",    delay:1.5},
-  {name:"Barcelona",    lon:2.17,  lat:41.39, status:"development..",    delay:1.7},
-  {name:"Milan",        lon:9.19,  lat:45.46, status:"development..",    delay:1.8},
-  {name:"Lisbon",       lon:-9.14, lat:38.72, status:"development..",    delay:1.9},
-];
+  const cities = [
+    {name:"Brussels",    lon:4.35,  lat:50.85, status:"ready",         delay:1.0},
+    {name:"Paris",       lon:2.35,  lat:48.85, status:"development..", delay:1.2},
+    {name:"Nice-Monaco", lon:7.26,  lat:43.71, status:"development..", delay:1.3},
+    {name:"London",      lon:-0.12, lat:51.51, status:"development..", delay:1.5},
+    {name:"Barcelona",   lon:2.17,  lat:41.39, status:"development..", delay:1.7},
+    {name:"Milan",       lon:9.19,  lat:45.46, status:"development..", delay:1.8},
+    {name:"Lisbon",      lon:-9.14, lat:38.72, status:"development..", delay:1.9},
+  ];
 
   const primaryCities = ["Brussels"];
-const labelCities = [
-  "Paris",
-  "Nice-Monaco",
-  "London",
-  "Barcelona",
-  "Milan",
-  "Lisbon"
-];
-  const tooltip  = document.getElementById("city-tooltip");
-  const ttName   = document.getElementById("tt-name");
-  const ttStatus = document.getElementById("tt-status");
+  const labelCities   = ["Paris","Nice-Monaco","London","Barcelona","Milan","Lisbon"];
+
+  const tooltip = document.getElementById("city-tooltip");
+  const ttName  = document.getElementById("tt-name");
+  const ttStatus= document.getElementById("tt-status");
 
   function showTooltip(cx, cy, name, statusText, isSoon) {
     const svgRect  = svgEl.getBoundingClientRect();
     const wrapRect = wrapEl.getBoundingClientRect();
     const {W, H}   = getDims();
-    const scaleX   = svgRect.width  / W;
-    const scaleY   = svgRect.height / H;
-    const tx = cx * scaleX + svgRect.left - wrapRect.left;
-    const ty = cy * scaleY + svgRect.top  - wrapRect.top;
-    ttName.textContent   = name.toUpperCase();
-    ttStatus.textContent = statusText;
-    tooltip.className    = isSoon ? "soon" : "";
-    tooltip.style.left   = (tx + 12) + "px";
-    tooltip.style.top    = (ty - 30) + "px";
+    const tx = cx * (svgRect.width  / W) + svgRect.left - wrapRect.left;
+    const ty = cy * (svgRect.height / H) + svgRect.top  - wrapRect.top;
+    ttName.textContent    = name.toUpperCase();
+    ttStatus.textContent  = statusText;
+    tooltip.className     = isSoon ? "soon" : "";
+    tooltip.style.left    = (tx + 12) + "px";
+    tooltip.style.top     = (ty - 30) + "px";
     tooltip.style.opacity = "1";
   }
   function hideTooltip() { tooltip.style.opacity = "0"; }
@@ -361,25 +276,29 @@ const labelCities = [
 
     svg.selectAll("*").remove();
 
-    //continent
-    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#223047"); 
+    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#223047");
 
     const grat = d3.geoGraticule().step([10, 10]);
     svg.append("path").datum(grat()).attr("d", path)
       .attr("fill","none").attr("stroke","rgba(255,255,255,0.035)").attr("stroke-width",0.4);
-    
-    //sea
+
     svg.append("g").selectAll("path")
       .data(countries.features.filter(d => europeIds.has(d.id)))
       .join("path").attr("d", path)
       .attr("fill","#111827").attr("stroke","#1e2d45").attr("stroke-width",0.7);
-    
-    //borders
+
     svg.append("path").datum(borders).attr("d", path)
       .attr("fill","none").attr("stroke","#1e3050").attr("stroke-width",0.5);
-    
 
-    const connPairs = [  ["Brussels","Paris"], ["Paris","Nice-Monaco"], ["Nice-Monaco","Milan"], ["Nice-Monaco","Barcelona"], ["Barcelona","Lisbon"]   ];
+    // Connexions — Paris ↔ London ajouté
+    const connPairs = [
+      ["Brussels","Paris"],
+      ["Paris","Nice-Monaco"],
+      ["Nice-Monaco","Milan"],
+      ["Nice-Monaco","Barcelona"],
+      ["Barcelona","Lisbon"],
+      ["Paris","London"],
+    ];
     connPairs.forEach(([a, b]) => {
       const ca = cities.find(c => c.name === a);
       const cb = cities.find(c => c.name === b);
@@ -401,41 +320,24 @@ const labelCities = [
       const isSoon    = c.status === "development..";
       const dotR      = isPrimary ? Math.max(3, W * 0.007) : Math.max(2, W * 0.004);
 
-      
-let dotColor;
-let dotStroke;
+      let dotColor, dotStroke;
+      if (c.name === "Brussels") {
+        dotColor = "#32d74b"; dotStroke = "rgba(255,255,255,0.95)";
+      } else {
+        dotColor = "#ffd84d"; dotStroke = "rgba(255,255,255,0.9)";
+      }
 
-if (c.name === "Brussels") {
-  dotColor = "#32d74b"; // vert
-  dotStroke = "rgba(255,255,255,0.95)";
-}
-else if (
-  c.name === "Paris" ||
-  c.name === "Nice-Monaco" ||
-  c.name === "London" ||
-  c.name === "Milan" ||
-  c.name === "Barcelona" ||
-  c.name === "Lisbon" 
-  {
-  dotColor = "#ffd84d"; // jaune
-  dotStroke = "rgba(255,255,255,0.9)";
-}
-
-
-
-      
       if (isReady) {
         [0, 1].forEach(i => {
           const r = svg.append("circle")
             .attr("cx",cx).attr("cy",cy).attr("r",dotR * 1.8)
             .attr("fill","none")
-            .attr("stroke", `rgba(255,59,48,${i === 0 ? 0.5 : 0.3})`)
+            .attr("stroke",`rgba(255,59,48,${i === 0 ? 0.5 : 0.3})`)
             .attr("stroke-width",1).style("opacity",0);
-          const delay = animate ? (c.delay + 0.1) * 1000 : 0;
+          const d = animate ? (c.delay + 0.1) * 1000 : 0;
           setTimeout(() => {
-            r.style("opacity",1)
-             .style("animation", `pulseRed 2.6s ease-out ${i === 0 ? 0 : 1.3}s infinite`);
-          }, delay);
+            r.style("opacity",1).style("animation",`pulseRed 2.6s ease-out ${i === 0 ? 0 : 1.3}s infinite`);
+          }, d);
         });
       }
 
@@ -444,19 +346,17 @@ else if (
           .attr("cx",cx).attr("cy",cy).attr("r",dotR * 1.8)
           .attr("fill","none").attr("stroke","rgba(255,255,255,0.2)")
           .attr("stroke-width",1).style("opacity",0);
-        const delay = animate ? (c.delay + 0.1) * 1000 : 0;
+        const d = animate ? (c.delay + 0.1) * 1000 : 0;
         setTimeout(() => {
-          rs.style("opacity",1)
-            .style("animation","pulseSoon 2.8s ease-out infinite");
-        }, delay);
+          rs.style("opacity",1).style("animation","pulseSoon 2.8s ease-out infinite");
+        }, d);
       }
 
       const grp = svg.append("g").style("cursor", (isReady || isSoon) ? "pointer" : "default");
       const dot = grp.append("circle")
         .attr("cx",cx).attr("cy",cy).attr("r",dotR)
         .attr("fill",dotColor).attr("stroke",dotStroke)
-        .attr("stroke-width", isPrimary ? 1.5 : 1)
-        .style("opacity",0);
+        .attr("stroke-width", isPrimary ? 1.5 : 1).style("opacity",0);
 
       if (animate) setTimeout(() => dot.style("animation","popDot .4s cubic-bezier(.34,1.56,.64,1) forwards"), c.delay * 1000);
       else dot.style("opacity",1);
@@ -472,9 +372,8 @@ else if (
             hideTooltip();
           })
           .on("click", () => {
-            if (window.parent && window.parent !== window) {
+            if (window.parent && window.parent !== window)
               window.parent.postMessage({ type: "cityClick", city: "Brussels" }, "*");
-            }
           });
       }
 
@@ -494,36 +393,28 @@ else if (
       if (isPrimary || labelCities.includes(c.name)) {
         const lx = cx + dotR + 3;
         const ly = cy - dotR - 2;
-        
-const labelFill = isReady
-  ? "#ffb0aa"
-  : isSoon
-    ? "rgba(255,255,255,0.88)"
-    : "rgba(255,255,255,0.75)";
-        
+        const labelFill = isReady ? "#ffb0aa" : isSoon ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.75)";
         const labelW = c.name.length * fontSize * 0.62 + 8;
 
         if (isPrimary) {
-          const bgStroke = isReady ? "rgba(255,59,48,0.4)" : "rgba(255,255,255,0.12)";
           const bg = svg.append("rect")
             .attr("x",lx-1).attr("y",ly-fontSize)
             .attr("width",labelW).attr("height",fontSize+4).attr("rx",3)
-            .attr("fill","rgba(8,10,18,0.85)").attr("stroke",bgStroke).attr("stroke-width",0.7)
-            .style("opacity",0);
+            .attr("fill","rgba(8,10,18,0.85)")
+            .attr("stroke", isReady ? "rgba(255,59,48,0.4)" : "rgba(255,255,255,0.12)")
+            .attr("stroke-width",0.7).style("opacity",0);
           if (animate) setTimeout(() => bg.style("animation","fadeLabel .4s ease forwards"), (c.delay + 0.25) * 1000);
           else bg.style("opacity",1);
         }
 
         const lbl = svg.append("text")
-          .attr("x", isPrimary ? lx + 3 : lx)
-          .attr("y", isPrimary ? ly : ly)
+          .attr("x", isPrimary ? lx + 3 : lx).attr("y", ly)
           .attr("font-family","Inter,system-ui,sans-serif")
           .attr("font-size", isPrimary ? fontSize : fontSize * 0.88)
           .attr("font-weight", isPrimary ? 700 : 500)
           .attr("fill", labelFill)
           .attr("letter-spacing", isPrimary ? "0.05em" : "0")
-          .text(c.name.toUpperCase())
-          .style("opacity",0);
+          .text(c.name.toUpperCase()).style("opacity",0);
 
         if (animate) setTimeout(() => lbl.style("animation","fadeLabel .4s ease forwards"), (c.delay + 0.28) * 1000);
         else lbl.style("opacity",1);
@@ -532,9 +423,7 @@ const labelFill = isReady
   }
 
   render(true);
-
-  setTimeout(() => document.getElementById("overlay-brand").classList.add("show"), 3200);
-  setTimeout(() => document.getElementById("pw-panel").classList.add("slide-in"), 4000);
+  setTimeout(() => document.getElementById("auth-panel").classList.add("slide-in"), 4000);
 
   let resizeTimer;
   window.addEventListener("resize", () => {
@@ -542,28 +431,32 @@ const labelFill = isReady
     resizeTimer = setTimeout(() => render(false), 120);
   });
 
-  /* ── Password ── */
+  /* FREE button */
+  const freeBtn = document.getElementById("free-btn");
+  const freeMsg = document.getElementById("free-msg");
+  freeBtn.addEventListener("click", () => {
+    freeMsg.style.color   = "rgba(57,224,122,0.9)";
+    freeMsg.style.opacity = "1";
+    freeMsg.textContent   = "✓ Access granted";
+    freeBtn.textContent   = "✓ Entered";
+    freeBtn.style.background  = "rgba(57,224,122,0.2)";
+    freeBtn.style.borderColor = "rgba(57,224,122,0.6)";
+    if (window.parent && window.parent !== window)
+      window.parent.postMessage({ type: "unlock", password: PASSWORD_FREE }, "*");
+  });
+
+  /* PREMIUM password */
   const pwInput = document.getElementById("pw-input");
   const pwBtn   = document.getElementById("pw-btn");
   const pwMsg   = document.getElementById("pw-msg");
 
   function tryPassword() {
     const val = pwInput.value.trim();
-    if (val === PASSWORD_FREE) {
-      pwInput.classList.remove("error"); pwInput.classList.add("success");
-      pwMsg.style.color = "rgba(80,220,120,0.9)"; pwMsg.style.opacity = "1";
-      pwMsg.textContent = "✓ Access granted";
-      pwBtn.textContent = "✓";
-      pwBtn.style.background  = "rgba(80,220,120,0.15)";
-      pwBtn.style.borderColor = "rgba(80,220,120,0.4)";
-      pwBtn.style.color       = "rgba(80,220,120,0.9)";
-      if (window.parent && window.parent !== window)
-        window.parent.postMessage({ type: "unlock", password: val }, "*");
-    } else if (val === PASSWORD_PREMIUM) {
+    if (val === PASSWORD_PREMIUM) {
       pwInput.classList.remove("error"); pwInput.classList.add("success");
       pwMsg.style.color = "#ffd84d"; pwMsg.style.opacity = "1";
-      pwMsg.textContent = "★ Premium";
-      pwBtn.textContent = "★";
+      pwMsg.textContent = "★ Premium unlocked";
+      pwBtn.textContent = "★ Unlocked";
       pwBtn.style.background  = "rgba(255,216,77,0.12)";
       pwBtn.style.borderColor = "rgba(255,216,77,0.4)";
       pwBtn.style.color       = "#ffd84d";
