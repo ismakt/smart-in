@@ -32,7 +32,7 @@ html, body {
 #password-container {
   position: fixed;
   inset: 0;
-  background: #000;
+  background: #0f172a;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -67,10 +67,8 @@ html, body {
   display: flex;
   gap: 12px;
   align-items: center;
-  flex-wrap: wrap;
 
-
-  padding: 16px 18px;
+  padding: 14px;
   border-radius: 16px;
 
   background: rgba(15, 23, 42, 0.78);
@@ -78,20 +76,6 @@ html, body {
 
   border: 1px solid rgba(255,255,255,0.08);
 }
-
-.login-title {
-  width: 100%;
-
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-
-  color: #32d74b;
-
-  margin-bottom: 6px;
-}
-
 
 #password-input {
   width: 240px;
