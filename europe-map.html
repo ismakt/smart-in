@@ -497,7 +497,7 @@ const labelCities = [
 
     svg.selectAll("*").remove();
 
-    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#063969"); //sea color
+    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#1c1d1f"); //sea color
 
     const grat = d3.geoGraticule().step([10, 10]);
     svg.append("path").datum(grat()).attr("d", path)
@@ -506,10 +506,10 @@ const labelCities = [
     svg.append("g").selectAll("path")
       .data(countries.features.filter(d => europeIds.has(d.id)))
       .join("path").attr("d", path)
-      .attr("fill","#1d1e1f").attr("stroke","#000").attr("stroke-width",0.7); //continent color
+      .attr("fill","#1d1e1f").attr("stroke","#3a3c3d").attr("stroke-width",0.7); //continent color
 
     svg.append("path").datum(borders).attr("d", path)
-      .attr("fill","none").attr("stroke","#1e3050").attr("stroke-width",0.5); //frontieres
+      .attr("fill","none").attr("stroke","#5cffad").attr("stroke-width",1); //frontieres
 
     const connPairs = [ ["Brussels","Paris"] , ["Paris","Nice-Monaco"] ,["Paris","London"] ,["Nice-Monaco","Milan"] ,["Nice-Monaco","Barcelona"] ,["Barcelona","Lisbon"] ];
     connPairs.forEach(([a, b]) => {
