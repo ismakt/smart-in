@@ -6,9 +6,9 @@
 <title>Vadilion Digital — Europe Map</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden}
+html,body{width:100%;height:100%;overflow:hidden, background:#1c1b1b;}
 .wrap{
-  background:#313233;
+  background:#0a0a0a;
   width:100%;
   height:100vh;
   display:flex;
@@ -23,7 +23,7 @@ html,body{width:100%;height:100%;overflow:hidden}
   align-items:flex-start;
   padding:clamp(8px,2vh,18px) clamp(10px,2vw,22px) 0;
   flex-shrink:0;
-   min-height:72px;
+  min-height:72px;
 }
 .brand-name{
   font-size:clamp(13px,1.6vw,17px);
@@ -83,13 +83,31 @@ html,body{width:100%;height:100%;overflow:hidden}
   border:1px solid rgba(255,255,255,0.08);
   border-radius:10px;
   padding:clamp(8px,1.2vh,12px) clamp(10px,1.5vw,16px);
-  display:flex;align-items:center;
-  gap:clamp(6px,1vw,10px);
+  
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:8px;
+  
   opacity:0;transform:translateX(-80px);
   z-index:10;
   flex-wrap:wrap;
   max-width:calc(100% - 20px);
 }
+
+  #pw-title{
+  width:100%;
+
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+
+  color:#32d74b;
+
+  margin-bottom:4px;
+}
+  
 #pw-panel.slide-in{animation:slideIn .7s cubic-bezier(.22,1,.36,1) forwards}
 @keyframes slideIn{from{opacity:0;transform:translateX(-80px)}to{opacity:1;transform:translateX(0)}}
 #pw-label{
@@ -115,6 +133,12 @@ html,body{width:100%;height:100%;overflow:hidden}
 }
 #pw-btn:hover{background:rgba(255,59,48,0.28)}
 #pw-msg{font-size:clamp(9px,1vw,10px);white-space:nowrap;opacity:0;transition:opacity .3s}
+  #pw-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
 #city-tooltip{
   position:absolute;background:rgba(8,10,18,0.95);
   border:1px solid rgba(255,59,48,0.45);border-radius:8px;
@@ -137,7 +161,7 @@ html,body{width:100%;height:100%;overflow:hidden}
 <body>
 
 <div class="wrap">
-  <div class="top-bar">
+  <div class="top-">
     <div>
       <div class="brand-name">VADILION DIGITAL</div>
       <div class="brand-sub">Smart-In &nbsp;·&nbsp; Brussels</div>
@@ -151,13 +175,27 @@ html,body{width:100%;height:100%;overflow:hidden}
   <div class="map-container">
     <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"></svg>
     
+    
     <div id="pw-panel">
-      <div id="pw-title">Premium Access</div>
-      <span id="pw-label">ENTER PASSWORD</span>
-      <input id="pw-input" type="password" placeholder="••••••••"/>
-      <button id="pw-btn">Unlock</button>
-      <span id="pw-msg"></span>
-    </div>
+
+  <div id="pw-title">Premium Access</div>
+
+  <div id="pw-row">
+    <span id="pw-label">ENTER PASSWORD</span>
+
+    <input id="pw-input"
+           type="password"
+           placeholder="••••••••"/>
+
+    <button id="pw-btn">Unlock</button>
+  </div>
+
+  <span id="pw-msg"></span>
+
+</div>
+
+    
+    
     <div id="city-tooltip">
       <div class="tt-name" id="tt-name"></div>
       <div class="tt-status" id="tt-status"></div>
