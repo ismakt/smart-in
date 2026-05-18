@@ -102,6 +102,8 @@ html,body{width:100%;height:100%;overflow:hidden; background:#1c1b1b;}
   font-weight:500;color:rgba(255,255,255,0.45);
   letter-spacing:.14em;margin-top:4px;
 }
+
+  
 #pw-panel{
   position:absolute;
   bottom:clamp(12px,2.5vh,28px);
@@ -172,6 +174,78 @@ html,body{width:100%;height:100%;overflow:hidden; background:#1c1b1b;}
   padding:6px 10px;pointer-events:none;opacity:0;transition:opacity .15s;
   font-size:clamp(9px,1vw,11px);color:#eaeef7;white-space:nowrap;z-index:20;
 }
+
+
+#free-panel{
+  position:absolute;
+  bottom:calc(clamp(12px,2.5vh,28px) + 110px);
+  right:clamp(10px,2vw,24px);
+
+  background:rgba(6,7,9,0.92);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;
+
+  padding:clamp(8px,1.2vh,12px) clamp(10px,1.5vw,16px);
+
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+
+  z-index:10;
+}
+
+#free-title{
+  width:100%;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#ffd84d;
+}
+
+#free-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+#free-label{
+  font-size:clamp(9px,1vw,11px);
+  font-weight:600;
+  color:rgba(255,255,255,0.45);
+  letter-spacing:.07em;
+}
+
+/* EXACT même taille que #pw-input */
+#free-input{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:7px;
+
+  width:clamp(80px,12vw,130px);
+  height:28px;
+}
+
+/* bouton vert */
+#free-btn{
+  background:rgba(80,220,120,0.15);
+  border:1px solid rgba(80,220,120,0.35);
+  border-radius:7px;
+
+  padding:5px 10px;
+
+  color:rgba(80,220,120,0.9);
+  font-size:clamp(9px,1vw,11px);
+  font-weight:600;
+
+  cursor:pointer;
+  font-family:"Inter",system-ui,sans-serif;
+}
+
+#free-btn:hover{
+  background:rgba(80,220,120,0.28);
+}
+  
 .tt-name{font-weight:700;font-size:clamp(10px,1.1vw,12px);color:#ff7b73;margin-bottom:2px}
 .tt-status{color:rgba(255,255,255,0.5);font-size:clamp(8px,.9vw,10px)}
 #city-tooltip.soon .tt-name{color:rgba(255,255,255,0.6)}
@@ -201,7 +275,22 @@ html,body{width:100%;height:100%;overflow:hidden; background:#1c1b1b;}
 
   <div class="map-container">
     <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"></svg>
+
     
+    <div id="free-panel">
+
+  <div id="free-title">FREE LIMITED ACCESS</div>
+
+  <div id="free-row">
+    <span id="free-label">ENTER</span>
+
+    <!-- espace vide exactement même taille que password -->
+    <div id="free-input"></div>
+
+    <button id="free-btn">Enter</button>
+  </div>
+
+</div>
     
     <div id="pw-panel">
 
