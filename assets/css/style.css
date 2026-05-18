@@ -87,11 +87,10 @@ html, body {
   letter-spacing: .12em;
   text-transform: uppercase;
 
-  color: #ffd84d;
+  color: #32d74b;
 
-  margin-bottom: 2px;
+  margin-bottom: 6px;
 }
-
 
 
 #password-input {
