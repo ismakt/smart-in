@@ -6,9 +6,9 @@
 <title>Vadilion Digital — Europe Map</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden; background:#1c1b1b;}
+html,body{width:100%;height:100%;overflow:hidden}
 .wrap{
-  background:"#223047";
+  background:#060709;
   width:100%;
   height:100vh;
   display:flex;
@@ -20,21 +20,11 @@ html,body{width:100%;height:100%;overflow:hidden; background:#1c1b1b;}
 .top-bar{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  padding:14px 18px 10px;
+  align-items:flex-start;
+  padding:clamp(8px,2vh,18px) clamp(10px,2vw,22px) 0;
   flex-shrink:0;
-  min-height:72px;
-  position:relative;
-  z-index:20;
-  background:#111827;
+   min-height:72px;
 }
-
-.top-bar > div:first-child{
-  display:flex;
-  flex-direction:column;
-}
-
-  
 .brand-name{
   font-size:clamp(13px,1.6vw,17px);
   font-weight:700;letter-spacing:.09em;color:#ffd84d;
@@ -46,28 +36,11 @@ html,body{width:100%;height:100%;overflow:hidden; background:#1c1b1b;}
   opacity:0;animation:fu .5s ease forwards .5s;
 }
 .live-badge{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-
-  background:rgba(255,59,48,.12);
-  border:1px solid rgba(255,59,48,.35);
-
-  border-radius:20px;
-
-  padding:4px 10px;
-
-  opacity:0;
-  animation:fu .5s ease forwards .7s;
-
+  display:flex;align-items:center;gap:5px;
+  background:rgba(255,59,48,.12);border:1px solid rgba(255,59,48,.35);
+  border-radius:20px;padding:3px 8px;
+  opacity:0;animation:fu .5s ease forwards .7s;
   flex-shrink:0;
-
-  width:auto;
-  min-width:auto;
-  max-width:max-content;
-
-  align-self:center;
 }
 .live-dot{width:5px;height:5px;border-radius:50%;background:#ff3b30;animation:blink 1.3s ease-in-out infinite}
 .live-txt{font-size:clamp(8px,.9vw,10px);font-weight:600;color:#ff7b73;letter-spacing:.06em}
@@ -102,8 +75,6 @@ html,body{width:100%;height:100%;overflow:hidden; background:#1c1b1b;}
   font-weight:500;color:rgba(255,255,255,0.45);
   letter-spacing:.14em;margin-top:4px;
 }
-
-  
 #pw-panel{
   position:absolute;
   bottom:clamp(12px,2.5vh,28px);
@@ -112,33 +83,15 @@ html,body{width:100%;height:100%;overflow:hidden; background:#1c1b1b;}
   border:1px solid rgba(255,255,255,0.08);
   border-radius:10px;
   padding:clamp(8px,1.2vh,12px) clamp(10px,1.5vw,16px);
-  
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:8px;
-  
-  opacity:0;transform:translateX(80px);
+  display:flex;align-items:center;
+  gap:clamp(6px,1vw,10px);
+  opacity:0;transform:translateX(-80px);
   z-index:10;
   flex-wrap:wrap;
   max-width:calc(100% - 20px);
 }
-
-  #pw-title{
-  width:100%;
-
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-
-  color:#ffd84d;
-
-  margin-bottom:4px;
-}
-  
 #pw-panel.slide-in{animation:slideIn .7s cubic-bezier(.22,1,.36,1) forwards}
-@keyframes slideIn{from{opacity:0;transform:translateX(80px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-80px)}to{opacity:1;transform:translateX(0)}}
 #pw-label{
   font-size:clamp(9px,1vw,11px);font-weight:600;
   color:rgba(255,255,255,0.45);letter-spacing:.07em;white-space:nowrap;
@@ -162,90 +115,12 @@ html,body{width:100%;height:100%;overflow:hidden; background:#1c1b1b;}
 }
 #pw-btn:hover{background:rgba(255,59,48,0.28)}
 #pw-msg{font-size:clamp(9px,1vw,10px);white-space:nowrap;opacity:0;transition:opacity .3s}
-  #pw-row{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-}
 #city-tooltip{
   position:absolute;background:rgba(8,10,18,0.95);
   border:1px solid rgba(255,59,48,0.45);border-radius:8px;
   padding:6px 10px;pointer-events:none;opacity:0;transition:opacity .15s;
   font-size:clamp(9px,1vw,11px);color:#eaeef7;white-space:nowrap;z-index:20;
 }
-
-
-#free-panel{
-  position:absolute;
-  bottom:calc(clamp(12px,2.5vh,28px) + 110px);
-  right:clamp(10px,2vw,24px);
-
-  background:rgba(6,7,9,0.92);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:10px;
-
-  padding:clamp(8px,1.2vh,12px) clamp(10px,1.5vw,16px);
-
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-
-  z-index:10;
-}
-
-#free-title{
-  width:100%;
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:#ffd84d;
-}
-
-#free-row{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-#free-label{
-  font-size:clamp(9px,1vw,11px);
-  font-weight:600;
-  color:rgba(255,255,255,0.45);
-  letter-spacing:.07em;
-}
-
-/* EXACT même taille que #pw-input */
-#free-input{
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:7px;
-
-  width:clamp(80px,12vw,130px);
-  height:28px;
-}
-
-/* bouton vert */
-#free-btn{
-  background:rgba(80,220,120,0.15);
-  border:1px solid rgba(80,220,120,0.35);
-  border-radius:7px;
-
-  padding:5px 10px;
-
-  color:rgba(80,220,120,0.9);
-  font-size:clamp(9px,1vw,11px);
-  font-weight:600;
-
-  cursor:pointer;
-  font-family:"Inter",system-ui,sans-serif;
-}
-
-#free-btn:hover{
-  background:rgba(80,220,120,0.28);
-}
-  
 .tt-name{font-weight:700;font-size:clamp(10px,1.1vw,12px);color:#ff7b73;margin-bottom:2px}
 .tt-status{color:rgba(255,255,255,0.5);font-size:clamp(8px,.9vw,10px)}
 #city-tooltip.soon .tt-name{color:rgba(255,255,255,0.6)}
@@ -275,43 +150,13 @@ html,body{width:100%;height:100%;overflow:hidden; background:#1c1b1b;}
 
   <div class="map-container">
     <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"></svg>
-
-    
-    <div id="free-panel">
-
-  <div id="free-title">FREE LIMITED ACCESS</div>
-
-  <div id="free-row">
-    <span id="free-label">ENTER</span>
-
-    <!-- espace vide exactement même taille que password -->
-    <div id="free-input"></div>
-
-    <button id="free-btn">Enter</button>
-  </div>
-
-</div>
     
     <div id="pw-panel">
-
-  <div id="pw-title">Premium Access</div>
-
-  <div id="pw-row">
-    <span id="pw-label">ENTER PASSWORD</span>
-
-    <input id="pw-input"
-           type="password"
-           placeholder="••••••••"/>
-
-    <button id="pw-btn">Unlock</button>
-  </div>
-
-  <span id="pw-msg"></span>
-
-</div>
-
-    
-    
+      <span id="pw-label">ENTER PASSWORD</span>
+      <input id="pw-input" type="password" placeholder="••••••••"/>
+      <button id="pw-btn">Unlock</button>
+      <span id="pw-msg"></span>
+    </div>
     <div id="city-tooltip">
       <div class="tt-name" id="tt-name"></div>
       <div class="tt-status" id="tt-status"></div>
@@ -497,7 +342,7 @@ const labelCities = [
 
     svg.selectAll("*").remove();
 
-    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#1c1d1f"); //sea color
+    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#223047");
 
     const grat = d3.geoGraticule().step([10, 10]);
     svg.append("path").datum(grat()).attr("d", path)
@@ -506,12 +351,12 @@ const labelCities = [
     svg.append("g").selectAll("path")
       .data(countries.features.filter(d => europeIds.has(d.id)))
       .join("path").attr("d", path)
-      .attr("fill","#1d1e1f").attr("stroke","#3a3c3d").attr("stroke-width",0.7); //continent color
+      .attr("fill","#111827").attr("stroke","#1e2d45").attr("stroke-width",0.7);
 
     svg.append("path").datum(borders).attr("d", path)
-      .attr("fill","none").attr("stroke","#5cffad").attr("stroke-width",1); //frontieres
+      .attr("fill","none").attr("stroke","#1e3050").attr("stroke-width",0.5);
 
-    const connPairs = [ ["Brussels","Paris"] , ["Paris","Nice-Monaco"] ,["Paris","London"] ,["Nice-Monaco","Milan"] ,["Nice-Monaco","Barcelona"] ,["Barcelona","Lisbon"] ];
+    const connPairs = [["Brussels","Paris"],["Paris","Nice-Monaco"]];
     connPairs.forEach(([a, b]) => {
       const ca = cities.find(c => c.name === a);
       const cb = cities.find(c => c.name === b);
@@ -544,10 +389,7 @@ if (c.name === "Brussels") {
 else if (
   c.name === "Paris" ||
   c.name === "Nice-Monaco" ||
-  c.name === "London" ||
-  c.name === "Milan" ||
-  c.name === "Barcelona" ||
-  c.name === "Lisbon"
+  c.name === "London"
 ) {
   dotColor = "#ffd84d"; // jaune
   dotStroke = "rgba(255,255,255,0.9)";
@@ -665,11 +507,7 @@ const labelFill = isReady
 
   render(true);
 
-setTimeout(() => {
-  const el = document.getElementById("overlay-brand");
-  if (el) el.classList.add("show");
-}, 3200);
-  
+  setTimeout(() => document.getElementById("overlay-brand").classList.add("show"), 3200);
   setTimeout(() => document.getElementById("pw-panel").classList.add("slide-in"), 4000);
 
   let resizeTimer;
@@ -719,4 +557,3 @@ setTimeout(() => {
 </script>
 </body>
 </html>
-
