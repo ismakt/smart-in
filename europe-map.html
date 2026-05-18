@@ -26,7 +26,7 @@ html,body{width:100%;height:100%;overflow:hidden; background:#1c1b1b;}
   min-height:72px;
   position:relative;
   z-index:20;
-  background:#000;
+  background:#111827;
 }
 
 .top-bar > div:first-child{
@@ -408,7 +408,7 @@ const labelCities = [
 
     svg.selectAll("*").remove();
 
-    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#141414");
+    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#031c38");
 
     const grat = d3.geoGraticule().step([10, 10]);
     svg.append("path").datum(grat()).attr("d", path)
@@ -417,7 +417,7 @@ const labelCities = [
     svg.append("g").selectAll("path")
       .data(countries.features.filter(d => europeIds.has(d.id)))
       .join("path").attr("d", path)
-      .attr("fill","#111827").attr("stroke","#1e2d45").attr("stroke-width",0.7);
+      .attr("fill","#1d1e1f").attr("stroke","#1e2d45").attr("stroke-width",0.7);
 
     svg.append("path").datum(borders).attr("d", path)
       .attr("fill","none").attr("stroke","#1e3050").attr("stroke-width",0.5);
