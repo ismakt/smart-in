@@ -6,17 +6,28 @@
 <title>Vadilion Digital — Europe Map</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden;background:#000}
+
+/* Fond noir global hors container */
+html,body{
+  width:100%;height:100%;
+  overflow:hidden;
+  background:#000;
+}
+
+/* Le wrap occupe tout SAUF laisse le fond noir visible sur les bords */
 .wrap{
   background:#060709;
-  width:100%;
+  width:calc(100% - 0px);
   height:100vh;
   display:flex;
   flex-direction:column;
   font-family:"Inter",system-ui,sans-serif;
   overflow:hidden;
   position:relative;
+  /* Bords du container visibles grâce au fond noir derrière */
+  border:1px solid rgba(255,255,255,0.07);
 }
+
 .top-bar{
   display:flex;
   justify-content:space-between;
@@ -27,7 +38,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
 }
 .brand-name{
   font-size:clamp(13px,1.6vw,17px);
-  font-weight:700;letter-spacing:.09em;color:#ffd84d;
+  font-weight:700;letter-spacing:.09em;
+  color:#ffd84d;
   opacity:0;animation:fu .5s ease forwards .3s;
 }
 .brand-sub{
@@ -44,6 +56,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
 }
 .live-dot{width:5px;height:5px;border-radius:50%;background:#ff3b30;animation:blink 1.3s ease-in-out infinite}
 .live-txt{font-size:clamp(8px,.9vw,10px);font-weight:600;color:#ff7b73;letter-spacing:.06em}
+
 .map-container{
   flex:1;
   position:relative;
@@ -52,13 +65,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
 }
 #map-svg{
   display:block;
-  width:100%;
-  height:100%;
-  position:absolute;
-  top:0;left:0;
+  width:100%;height:100%;
+  position:absolute;top:0;left:0;
 }
 
-/* AUTH PANEL */
+/* ── AUTH PANEL ── */
 #auth-panel{
   position:absolute;
   bottom:clamp(12px,2.5vh,28px);
@@ -93,8 +104,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
   text-transform:uppercase;
   margin-bottom:2px;
 }
-.block-title.free{color:#39e07a;text-shadow:0 0 8px rgba(57,224,122,0.4)}
-.block-title.premium{color:#ff7b73}
+/* FREE : vert néon */
+.block-title.free{
+  color:#39e07a;
+  text-shadow:0 0 8px rgba(57,224,122,0.4);
+}
+/* PREMIUM : même jaune que "VADILION DIGITAL" dans la top-bar */
+.block-title.premium{
+  color:#ffd84d;
+}
 
 .pw-input{
   background:rgba(255,255,255,0.05);
@@ -104,10 +122,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
   font-family:"Inter",system-ui,sans-serif;
   outline:none;width:100%;transition:border-color .2s;
 }
-.pw-input:focus{border-color:rgba(255,59,48,0.5)}
+.pw-input:focus{border-color:rgba(255,216,77,0.5)}
 .pw-input::placeholder{color:rgba(255,255,255,0.2)}
 .pw-input.error{border-color:rgba(255,59,48,0.8);animation:shake .3s ease}
-.pw-input.success{border-color:rgba(80,220,120,0.7)}
+.pw-input.success{border-color:rgba(255,216,77,0.7)}
 
 .auth-btn{
   border-radius:7px;padding:6px 12px;
@@ -117,31 +135,35 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
   white-space:nowrap;letter-spacing:.06em;
   width:100%;
 }
+/* FREE : vert */
 .auth-btn.free{
   background:rgba(57,224,122,0.12);
   border:1px solid rgba(57,224,122,0.4);
   color:#39e07a;
 }
 .auth-btn.free:hover{background:rgba(57,224,122,0.25)}
+
+/* PREMIUM : jaune — même couleur que brand */
 .auth-btn.premium{
-  background:rgba(255,59,48,0.12);
-  border:1px solid rgba(255,59,48,0.38);
-  color:#ff7b73;
+  background:rgba(255,216,77,0.10);
+  border:1px solid rgba(255,216,77,0.38);
+  color:#ffd84d;
 }
-.auth-btn.premium:hover{background:rgba(255,59,48,0.25)}
+.auth-btn.premium:hover{background:rgba(255,216,77,0.22)}
 
 .auth-msg{
   font-size:10px;white-space:nowrap;
   opacity:0;transition:opacity .3s;min-height:13px;
 }
 
+/* ── TOOLTIP ── */
 #city-tooltip{
   position:absolute;background:rgba(8,10,18,0.95);
-  border:1px solid rgba(255,59,48,0.45);border-radius:8px;
+  border:1px solid rgba(255,216,77,0.35);border-radius:8px;
   padding:6px 10px;pointer-events:none;opacity:0;transition:opacity .15s;
   font-size:clamp(9px,1vw,11px);color:#eaeef7;white-space:nowrap;z-index:20;
 }
-.tt-name{font-weight:700;font-size:clamp(10px,1.1vw,12px);color:#ff7b73;margin-bottom:2px}
+.tt-name{font-weight:700;font-size:clamp(10px,1.1vw,12px);color:#ffd84d;margin-bottom:2px}
 .tt-status{color:rgba(255,255,255,0.5);font-size:clamp(8px,.9vw,10px)}
 #city-tooltip.soon .tt-name{color:rgba(255,255,255,0.6)}
 #city-tooltip.soon{border-color:rgba(255,255,255,0.15)}
@@ -172,15 +194,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
   <div class="map-container">
     <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"></svg>
 
-    <!-- AUTH : FREE (haut) + PREMIUM (bas) -->
     <div id="auth-panel">
 
+      <!-- FREE LIMITED ACCESS -->
       <div class="auth-block">
         <div class="block-title free">FREE LIMITED ACCESS</div>
         <button class="auth-btn free" id="free-btn">Enter</button>
         <span class="auth-msg" id="free-msg"></span>
       </div>
 
+      <!-- PREMIUM ACCESS -->
       <div class="auth-block">
         <div class="block-title premium">PREMIUM ACCESS</div>
         <input class="pw-input" id="pw-input" type="password" placeholder="••••••••"/>
@@ -290,7 +313,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
     svg.append("path").datum(borders).attr("d", path)
       .attr("fill","none").attr("stroke","#1e3050").attr("stroke-width",0.5);
 
-    // Connexions — Paris ↔ London ajouté
     const connPairs = [
       ["Brussels","Paris"],
       ["Paris","Nice-Monaco"],
@@ -364,7 +386,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
       if (isReady) {
         grp
           .on("mouseenter", () => {
-            dot.transition().duration(150).attr("fill","#ff8a82").attr("r", dotR * 1.5);
+            dot.transition().duration(150).attr("fill","#ffe080").attr("r", dotR * 1.5);
             showTooltip(cx, cy, c.name, "● Ready · Click to explore", false);
           })
           .on("mouseleave", () => {
@@ -393,7 +415,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
       if (isPrimary || labelCities.includes(c.name)) {
         const lx = cx + dotR + 3;
         const ly = cy - dotR - 2;
-        const labelFill = isReady ? "#ffb0aa" : isSoon ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.75)";
+        const labelFill = isReady ? "#ffe9a0" : isSoon ? "rgba(255,255,255,0.88)" : "rgba(255,255,255,0.75)";
         const labelW = c.name.length * fontSize * 0.62 + 8;
 
         if (isPrimary) {
@@ -401,7 +423,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
             .attr("x",lx-1).attr("y",ly-fontSize)
             .attr("width",labelW).attr("height",fontSize+4).attr("rx",3)
             .attr("fill","rgba(8,10,18,0.85)")
-            .attr("stroke", isReady ? "rgba(255,59,48,0.4)" : "rgba(255,255,255,0.12)")
+            .attr("stroke", isReady ? "rgba(255,216,77,0.4)" : "rgba(255,255,255,0.12)")
             .attr("stroke-width",0.7).style("opacity",0);
           if (animate) setTimeout(() => bg.style("animation","fadeLabel .4s ease forwards"), (c.delay + 0.25) * 1000);
           else bg.style("opacity",1);
@@ -431,7 +453,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
     resizeTimer = setTimeout(() => render(false), 120);
   });
 
-  /* FREE button */
+  /* ─── Fonction commune d'unlock ─── */
+  function unlockApp(pwd) {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: "unlock", password: pwd }, "*");
+    }
+  }
+
+  /* ─── FREE button → même effet que mot de passe premium ─── */
   const freeBtn = document.getElementById("free-btn");
   const freeMsg = document.getElementById("free-msg");
   freeBtn.addEventListener("click", () => {
@@ -441,11 +470,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
     freeBtn.textContent   = "✓ Entered";
     freeBtn.style.background  = "rgba(57,224,122,0.2)";
     freeBtn.style.borderColor = "rgba(57,224,122,0.6)";
-    if (window.parent && window.parent !== window)
-      window.parent.postMessage({ type: "unlock", password: PASSWORD_FREE }, "*");
+    freeBtn.disabled = true;
+    /* Envoie le mot de passe premium pour ouvrir l'app complète */
+    unlockApp(PASSWORD_PREMIUM);
   });
 
-  /* PREMIUM password */
+  /* ─── PREMIUM password ─── */
   const pwInput = document.getElementById("pw-input");
   const pwBtn   = document.getElementById("pw-btn");
   const pwMsg   = document.getElementById("pw-msg");
@@ -457,11 +487,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
       pwMsg.style.color = "#ffd84d"; pwMsg.style.opacity = "1";
       pwMsg.textContent = "★ Premium unlocked";
       pwBtn.textContent = "★ Unlocked";
-      pwBtn.style.background  = "rgba(255,216,77,0.12)";
-      pwBtn.style.borderColor = "rgba(255,216,77,0.4)";
+      pwBtn.style.background  = "rgba(255,216,77,0.18)";
+      pwBtn.style.borderColor = "rgba(255,216,77,0.6)";
       pwBtn.style.color       = "#ffd84d";
-      if (window.parent && window.parent !== window)
-        window.parent.postMessage({ type: "unlock", password: val }, "*");
+      pwBtn.disabled = true;
+      unlockApp(val);
     } else {
       pwInput.classList.remove("success"); pwInput.classList.add("error");
       pwMsg.style.color = "rgba(255,80,80,0.9)"; pwMsg.style.opacity = "1";
