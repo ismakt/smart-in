@@ -6,7 +6,7 @@
 <title>Vadilion Digital — Europe Map</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden}
+html,body{width:100%;height:100%;overflow:hidden; background:#000}
 .wrap{
   background:#060709;
   width:100%;
@@ -123,6 +123,18 @@ html,body{width:100%;height:100%;overflow:hidden}
 }
 .tt-name{font-weight:700;font-size:clamp(10px,1.1vw,12px);color:#ff7b73;margin-bottom:2px}
 .tt-status{color:rgba(255,255,255,0.5);font-size:clamp(8px,.9vw,10px)}
+
+.pw-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffd84d; /* vert */
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+
+  
 #city-tooltip.soon .tt-name{color:rgba(255,255,255,0.6)}
 #city-tooltip.soon{border-color:rgba(255,255,255,0.15)}
 @keyframes fu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
@@ -152,11 +164,19 @@ html,body{width:100%;height:100%;overflow:hidden}
     <svg id="map-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"></svg>
     
     <div id="pw-panel">
+      <div class="pw-title">PREMIUM ACCESS</div>
       <span id="pw-label">ENTER PASSWORD</span>
       <input id="pw-input" type="password" placeholder="••••••••"/>
       <button id="pw-btn">Unlock</button>
       <span id="pw-msg"></span>
     </div>
+
+        <div id="pw-panel">
+      <div class="pw-title">FREE LIMITED ACCESS</div>
+      <button id="pw-btn">Enter</button>
+      <span id="pw-msg"></span>
+    </div>
+    
     <div id="city-tooltip">
       <div class="tt-name" id="tt-name"></div>
       <div class="tt-status" id="tt-status"></div>
@@ -168,8 +188,7 @@ html,body{width:100%;height:100%;overflow:hidden}
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 <script>
 (async () => {
-  const PASSWORD_FREE    = "1";
-  const PASSWORD_PREMIUM = "premium123";
+  const PASSWORD_PREMIUM = "1";
 
   const svgEl     = document.getElementById("map-svg");
   const wrapEl    = document.querySelector(".wrap");
@@ -342,21 +361,25 @@ const labelCities = [
 
     svg.selectAll("*").remove();
 
-    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#223047");
+    //continent
+    svg.append("rect").attr("width", W).attr("height", H).attr("fill", "#223047"); 
 
     const grat = d3.geoGraticule().step([10, 10]);
     svg.append("path").datum(grat()).attr("d", path)
       .attr("fill","none").attr("stroke","rgba(255,255,255,0.035)").attr("stroke-width",0.4);
-
+    
+    //sea
     svg.append("g").selectAll("path")
       .data(countries.features.filter(d => europeIds.has(d.id)))
       .join("path").attr("d", path)
       .attr("fill","#111827").attr("stroke","#1e2d45").attr("stroke-width",0.7);
-
+    
+    //borders
     svg.append("path").datum(borders).attr("d", path)
       .attr("fill","none").attr("stroke","#1e3050").attr("stroke-width",0.5);
+    
 
-    const connPairs = [["Brussels","Paris"],["Paris","Nice-Monaco"]];
+    const connPairs = [  ["Brussels","Paris"], ["Paris","Nice-Monaco"], ["Nice-Monaco","Milan"], ["Nice-Monaco","Barcelona"], ["Barcelona","Lisbon"]   ];
     connPairs.forEach(([a, b]) => {
       const ca = cities.find(c => c.name === a);
       const cb = cities.find(c => c.name === b);
@@ -389,8 +412,11 @@ if (c.name === "Brussels") {
 else if (
   c.name === "Paris" ||
   c.name === "Nice-Monaco" ||
-  c.name === "London"
-) {
+  c.name === "London" ||
+  c.name === "Milan" ||
+  c.name === "Barcelona" ||
+  c.name === "Lisbon" 
+  {
   dotColor = "#ffd84d"; // jaune
   dotStroke = "rgba(255,255,255,0.9)";
 }
