@@ -665,7 +665,11 @@ const labelFill = isReady
 
   render(true);
 
-  setTimeout(() => document.getElementById("overlay-brand").classList.add("show"), 3200);
+setTimeout(() => {
+  const el = document.getElementById("overlay-brand");
+  if (el) el.classList.add("show");
+}, 3200);
+  
   setTimeout(() => document.getElementById("pw-panel").classList.add("slide-in"), 4000);
 
   let resizeTimer;
