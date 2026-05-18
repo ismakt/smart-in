@@ -874,50 +874,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnLogin) btnLogin.addEventListener('click', () => doLogin(passwordInput ? passwordInput.value : ''));
   if (passwordInput) passwordInput.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(passwordInput.value); });
 
-
-
-
-
-
-
-
-
-
-
-  const passwordCont  = document.getElementById('password-container');
-const mainApp       = document.getElementById('main-app');
-
-// 🔽 AJOUT ICI (juste après ces lignes)
-const loginWrapper = passwordCont?.parentElement;
-
-if (loginWrapper) {
-  const freeBlock = document.createElement('div');
-  freeBlock.innerHTML = `
-    <div class="access-box free-access">
-      <h3>FREE LIMITED ACCESS</h3>
-      
-      <!-- espace vide équivalent champ password -->
-      <div style="height:42px;"></div>
-
-      <button id="btn-free-enter" style="
-        background:#22c55e;
-        color:white;
-        border:none;
-        padding:10px 16px;
-        border-radius:8px;
-        cursor:pointer;
-        width:100%;
-      ">
-        Enter
-      </button>
-    </div>
-  `;
-
-  loginWrapper.insertBefore(freeBlock, passwordCont);
-}
-
-  
-
   // ── Message iframe ──────────────────────────────────────────
   window.addEventListener('message', (event) => {
     if (!event.data) return;
