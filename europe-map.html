@@ -356,7 +356,7 @@ const labelCities = [
     svg.append("path").datum(borders).attr("d", path)
       .attr("fill","none").attr("stroke","#1e3050").attr("stroke-width",0.5);
 
-    const connPairs = [["Brussels","Paris"],["Paris","Nice-Monaco"]];
+    const connPairs = [ ["Brussels","Paris"] , ["Paris","Nice-Monaco"] , ["Paris","London"] ];
     connPairs.forEach(([a, b]) => {
       const ca = cities.find(c => c.name === a);
       const cb = cities.find(c => c.name === b);
