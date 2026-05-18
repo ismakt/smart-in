@@ -67,8 +67,10 @@ html, body {
   display: flex;
   gap: 12px;
   align-items: center;
+  flex-wrap: wrap;
 
-  padding: 14px;
+
+  padding: 16px 18px;
   border-radius: 16px;
 
   background: rgba(15, 23, 42, 0.78);
@@ -76,6 +78,21 @@ html, body {
 
   border: 1px solid rgba(255,255,255,0.08);
 }
+
+.login-title {
+  width: 100%;
+
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+
+  color: #ffd84d;
+
+  margin-bottom: 2px;
+}
+
+
 
 #password-input {
   width: 240px;
