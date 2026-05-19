@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>Smart-In App</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Leaflet CSS -->
@@ -17,14 +16,8 @@
 
   <!-- Libraries -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-  <!-- OPTIONNEL : peut être supprimé maintenant -->
-  <script src="https://cdn.jsdelivr.net/npm/leaflet-image@0.4.0/leaflet-image.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
@@ -32,471 +25,399 @@
 
 <!-- ===================== ÉCRAN LOGIN ===================== -->
 <div id="password-container">
-
   <div class="login-card">
-
     <iframe
       id="europe-map-frame"
       src="europe-map.html"
       scrolling="no">
     </iframe>
-
-
-
   </div>
-
 </div>
 
 <!-- ===================== APPLICATION ===================== -->
-<!-- FIX : id="main-app" + class="dashboard" alignés avec le JS -->
 <div class="dashboard" id="main-app" style="display:none;">
 
-
-
-<!-- ===================== TOP TABS ===================== -->
-<div class="top-tabs">
-
-  <button id="btn-back-home" class="nav-back">
-    ←
-  </button>
-
-  <div class="browser-tabs">
-
-    <button class="browser-tab active" data-tab="app-tab">
-      APP
-    </button>
-
-    <button class="browser-tab" data-tab="pricing-tab">
-      TARIFS
-    </button>
-
-    <button class="browser-tab" data-tab="contact-tab">
-      CONTACT
-    </button>
-
-    <button class="browser-tab" data-tab="about-tab">
-      ABOUT
-    </button>
-
-  </div>
-</div>
-
-
-<div id="app-tab" class="tab-page active-tab">  <!-- encapsullement de l'app; ouverture -->
-  
-  <div class="left">
-    <div class="brand">
-      <h1>Vadilion Digital</h1>
-      <p>Smart-In — Brussels</p>
+  <!-- ===================== TOP TABS ===================== -->
+  <div class="top-tabs">
+    <button id="btn-back-home" class="nav-back" title="Retour">←</button>
+    <div class="browser-tabs">
+      <button class="browser-tab active" data-tab="app-tab">APP</button>
+      <button class="browser-tab" data-tab="pricing-tab">TARIFS</button>
+      <button class="browser-tab" data-tab="contact-tab">CONTACT</button>
+      <button class="browser-tab" data-tab="about-tab">ABOUT</button>
     </div>
+  </div>
 
-    <div class="controls">
+  <!-- ===================== APP TAB ===================== -->
+  <div id="app-tab" class="tab-page active-tab">
 
-      <!-- City -->
-      <button id="btn-city" class="btn">Select city</button>
-      <div id="city-dropdown" class="dropdown">
-        <div data-city="Bruxelles">Bruxelles</div>
-        <div data-city="Paris">Paris</div>
-        <div data-city="Nice-Monaco">Nice-Monaco</div>
-        <div data-city="Dubai">Dubai</div>
+    <!-- COLONNE GAUCHE -->
+    <div class="left">
+      <div class="brand">
+        <h1>Vadilion Digital</h1>
+        <p>Smart-In — Brussels</p>
       </div>
 
-      <!-- Theme -->
-      <button id="btn-theme" class="btn">Select Theme</button>
-      <div id="theme-dropdown" class="dropdown">
+      <div class="controls">
 
-        <!-- Immobilier -->
-        <div class="theme-group">
-          <div class="theme-group-toggle">Immobilier ▸</div>
-          <div class="theme-submenu">
-
-            <div class="theme-group">
-              <div class="theme-group-toggle">Transactions ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="Total sales 2013-2024">Total Sales (2013-2024)</div>
-                <div data-theme="2-3 facades houses total sales 2013-2024">Houses Sales (2013-2024)</div>
-                <div data-theme="4 or plus facades houses total sales 2013-2024">Villa Sales (2013-2024)</div>
-                <div data-theme="apartments total sales 2013-2024">Flats Sales (2013-2024)</div>
-                <div data-theme="Appartements vendus 2011">Appartements vendus 2011</div>
-                <div data-theme="Appartements vendus 2021">Appartements vendus 2021</div>
-                <div data-theme="Maisons vendus 2011">Maisons vendus 2011</div>
-                <div data-theme="Maisons vendus 2021">Maisons vendus 2021</div>
-              </div>
-            </div>
-
-            <div class="theme-group">
-              <div class="theme-group-toggle">Prices ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="median sale price 2013">Median Sale Price (2013)</div>
-                <div data-theme="median sale price 2023">Median Sale Price (2023)</div>
-                <div data-theme="median sale price apartment 2013">Median Sale Price - Flats (2013)</div>
-                <div data-theme="median sale price apartment 2023">Median Sale Price - Flats (2023)</div>
-                <div data-theme="MS_P10_2013">MS_P10_2013</div>
-                <div data-theme="MS_P10_2023">MS_P10_2023</div>
-                <div data-theme="MS_P25_2013">MS_P25_2013</div>
-                <div data-theme="MS_P25_2023">MS_P25_2023</div>
-                <div data-theme="MS_P75_2013">MS_P75_2013</div>
-                <div data-theme="MS_P75_2023">MS_P75_2023</div>
-                <div data-theme="MS_P90_2013">MS_P90_2013</div>
-                <div data-theme="MS_P90_2023">MS_P90_2023</div>
-                <div data-theme="MS_P10_2013_all_houses">MS_P10_2013_all_houses</div>
-                <div data-theme="MS_P10_2013_apartments">MS_P10_2013_apartments</div>
-                <div data-theme="MS_P10_2023_all_houses">MS_P10_2023_all_houses</div>
-                <div data-theme="MS_P10_2023_apartments">MS_P10_2023_apartments</div>
-                <div data-theme="MS_P25_2013_all_houses">MS_P25_2013_all_houses</div>
-                <div data-theme="MS_P25_2013_apartments">MS_P25_2013_apartments</div>
-                <div data-theme="MS_P25_2023_all_houses">MS_P25_2023_all_houses</div>
-                <div data-theme="MS_P25_2023_apartments">MS_P25_2023_apartments</div>
-                <div data-theme="MS_P75_2013_all_houses">MS_P75_2013_all_houses</div>
-                <div data-theme="MS_P75_2013_apartments">MS_P75_2013_apartments</div>
-                <div data-theme="MS_P75_2023_all_houses">MS_P75_2023_all_houses</div>
-                <div data-theme="MS_P75_2023_apartments">MS_P75_2023_apartments</div>
-                <div data-theme="MS_P90_2013_all_houses">MS_P90_2013_all_houses</div>
-                <div data-theme="MS_P90_2013_apartments">MS_P90_2013_apartments</div>
-                <div data-theme="MS_P90_2023_all_houses">MS_P90_2023_all_houses</div>
-                <div data-theme="MS_P90_2023_apartments">MS_P90_2023_apartments</div>
-                <div data-theme="TotalRentP50LessorLegalPerson2024">TotalRentP50LessorLegalPerson2024</div>
-                <div data-theme="TotalRentP50LessorNeutralPerson2024">TotalRentP50LessorNeutralPerson2024</div>
-                <div data-theme="Loyer moyen">Loyer moyen</div>
-                <div data-theme="Prix median appartements 2011">Prix median appartements 2011</div>
-                <div data-theme="Prix median appartements 2021">Prix median appartements 2021</div>
-                <div data-theme="Prix median maisons 2011">Prix median maisons 2011</div>
-                <div data-theme="Prix median maisons 2021">Prix median maisons 2021</div>
-                <div data-theme="///M2 sales price///">///M2 sales price///</div>
-              </div>
-            </div>
-
-            <div class="theme-group">
-              <div class="theme-group-toggle">Parc Immobilier ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="Logements sociaux">Logements sociaux</div>
-                <div data-theme="Batiments residentiels">Batiments residentiels</div>
-                <div data-theme="Parc immobilier 2 a 3 facades">Parc immobilier 2 a 3 facades</div>
-                <div data-theme="Parc immobilier 4 facades">Parc immobilier 4 facades</div>
-                <div data-theme="Parc immobilier immeuble appartements">Parc immobilier immeuble appartements</div>
-              </div>
-            </div>
-
-            <div class="theme-group">
-              <div class="theme-group-toggle">Tendances et Projets ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="///Current and Future Urban and R.E. projects affecting the market///">///Current and Future Urban and R.E. projects///</div>
-                <div data-theme="Gentrification">Gentrification</div>
-              </div>
-            </div>
-
-          </div>
+        <!-- City -->
+        <button id="btn-city" class="btn">Select city</button>
+        <div id="city-dropdown" class="dropdown">
+          <div data-city="Bruxelles">Bruxelles</div>
+          <div data-city="Paris">Paris</div>
+          <div data-city="Nice-Monaco">Nice-Monaco</div>
+          <div data-city="Dubai">Dubai</div>
         </div>
 
-        <!-- Life Quality -->
-        <div class="theme-group">
-          <div class="theme-group-toggle">Life Quality ▸</div>
-          <div class="theme-submenu">
+        <!-- Theme -->
+        <button id="btn-theme" class="btn">Select Theme</button>
+        <div id="theme-dropdown" class="dropdown">
 
-            <div class="theme-group">
-              <div class="theme-group-toggle">Security ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="Vols_2024">Vols_2024</div>
-                <div data-theme="Vols_2014">Vols_2014</div>
-                <div data-theme="Vols_2000">Vols_2000</div>
-                <div data-theme="coups_blessures_2024">coups_blessures_2024</div>
-                <div data-theme="coups_blessures_2014">coups_blessures_2014</div>
-                <div data-theme="coups_blessures_2000">coups_blessures_2000</div>
-                <div data-theme="drogues_2024">drogues_2024</div>
-                <div data-theme="drogues_2014">drogues_2014</div>
-                <div data-theme="drogues_2000">drogues_2000</div>
-                <div data-theme="alcool_2024">alcool_2024</div>
-                <div data-theme="alcool_2014">alcool_2014</div>
-                <div data-theme="alcool_2000">alcool_2000</div>
-                <div data-theme="armes_2024">armes_2024</div>
-                <div data-theme="armes_2014">armes_2014</div>
-                <div data-theme="armes_2000">armes_2000</div>
-                <div data-theme="secu_publiq_2024">secu_publiq_2024</div>
-                <div data-theme="secu_publiq_2014">secu_publiq_2014</div>
-                <div data-theme="secu_publiq_2000">secu_publiq_2000</div>
-                <div data-theme="degradat_prop_2024">degradat_prop_2024</div>
-                <div data-theme="degradat_prop_2014">degradat_prop_2014</div>
-                <div data-theme="degradat_prop_2000">degradat_prop_2000</div>
-                <div data-theme="Cambriolages_2024">Cambriolages_2024</div>
-                <div data-theme="Cambriolages_2014">Cambriolages_2014</div>
-                <div data-theme="Cambriolages_2000">Cambriolages_2000</div>
-              </div>
-            </div>
+          <!-- Immobilier -->
+          <div class="theme-group">
+            <div class="theme-group-toggle">Immobilier</div>
+            <div class="theme-submenu">
 
-            <div class="theme-group">
-              <div class="theme-group-toggle">Green Space ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="Taux vegetation">Taux vegetation</div>
-                <div data-theme="Taux espaces verts accessibles public">Taux espaces verts accessibles public</div>
-              </div>
-            </div>
-
-            <div class="theme-group">
-              <div class="theme-group-toggle">Pollution ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="///Air and Noise Pollutions///">///Air and Noise Pollutions///</div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Economics -->
-        <div class="theme-group">
-          <div class="theme-group-toggle">Economics ▸</div>
-          <div class="theme-submenu">
-
-            <div class="theme-group">
-              <div class="theme-group-toggle">Niveau de Vie ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="Avg_Revenue_2023">Avg_Revenue_2023</div>
-                <div data-theme="Revenu Médian">Revenu Médian</div>
-                <div data-theme="Taux naissances sans revenu de travail">Taux naissances sans revenu de travail</div>
-                <div data-theme="Taux naissances meres etrangeres">Taux naissances meres etrangeres</div>
-              </div>
-            </div>
-
-            <div class="theme-group">
-              <div class="theme-group-toggle">Emploi ▸</div>
-              <div class="theme-submenu">
-
-                <div class="theme-group">
-                  <div class="theme-group-toggle">Entreprises ▸</div>
-                  <div class="theme-submenu">
-                    <div data-theme="Secteurs economiques majeures">Secteurs economiques majeures</div>
-                    <div data-theme="Sieges sociaux">Sieges sociaux</div>
-                    <div data-theme="Etablissements">Etablissements</div>
-                    <div data-theme="Solde migration entreprises 2009 a 2020">Solde migration entreprises 2009 a 2020</div>
-                    <div data-theme="Solde migration entreprises 2009 a 2020 Horeca">Solde migration entreprises Horeca</div>
-                    <div data-theme="Solde migration entreprises 2009 a 2020 commerce detail">Solde migration commerce detail</div>
-                    <div data-theme="Solde migration entreprises 2009 a 2020 IT">Solde migration IT</div>
-                    <div data-theme="Solde migration entreprises 2009 a 2020 RBC">Solde migration RBC</div>
-                    <div data-theme="Solde migration entreprises 2009 a 2020 Régions">Solde migration Régions</div>
-                  </div>
+              <div class="theme-group">
+                <div class="theme-group-toggle">Transactions</div>
+                <div class="theme-submenu">
+                  <div data-theme="Total sales 2013-2024">Total Sales (2013-2024)</div>
+                  <div data-theme="2-3 facades houses total sales 2013-2024">Houses Sales (2013-2024)</div>
+                  <div data-theme="4 or plus facades houses total sales 2013-2024">Villa Sales (2013-2024)</div>
+                  <div data-theme="apartments total sales 2013-2024">Flats Sales (2013-2024)</div>
+                  <div data-theme="Appartements vendus 2011">Appartements vendus 2011</div>
+                  <div data-theme="Appartements vendus 2021">Appartements vendus 2021</div>
+                  <div data-theme="Maisons vendus 2011">Maisons vendus 2011</div>
+                  <div data-theme="Maisons vendus 2021">Maisons vendus 2021</div>
                 </div>
-
-                <div data-theme="Taux emploi">Taux emploi</div>
-                <div data-theme="Taux emploi 15 à 24 ans">Taux emploi 15 à 24 ans</div>
-                <div data-theme="Taux emploi 25 à 49 ans">Taux emploi 25 à 49 ans</div>
-                <div data-theme="Taux emploi 50 à 64 ans">Taux emploi 50 à 64 ans</div>
-                <div data-theme="Taux salariés">Taux salariés</div>
-                <div data-theme="Taux indépendants">Taux indépendants</div>
-                <div data-theme="Taux ouvriers">Taux ouvriers</div>
-                <div data-theme="Taux employés">Taux employés</div>
-                <div data-theme="Emplois Institutions Internationales">Emplois Institutions Internationales</div>
-                <div data-theme="Taux fonctionnaires">Taux fonctionnaires</div>
-
               </div>
-            </div>
 
-            <div class="theme-group">
-              <div class="theme-group-toggle">Difficultées sociales ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="Taux chomage">Taux chomage</div>
-                <div data-theme="Taux chomage LD">Taux chomage LD</div>
-                <div data-theme="Taux chomage 15 a 24 ans">Taux chomage 15 a 24 ans</div>
-                <div data-theme="Taux chomage 25 a 49 ans">Taux chomage 25 a 49 ans</div>
-                <div data-theme="Taux chomage 50 a 64 ans">Taux chomage 50 a 64 ans</div>
-                <div data-theme="Taux CPAS 18 a 24 ans">Taux CPAS 18 a 24 ans</div>
-                <div data-theme="Taux GRAPA 65+">Taux GRAPA 65+</div>
+              <div class="theme-group">
+                <div class="theme-group-toggle">Prices</div>
+                <div class="theme-submenu">
+                  <div data-theme="median sale price 2013">Median Sale Price (2013)</div>
+                  <div data-theme="median sale price 2023">Median Sale Price (2023)</div>
+                  <div data-theme="median sale price apartment 2013">Median Sale Price - Flats (2013)</div>
+                  <div data-theme="median sale price apartment 2023">Median Sale Price - Flats (2023)</div>
+                  <div data-theme="MS_P10_2013">MS_P10_2013</div>
+                  <div data-theme="MS_P10_2023">MS_P10_2023</div>
+                  <div data-theme="MS_P25_2013">MS_P25_2013</div>
+                  <div data-theme="MS_P25_2023">MS_P25_2023</div>
+                  <div data-theme="MS_P75_2013">MS_P75_2013</div>
+                  <div data-theme="MS_P75_2023">MS_P75_2023</div>
+                  <div data-theme="MS_P90_2013">MS_P90_2013</div>
+                  <div data-theme="MS_P90_2023">MS_P90_2023</div>
+                  <div data-theme="MS_P10_2013_all_houses">MS_P10_2013_all_houses</div>
+                  <div data-theme="MS_P10_2013_apartments">MS_P10_2013_apartments</div>
+                  <div data-theme="MS_P10_2023_all_houses">MS_P10_2023_all_houses</div>
+                  <div data-theme="MS_P10_2023_apartments">MS_P10_2023_apartments</div>
+                  <div data-theme="MS_P25_2013_all_houses">MS_P25_2013_all_houses</div>
+                  <div data-theme="MS_P25_2013_apartments">MS_P25_2013_apartments</div>
+                  <div data-theme="MS_P25_2023_all_houses">MS_P25_2023_all_houses</div>
+                  <div data-theme="MS_P25_2023_apartments">MS_P25_2023_apartments</div>
+                  <div data-theme="MS_P75_2013_all_houses">MS_P75_2013_all_houses</div>
+                  <div data-theme="MS_P75_2013_apartments">MS_P75_2013_apartments</div>
+                  <div data-theme="MS_P75_2023_all_houses">MS_P75_2023_all_houses</div>
+                  <div data-theme="MS_P75_2023_apartments">MS_P75_2023_apartments</div>
+                  <div data-theme="MS_P90_2013_all_houses">MS_P90_2013_all_houses</div>
+                  <div data-theme="MS_P90_2013_apartments">MS_P90_2013_apartments</div>
+                  <div data-theme="MS_P90_2023_all_houses">MS_P90_2023_all_houses</div>
+                  <div data-theme="MS_P90_2023_apartments">MS_P90_2023_apartments</div>
+                  <div data-theme="TotalRentP50LessorLegalPerson2024">TotalRentP50 Lessor Legal 2024</div>
+                  <div data-theme="TotalRentP50LessorNeutralPerson2024">TotalRentP50 Lessor Neutral 2024</div>
+                  <div data-theme="TotalRentP50TakerLegalPerson2024">TotalRentP50 Taker Legal 2024</div>
+                  <div data-theme="Loyer moyen">Loyer moyen</div>
+                  <div data-theme="Prix median appartements 2011">Prix median appartements 2011</div>
+                  <div data-theme="Prix median appartements 2021">Prix median appartements 2021</div>
+                  <div data-theme="Prix median maisons 2011">Prix median maisons 2011</div>
+                  <div data-theme="Prix median maisons 2021">Prix median maisons 2021</div>
+                </div>
               </div>
-            </div>
 
+              <div class="theme-group">
+                <div class="theme-group-toggle">Parc Immobilier</div>
+                <div class="theme-submenu">
+                  <div data-theme="Logements sociaux">Logements sociaux</div>
+                  <div data-theme="Batiments residentiels">Batiments residentiels</div>
+                  <div data-theme="Parc immobilier 2 a 3 facades">Parc immobilier 2 a 3 facades</div>
+                  <div data-theme="Parc immobilier 4 facades">Parc immobilier 4 facades</div>
+                  <div data-theme="Parc immobilier immeuble appartements">Parc immeuble appartements</div>
+                </div>
+              </div>
+
+              <div class="theme-group">
+                <div class="theme-group-toggle">Tendances et Projets</div>
+                <div class="theme-submenu">
+                  <div data-theme="Gentrification">Gentrification</div>
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
 
-        <!-- Sociology -->
-        <div class="theme-group">
-          <div class="theme-group-toggle">Sociology ▸</div>
-          <div class="theme-submenu">
+          <!-- Life Quality -->
+          <div class="theme-group">
+            <div class="theme-group-toggle">Life Quality</div>
+            <div class="theme-submenu">
 
-            <div class="theme-group">
-              <div class="theme-group-toggle">Evolutions ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="Evolution Population 2012-2022 en %">Evolution Population 2012-2022 en %</div>
-                <div data-theme="Total_Population_2014">Total_Population_2014</div>
-                <div data-theme="Total_Population_2025">Total_Population_2025</div>
-                <div data-theme="Population en 2022">Population en 2022</div>
-                <div data-theme="Solde migratoire interne">Solde migratoire interne</div>
-                <div data-theme="Solde migratoire international">Solde migratoire international</div>
-                <div data-theme="Population Croissance Annuelle">Population Croissance Annuelle</div>
-                <div data-theme="Taux natalité">Taux natalité</div>
-                <div data-theme="Taux retard scolaire">Taux retard scolaire</div>
-                <div data-theme="Densité de Population">Densité de Population</div>
+              <div class="theme-group">
+                <div class="theme-group-toggle">Security</div>
+                <div class="theme-submenu">
+                  <div data-theme="Vols_2024">Vols 2024</div>
+                  <div data-theme="Vols_2014">Vols 2014</div>
+                  <div data-theme="Vols_2000">Vols 2000</div>
+                  <div data-theme="coups_blessures_2024">Coups & blessures 2024</div>
+                  <div data-theme="coups_blessures_2014">Coups & blessures 2014</div>
+                  <div data-theme="coups_blessures_2000">Coups & blessures 2000</div>
+                  <div data-theme="drogues_2024">Drogues 2024</div>
+                  <div data-theme="drogues_2014">Drogues 2014</div>
+                  <div data-theme="drogues_2000">Drogues 2000</div>
+                  <div data-theme="alcool_2024">Alcool 2024</div>
+                  <div data-theme="alcool_2014">Alcool 2014</div>
+                  <div data-theme="alcool_2000">Alcool 2000</div>
+                  <div data-theme="armes_2024">Armes 2024</div>
+                  <div data-theme="armes_2014">Armes 2014</div>
+                  <div data-theme="armes_2000">Armes 2000</div>
+                  <div data-theme="secu_publiq_2024">Sécurité publique 2024</div>
+                  <div data-theme="secu_publiq_2014">Sécurité publique 2014</div>
+                  <div data-theme="secu_publiq_2000">Sécurité publique 2000</div>
+                  <div data-theme="degradat_prop_2024">Dégradation propriété 2024</div>
+                  <div data-theme="degradat_prop_2014">Dégradation propriété 2014</div>
+                  <div data-theme="degradat_prop_2000">Dégradation propriété 2000</div>
+                  <div data-theme="Cambriolages_2024">Cambriolages 2024</div>
+                  <div data-theme="Cambriolages_2014">Cambriolages 2014</div>
+                  <div data-theme="Cambriolages_2000">Cambriolages 2000</div>
+                </div>
               </div>
-            </div>
 
-            <div class="theme-group">
-              <div class="theme-group-toggle">Composition Sociale ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="% Population agée de 18 à 64 ans">% Population agée de 18 à 64 ans</div>
-                <div data-theme="% Population immigrée">% Population immigrée</div>
-                <div data-theme="% Population immigrée UE">% Population immigrée UE</div>
-                <div data-theme="% Population immigrée UE14">% Population immigrée UE14</div>
-                <div data-theme="% Population immigrée UE13">% Population immigrée UE13</div>
-                <div data-theme="pop_tx_immig_resteEu+nonEU">pop_tx_immig_resteEu+nonEU</div>
-                <div data-theme="% Population immigrée nationalité étrangère naissance">% Pop. immigrée nat. étrangère</div>
+              <div class="theme-group">
+                <div class="theme-group-toggle">Green Space</div>
+                <div class="theme-submenu">
+                  <div data-theme="Taux vegetation">Taux vegetation</div>
+                  <div data-theme="Taux espaces verts accessibles public">Espaces verts accessibles</div>
+                </div>
               </div>
-            </div>
 
-            <div class="theme-group">
-              <div class="theme-group-toggle">Composition Origines ▸</div>
-              <div class="theme-submenu">
-                <div data-theme="% Roumains">% Roumains</div>
-                <div data-theme="% Marocains">% Marocains</div>
-                <div data-theme="% Syrie">% Syrie</div>
-                <div data-theme="% Francais">% Francais</div>
-                <div data-theme="% Inde">% Inde</div>
-                <div data-theme="% Turc">% Turc</div>
-                <div data-theme="% Italie">% Italie</div>
-                <div data-theme="% Portugal">% Portugal</div>
-                <div data-theme="% Espagne">% Espagne</div>
-                <div data-theme="% Pologne">% Pologne</div>
-                <div data-theme="% Bresil">% Bresil</div>
-                <div data-theme="% Allemagne">% Allemagne</div>
-                <div data-theme="% RDC">% RDC</div>
-                <div data-theme="% Bulgarie">% Bulgarie</div>
-                <div data-theme="% Japon">% Japon</div>
-                <div data-theme="% Grece">% Grece</div>
-                <div data-theme="% NL">% NL</div>
-                <div data-theme="% Moldovie">% Moldovie</div>
-                <div data-theme="% UK">% UK</div>
-                <div data-theme="% Guinee">% Guinee</div>
-              </div>
             </div>
-
           </div>
-        </div>
 
-      </div><!-- /theme-dropdown -->
+          <!-- Economics -->
+          <div class="theme-group">
+            <div class="theme-group-toggle">Economics</div>
+            <div class="theme-submenu">
 
+              <div class="theme-group">
+                <div class="theme-group-toggle">Niveau de Vie</div>
+                <div class="theme-submenu">
+                  <div data-theme="Avg_Revenue_2023">Avg Revenue 2023</div>
+                  <div data-theme="Revenu Médian">Revenu Médian</div>
+                  <div data-theme="Taux naissances sans revenu de travail">Naissances sans revenu travail</div>
+                  <div data-theme="Taux naissances meres etrangeres">Naissances mères étrangères</div>
+                </div>
+              </div>
 
+              <div class="theme-group">
+                <div class="theme-group-toggle">Emploi</div>
+                <div class="theme-submenu">
 
-    </div><!-- /controls -->
-  </div><!-- /left -->
+                  <div class="theme-group">
+                    <div class="theme-group-toggle">Entreprises</div>
+                    <div class="theme-submenu">
+                      <div data-theme="Secteurs economiques majeures">Secteurs économiques</div>
+                      <div data-theme="Sieges sociaux">Sièges sociaux</div>
+                      <div data-theme="Etablissements">Etablissements</div>
+                      <div data-theme="Solde migration entreprises 2009 a 2020">Migration entreprises (total)</div>
+                      <div data-theme="Solde migration entreprises 2009 a 2020 Horeca">Migration Horeca</div>
+                      <div data-theme="Solde migration entreprises 2009 a 2020 commerce detail">Migration commerce detail</div>
+                      <div data-theme="Solde migration entreprises 2009 a 2020 IT">Migration IT</div>
+                      <div data-theme="Solde migration entreprises 2009 a 2020 RBC">Migration RBC</div>
+                      <div data-theme="Solde migration entreprises 2009 a 2020 Régions">Migration Régions</div>
+                    </div>
+                  </div>
 
-  <!-- CENTER -->
-  <div class="center">
-    <div class="map-card">
-      <div class="map-wrapper">
-        <div class="map-circle">
-          <div id="map"></div>
+                  <div data-theme="Taux emploi">Taux emploi</div>
+                  <div data-theme="Taux emploi 15 à 24 ans">Taux emploi 15-24 ans</div>
+                  <div data-theme="Taux emploi 25 à 49 ans">Taux emploi 25-49 ans</div>
+                  <div data-theme="Taux emploi 50 à 64 ans">Taux emploi 50-64 ans</div>
+                  <div data-theme="Taux salariés">Taux salariés</div>
+                  <div data-theme="Taux indépendants">Taux indépendants</div>
+                  <div data-theme="Taux ouvriers">Taux ouvriers</div>
+                  <div data-theme="Taux employés">Taux employés</div>
+                  <div data-theme="Emplois Institutions Internationales">Emplois Inst. Internationales</div>
+                  <div data-theme="Taux fonctionnaires">Taux fonctionnaires</div>
+                </div>
+              </div>
+
+              <div class="theme-group">
+                <div class="theme-group-toggle">Difficultées sociales</div>
+                <div class="theme-submenu">
+                  <div data-theme="Taux chomage">Taux chômage</div>
+                  <div data-theme="Taux chomage LD">Taux chômage longue durée</div>
+                  <div data-theme="Taux chomage 15 a 24 ans">Taux chômage 15-24 ans</div>
+                  <div data-theme="Taux chomage 25 a 49 ans">Taux chômage 25-49 ans</div>
+                  <div data-theme="Taux chomage 50 a 64 ans">Taux chômage 50-64 ans</div>
+                  <div data-theme="Taux CPAS 18 a 24 ans">Taux CPAS 18-24 ans</div>
+                  <div data-theme="Taux GRAPA 65+">Taux GRAPA 65+</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Sociology -->
+          <div class="theme-group">
+            <div class="theme-group-toggle">Sociology</div>
+            <div class="theme-submenu">
+
+              <div class="theme-group">
+                <div class="theme-group-toggle">Evolutions</div>
+                <div class="theme-submenu">
+                  <div data-theme="Evolution Population 2012-2022 en %">Evolution Population 2012-2022</div>
+                  <div data-theme="Total_Population_2014">Population 2014</div>
+                  <div data-theme="Total_Population_2025">Population 2025</div>
+                  <div data-theme="Population en 2022">Population 2022</div>
+                  <div data-theme="Solde migratoire interne">Solde migratoire interne</div>
+                  <div data-theme="Solde migratoire international">Solde migratoire international</div>
+                  <div data-theme="Population Croissance Annuelle">Croissance annuelle</div>
+                  <div data-theme="Taux natalité">Taux natalité</div>
+                  <div data-theme="Taux retard scolaire">Taux retard scolaire</div>
+                  <div data-theme="Densité de Population">Densité de Population</div>
+                </div>
+              </div>
+
+              <div class="theme-group">
+                <div class="theme-group-toggle">Composition Sociale</div>
+                <div class="theme-submenu">
+                  <div data-theme="% Population agée de 18 à 64 ans">% Pop. 18-64 ans</div>
+                  <div data-theme="% Population immigrée">% Pop. immigrée</div>
+                  <div data-theme="% Population immigrée UE">% Pop. immigrée UE</div>
+                  <div data-theme="% Population immigrée UE14">% Pop. immigrée UE14</div>
+                  <div data-theme="% Population immigrée UE13">% Pop. immigrée UE13</div>
+                  <div data-theme="pop_tx_immig_resteEu+nonEU">% Pop. reste UE + non-UE</div>
+                  <div data-theme="% Population immigrée nationalité étrangère naissance">% Pop. nat. étrangère naissance</div>
+                </div>
+              </div>
+
+              <div class="theme-group">
+                <div class="theme-group-toggle">Composition Origines</div>
+                <div class="theme-submenu">
+                  <div data-theme="% Roumains">% Roumains</div>
+                  <div data-theme="% Marocains">% Marocains</div>
+                  <div data-theme="% Syrie">% Syriens</div>
+                  <div data-theme="% Francais">% Français</div>
+                  <div data-theme="% Inde">% Indiens</div>
+                  <div data-theme="% Turc">% Turcs</div>
+                  <div data-theme="% Italie">% Italiens</div>
+                  <div data-theme="% Portugal">% Portugais</div>
+                  <div data-theme="% Espagne">% Espagnols</div>
+                  <div data-theme="% Pologne">% Polonais</div>
+                  <div data-theme="% Bresil">% Brésiliens</div>
+                  <div data-theme="% Allemagne">% Allemands</div>
+                  <div data-theme="% RDC">% RDC</div>
+                  <div data-theme="% Bulgarie">% Bulgares</div>
+                  <div data-theme="% Japon">% Japonais</div>
+                  <div data-theme="% Grece">% Grecs</div>
+                  <div data-theme="% NL">% Néerlandais</div>
+                  <div data-theme="% Moldovie">% Moldaves</div>
+                  <div data-theme="% UK">% Britanniques</div>
+                  <div data-theme="% Guinee">% Guinéens</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div><!-- /theme-dropdown -->
+
+      </div><!-- /controls -->
+    </div><!-- /left -->
+
+    <!-- CENTRE -->
+    <div class="center">
+      <div class="map-card">
+        <div class="map-wrapper">
+          <div class="map-circle">
+            <div id="map"></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- RIGHT -->
-  <div class="right">
-    <div class="controls">
+    <!-- DROITE -->
+    <div class="right">
+      <div class="controls">
 
-      <div class="legend"></div>
+        <div class="legend"></div>
 
-      <div class="custom-info-container">
         <button id="btn-info" class="btn secondary">Info</button>
+        <div id="info-panel" style="display:none;">
+          <div class="info-content"></div>
+        </div>
+
+        <!-- Address -->
+        <div class="address-control">
+          <input id="address-input" type="text" placeholder="Entrez une adresse (max 3)" title="Entrez une adresse" />
+          <div id="address-limit" class="address-limit"></div>
+        </div>
+
+        <button id="btn-scan-save" class="btn">Scan &amp; Save</button>
+        <button id="btn-center" class="btn">Centrer la carte</button>
+        <button id="btn-toggle" class="btn secondary">Polygones ON</button>
+        <button id="btn-filters-off" class="btn secondary">Filters OFF</button>
+
+        <div class="custom-zoom-container">
+          <button id="zoom-in"  class="btn">+</button>
+          <button id="zoom-out" class="btn">−</button>
+        </div>
+
       </div>
-
-      <div id="info-panel" class="dropdown" style="display:none; flex-direction:column; max-height:200px; overflow-y:auto; margin-top:20px;">
-        <div class="info-content"></div>
-        <button id="btn-save-pdf" class="btn" style="display:none;">Save as PDF</button>
-      </div>
-
-      <!-- Address -->
-      <div class="address-control">
-        <input id="address-input" type="text" placeholder="Enter address (Max 3 marks)" title="Enter address" />
-        <div id="address-limit" class="address-limit"></div>
-      </div>
-
-      <button id="btn-scan-save" class="btn">Scan &amp; Save</button>
-      <button id="btn-center" class="btn">Center map</button>
-      <button id="btn-toggle" class="btn secondary">Polygones OFF</button>
-      <button id="btn-filters-off" class="btn secondary">Filters OFF</button>
-
-      <div class="custom-zoom-container">
-        <button id="zoom-in" class="btn">+</button>
-        <button id="zoom-out" class="btn">-</button>
-      </div>
-
     </div>
-  </div>
 
-
-  </div> <!-- fermeture app-tab -->
-
-
-
-
-<!-- autres tabs -->
+  </div><!-- /app-tab -->
 
   <!-- ===================== TARIFS ===================== -->
-<div id="pricing-tab" class="tab-page">
-
-  <div class="page-content">
-    <h1>Tarifs</h1>
-
-    <div class="pricing-grid">
-
-      <div class="pricing-card">
-        <h2>Basic</h2>
-        <p>€49/mois</p>
+  <div id="pricing-tab" class="tab-page">
+    <div class="page-content">
+      <h1>Tarifs</h1>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h2>Basic</h2>
+          <p>€49/mois</p>
+        </div>
+        <div class="pricing-card">
+          <h2>Professional</h2>
+          <p>€199/mois</p>
+        </div>
+        <div class="pricing-card">
+          <h2>Enterprise</h2>
+          <p>Custom</p>
+        </div>
       </div>
-
-      <div class="pricing-card">
-        <h2>Professional</h2>
-        <p>€199/mois</p>
-      </div>
-
-      <div class="pricing-card">
-        <h2>Enterprise</h2>
-        <p>Custom</p>
-      </div>
-
     </div>
   </div>
 
-</div>
-
-<!-- ===================== CONTACT ===================== -->
-<div id="contact-tab" class="tab-page">
-
-  <div class="page-content">
-    <h1>Contact</h1>
-
-    <p>Email: contact@vadilion.com</p>
-    <p>Brussels — Belgium</p>
-
+  <!-- ===================== CONTACT ===================== -->
+  <div id="contact-tab" class="tab-page">
+    <div class="page-content">
+      <h1>Contact</h1>
+      <p>Email: contact@vadilion.com</p>
+      <p>Brussels — Belgium</p>
+    </div>
   </div>
 
-</div>
-
-<!-- ===================== ABOUT ===================== -->
-<div id="about-tab" class="tab-page">
-
-  <div class="page-content">
-    <h1>About Smart-In</h1>
-
-    <p>
-      Smart-In is a territorial intelligence platform designed
-      to evaluate real estate, economic and demographic dynamics
-      before capital deployment.
-    </p>
-
+  <!-- ===================== ABOUT ===================== -->
+  <div id="about-tab" class="tab-page">
+    <div class="page-content">
+      <h1>About Smart-In</h1>
+      <p>
+        Smart-In is a territorial intelligence platform designed
+        to evaluate real estate, economic and demographic dynamics
+        before capital deployment.
+      </p>
+    </div>
   </div>
 
-</div>
-  
-
-  
 </div><!-- /main-app -->
-
-
-
-
-
-
-
-
-  
 
 <script src="assets/js/script.js"></script>
 </body>
