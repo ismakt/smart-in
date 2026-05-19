@@ -11,19 +11,16 @@
   --shadow: 0 10px 30px rgba(0,0,0,0.6);
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
- 
+
 html, body {
   height: 100%;
   margin: 0;
   background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
   color: #eaeef7;
-  /* FIX : overflow:hidden retiré du body pour permettre le scroll de .left */
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
- 
-
 
 /* ============================
    LOGIN SCREEN
@@ -63,17 +60,13 @@ html, body {
   left: 50%;
   bottom: 40px;
   transform: translateX(-50%);
-
   display: flex;
   gap: 12px;
   align-items: center;
-
   padding: 14px;
   border-radius: 16px;
-
   background: rgba(15, 23, 42, 0.78);
   backdrop-filter: blur(14px);
-
   border: 1px solid rgba(255,255,255,0.08);
 }
 
@@ -81,12 +74,9 @@ html, body {
   width: 240px;
   height: 48px;
   padding: 0 16px;
-
   border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.12);
-
   background: rgba(255,255,255,0.06);
-
   color: #fff;
   font-size: 15px;
   outline: none;
@@ -107,7 +97,6 @@ html, body {
    ============================ */
 
 @media (max-width: 768px) {
-
   .login-card {
     height: 100vh;
     width: 100vw;
@@ -120,7 +109,6 @@ html, body {
     right: 12px;
     bottom: 20px;
     transform: none;
-
     flex-direction: column;
   }
 
@@ -136,21 +124,108 @@ html, body {
 /* ============================
    LAYOUT PRINCIPAL
    ============================ */
+
+/* FIX : #main-app reçoit display:flex via JS. On cible .dashboard pour le layout */
 .dashboard {
   height: 100vh;
   width: 100vw;
   display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* ============================
+   TOP TABS
+   ============================ */
+
+.top-tabs {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  background: #111;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.browser-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.browser-tab {
+  border: none;
+  background: #1d1d1d;
+  color: #aaa;
+  padding: 12px 22px;
+  border-radius: 12px 12px 0 0;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  transition: background 0.25s, color 0.25s;
+}
+
+.browser-tab:hover {
+  background: #2a2a2a;
+  color: white;
+}
+
+.browser-tab.active {
+  background: #2f2f2f;
+  color: white;
+}
+
+.nav-back {
+  margin-right: 20px;
+  border: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #1d1d1d;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nav-back:hover {
+  background: #2a2a2a;
+}
+
+/* ============================
+   TAB PAGES
+   ============================ */
+
+.tab-page {
+  display: none;
+  flex: 1;
+  overflow: hidden;
+}
+
+.active-tab {
+  display: flex;
+}
+
+/* ============================
+   APP TAB — INNER LAYOUT
+   ============================ */
+
+#app-tab {
   gap: 20px;
   padding: 20px;
   box-sizing: border-box;
   align-items: stretch;
-  justify-content: center;
   overflow: hidden;
 }
- 
+
 /* ============================
    COLONNE GAUCHE
    ============================ */
+
 .left {
   width: 260px;
   min-width: 200px;
@@ -158,21 +233,22 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 4px;
   flex-shrink: 0;
 }
- 
+
 /* Scrollbar discrète */
 .left::-webkit-scrollbar { width: 4px; }
 .left::-webkit-scrollbar-track { background: transparent; }
 .left::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
- 
+
 /* ============================
    BRAND
    ============================ */
+
 .brand {
   background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border-radius: 14px;
@@ -181,22 +257,24 @@ html, body {
   border: 1px solid var(--glass-border);
   flex-shrink: 0;
 }
- 
+
 .brand h1 { margin: 0; font-size: 18px; color: #ffd84d; }
 .brand p  { margin: 6px 0 0 0; color: var(--muted); font-size: 13px; }
- 
+
 /* ============================
    CONTROLS
    ============================ */
+
 .controls {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
- 
+
 /* ============================
    BOUTONS
    ============================ */
+
 .btn {
   padding: 10px 12px;
   border-radius: 10px;
@@ -209,54 +287,65 @@ html, body {
   box-shadow: 4px 4px 12px rgba(0,0,0,0.5), -2px -2px 8px rgba(255,255,255,0.02);
   transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
   text-align: center;
- width: 220px;
-   box-sizing: border-box;
+  width: 220px;
+  box-sizing: border-box;
 }
- 
+
 .btn:hover {
   background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(0,0,0,0.05));
 }
- 
+
 .btn:active { transform: translateY(1px); }
- 
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .btn.secondary {
   background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.08));
   border: 1px solid rgba(255,255,255,0.05);
   color: rgba(255,255,255,0.65);
 }
- 
+
 /* ============================
    COLONNE CENTRE
    ============================ */
+
 .center {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 14px;
   min-width: 0;
+  align-items: center;
+  justify-content: center;
 }
- 
+
 .map-card {
+  width: 100%;
   flex: 1;
-  border-radius: 50%;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible;
+  position: relative;
 }
- 
+
 .map-wrapper {
-  width: 100%;
-  max-width: 650px;
+  /* Cercle parfait : prend la plus petite dimension disponible */
+  width:  min(100%, calc(100vh - 56px - 40px));
+  height: min(100%, calc(100vh - 56px - 40px));
   aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   z-index: 1;
+  max-width: 650px;
+  max-height: 650px;
 }
- 
+
 .map-circle {
   width: 100%;
   height: 100%;
@@ -266,17 +355,18 @@ html, body {
   align-items: center;
   justify-content: center;
 }
- 
+
 #map {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   filter: brightness(1) saturate(1.4);
 }
- 
+
 /* ============================
    COLONNE DROITE
    ============================ */
+
 .right {
   width: 220px;
   min-width: 200px;
@@ -286,10 +376,15 @@ html, body {
   overflow-y: auto;
   flex-shrink: 0;
 }
- 
+
+.right::-webkit-scrollbar { width: 4px; }
+.right::-webkit-scrollbar-track { background: transparent; }
+.right::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
 /* ============================
    DROPDOWNS
    ============================ */
+
 .dropdown {
   display: none;
   flex-direction: column;
@@ -301,15 +396,16 @@ html, body {
   max-height: 60vh;
   overflow-y: auto;
 }
- 
+
 .dropdown div:hover {
   background: rgba(255,255,255,0.08);
   border-radius: 6px;
 }
- 
+
 /* ============================
    THEMES — ACCORDÉON
    ============================ */
+
 .theme-group-toggle {
   font-weight: 600;
   font-size: 13px;
@@ -322,17 +418,17 @@ html, body {
   user-select: none;
   color: #eaeef7;
 }
- 
+
 .theme-group-toggle:hover {
   background: rgba(255,255,255,0.07);
   border-color: rgba(255,255,255,0.25);
 }
- 
+
 .theme-group-toggle.active {
   background: rgba(255,255,255,0.12);
   border-color: rgba(255,255,255,0.35);
 }
- 
+
 .theme-submenu {
   display: none;
   padding-left: 10px;
@@ -340,11 +436,11 @@ html, body {
   flex-direction: column;
   gap: 6px;
 }
- 
+
 .theme-submenu.open {
   display: flex;
 }
- 
+
 .theme-submenu div {
   padding: 7px 10px;
   border-radius: 8px;
@@ -355,22 +451,23 @@ html, body {
   font-size: 12px;
   color: rgba(255,255,255,0.8);
 }
- 
+
 .theme-submenu div:hover {
   background: rgba(255,255,255,0.09);
   border-color: rgba(255,255,255,0.2);
 }
- 
+
 .theme-submenu div.selected {
   background: rgba(255, 59, 48, 0.18);
   border: 1px solid rgba(255, 59, 48, 0.55);
   box-shadow: 0 0 8px rgba(255, 59, 48, 0.25);
   color: #ffffff;
 }
- 
+
 /* ============================
    CITY DROPDOWN
    ============================ */
+
 #city-dropdown div[data-city] {
   padding: 8px 12px;
   border-radius: 8px;
@@ -380,20 +477,21 @@ html, body {
   transition: all 0.15s ease;
   font-size: 13px;
 }
- 
+
 #city-dropdown div[data-city]:hover {
   background: rgba(255,255,255,0.09);
 }
- 
+
 #city-dropdown div.selected {
   background: rgba(255, 59, 48, 0.18);
   border-color: rgba(255, 59, 48, 0.55);
   color: #fff;
 }
- 
+
 /* ============================
    LÉGENDE
    ============================ */
+
 .legend {
   padding: 8px;
   background: rgba(0,0,0,0.4);
@@ -402,10 +500,11 @@ html, body {
   line-height: 1.5;
   border: 1px solid rgba(255,255,255,0.05);
 }
- 
+
 /* ============================
    INFO PANEL
    ============================ */
+
 #info-panel {
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.08);
@@ -413,17 +512,21 @@ html, body {
   padding: 8px;
   color: #eef6ff;
   font-size: 13px;
+  flex-direction: column;
+  max-height: 200px;
+  overflow-y: auto;
 }
- 
+
 /* ============================
    ADRESSE
    ============================ */
+
 .address-control {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
- 
+
 #address-input {
   padding: 10px 12px;
   border-radius: 10px;
@@ -437,22 +540,22 @@ html, body {
   box-sizing: border-box;
   transition: border-color 0.2s;
 }
- 
+
 #address-input:focus { border-color: rgba(255, 59, 48, 0.5); }
- 
 #address-input::placeholder { color: rgba(255,255,255,0.35); }
- 
+
 .address-limit {
   font-size: 11px;
   color: var(--muted);
   text-align: right;
 }
- 
+
 /* ============================
    MARKERS ADRESSE
    ============================ */
+
 .address-marker { position: relative; }
- 
+
 .address-marker .dot {
   width: 10px;
   height: 10px;
@@ -460,7 +563,7 @@ html, body {
   border-radius: 50%;
   border: 2px solid white;
 }
- 
+
 .address-marker .close {
   position: absolute;
   top: -10px;
@@ -476,16 +579,17 @@ html, body {
   justify-content: center;
   cursor: pointer;
 }
- 
+
 /* ============================
    ZOOM
    ============================ */
+
 .custom-zoom-container {
   display: flex;
   flex-direction: row;
   gap: 8px;
 }
- 
+
 .custom-zoom-container .btn {
   width: 44px;
   height: 44px;
@@ -496,12 +600,11 @@ html, body {
   align-items: center;
   flex: 1;
 }
- 
-/* #protected-content supprimé — non utilisé dans index.html */
- 
+
 /* ============================
    TOOLTIPS LEAFLET
    ============================ */
+
 .foliumtooltip,
 .leaflet-tooltip {
   background: rgba(10,10,12,0.95) !important;
@@ -513,20 +616,64 @@ html, body {
   max-width: 220px;
   white-space: normal;
 }
- 
+
+/* ============================
+   PAGE CONTENT (TARIFS, etc.)
+   ============================ */
+
+.page-content {
+  padding: 60px;
+  color: white;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.page-content h1 {
+  margin-bottom: 24px;
+  font-size: 28px;
+  color: #ffd84d;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  max-width: 800px;
+}
+
+.pricing-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.pricing-card h2 {
+  color: #ffd84d;
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.pricing-card p {
+  color: rgba(255,255,255,0.7);
+  margin: 0;
+  font-size: 15px;
+}
+
 /* ============================
    RESPONSIVE
    ============================ */
+
 @media (max-width: 1000px) {
-  .dashboard {
+  #app-tab {
     flex-direction: column;
     padding: 12px;
     gap: 12px;
     overflow-y: auto;
     height: auto;
-    min-height: 100vh;
+    min-height: 0;
   }
- 
+
   .left, .right {
     width: 100%;
     max-width: 100%;
@@ -536,23 +683,29 @@ html, body {
     flex-wrap: wrap;
     gap: 10px;
   }
- 
+
   .center {
     width: 100%;
     min-width: 0;
   }
- 
+
   .map-wrapper {
+    width: 100%;
+    height: auto;
     max-width: 100%;
+    max-height: none;
   }
- 
+
   .map-circle,
   #map {
     border-radius: 14px;
     height: 55vw;
     min-height: 260px;
     max-height: 480px;
+    width: 100%;
   }
- 
+
   .map-card { border-radius: 14px; }
+
+  .btn { width: 100%; }
 }
