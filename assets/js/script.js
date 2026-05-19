@@ -3,15 +3,15 @@
 // ============================
 
 let addressMarkers = [];
-let activeAddress = null;
-let activeSector = null;
+let activeAddress  = null;
+let activeSector   = null;
 let addressInput;
 const MAX_ADDRESS_MARKERS = 3;
 
-var bruxellesLayer;
+var bruxellesLayer    = null;
 var currentThemeLayer = null;
-var activeTheme = null;
-var polygonsOn = true;
+var activeTheme       = null;
+var polygonsOn        = true;
 
 // ============================
 // COULEURS & UTILITAIRES
@@ -102,7 +102,7 @@ const ALL_THEMES = [
   { name: "Batiments residentiels",                         file: "immo_nb_bat_resid.geojson",                                                                            property: "immo_nb_bat_resid" },
   { name: "Parc immobilier 2 a 3 facades",                  file: "immo_tx_23fac_houses.geojson",                                                                         property: "immo_tx_23fac_houses" },
   { name: "Parc immobilier 4 facades",                      file: "immo_tx_4f_houses.geojson",                                                                            property: "immo_tx_4f_houses" },
-  { name: "Parc immobilier immeuble appartements",           file: "immo_tx_immeub_appart.geojson",                                                                        property: "immo_tx_immeub_appart" },
+  { name: "Parc immobilier immeuble appartements",          file: "immo_tx_immeub_appart.geojson",                                                                        property: "immo_tx_immeub_appart" },
 
   // ---------------- Tendances ----------------
   { name: "Gentrification",                                 file: "gentrification.geojson",                                                                               property: "gentrification" },
@@ -138,36 +138,36 @@ const ALL_THEMES = [
   { name: "Taux espaces verts accessibles public", file: "eco_tx_espacevert_accesspublic.geojson",                                        property: "eco_tx_espacevert_accesspublic" },
 
   // ---------------- Economics ----------------
-  { name: "Avg_Revenue_2023",                                     file: "merged_statsector_revenue_BX_only_2023_partialmatch.geojson",       property: "MS_AVG_TOT_NET_TAXABLE_INC" },
-  { name: "Revenu Médian",                                        file: "fin_med_rev.geojson",                                              property: "fin_med_rev" },
-  { name: "Taux naissances sans revenu de travail",               file: "fin_tx_births_noworkrevenue.geojson",                              property: "fin_tx_births_noworkrevenue" },
-  { name: "Taux naissances meres etrangeres",                     file: "fin_tx_naissances_mere_etrang.geojson",                            property: "fin_tx_naissances_mere_etrang" },
-  { name: "Taux emploi",                                          file: "fin_tx_emploi.geojson",                                           property: "fin_tx_emploi" },
-  { name: "Taux emploi 15 à 24 ans",                              file: "fin_tx_emploi_15_24.geojson",                                     property: "fin_tx_emploi_15_24" },
-  { name: "Taux emploi 25 à 49 ans",                              file: "fin_tx_emploi_25_49.geojson",                                     property: "fin_tx_emploi_25_49" },
-  { name: "Taux emploi 50 à 64 ans",                              file: "fin_tx_emploi_50_64.geojson",                                     property: "fin_tx_emploi_50_64" },
-  { name: "Taux salariés",                                        file: "fin_tx_sal.geojson",                                              property: "fin_tx_sal" },
-  { name: "Taux indépendants",                                    file: "fin_tx_indep.geojson",                                            property: "fin_tx_indep" },
-  { name: "Taux ouvriers",                                        file: "fin_tx_ouvr.geojson",                                             property: "fin_tx_ouvr" },
-  { name: "Taux employés",                                        file: "fin_tx_employee.geojson",                                         property: "fin_tx_employee" },
-  { name: "Emplois Institutions Internationales",                  file: "fin_nb_internat_instit_jobs.geojson",                             property: "fin_nb_internat_instit_jobs" },
-  { name: "Taux fonctionnaires",                                  file: "fin_tx_fonct.geojson",                                            property: "fin_tx_fonct" },
-  { name: "Secteurs economiques majeures",                        file: "caract_economiq.geojson",                                         property: "caract_economiq" },
-  { name: "Sieges sociaux",                                       file: "fin_soc_siege.geojson",                                           property: "fin_soc_siege" },
-  { name: "Etablissements",                                       file: "fin_nb_etabls.geojson",                                           property: "fin_nb_etabls" },
-  { name: "Solde migration entreprises 2009 a 2020",              file: "fin_soldmig_firms_total_2009_2020.geojson",                       property: "fin_soldmig_firms_total_2009_2020" },
-  { name: "Solde migration entreprises 2009 a 2020 Horeca",       file: "fin_soldmig_2009_2020_horeca.geojson",                            property: "fin_soldmig_2009_2020_horeca" },
-  { name: "Solde migration entreprises 2009 a 2020 commerce detail", file: "fin_soldmig_2009_2020_commrcdetail.geojson",                  property: "fin_soldmig_2009_2020_commrcdetail" },
-  { name: "Solde migration entreprises 2009 a 2020 IT",           file: "fin_soldmig_2009_2020_IT.geojson",                               property: "fin_soldmig_2009_2020_IT" },
-  { name: "Solde migration entreprises 2009 a 2020 RBC",          file: "fin_soldmig_RBC_2009_2022.geojson",                              property: "fin_soldmig_RBC_2009_2022" },
-  { name: "Solde migration entreprises 2009 a 2020 Régions",      file: "fin_soldmig_ firms_Wal_Flan_2009_2022.geojson",                  property: "fin_soldmig_firms_Wal_Flan_2009_2022" },
-  { name: "Taux chomage",                                         file: "fin_tx_chomg.geojson",                                           property: "fin_tx_chomg" },
-  { name: "Taux chomage LD",                                      file: "fin_tx_chom_longduree.geojson",                                  property: "fin_tx_chom_longduree" },
-  { name: "Taux chomage 15 a 24 ans",                             file: "fin_15_24yo_tx_chom.geojson",                                    property: "fin_15_24yo_tx_chom" },
-  { name: "Taux chomage 25 a 49 ans",                             file: "fin_tx_chom_25_49.geojson",                                      property: "fin_tx_chom_25_49" },
-  { name: "Taux chomage 50 a 64 ans",                             file: "fin_tx_chom_50_64.geojson",                                      property: "fin_tx_chom_50_64" },
-  { name: "Taux CPAS 18 a 24 ans",                                file: "tx_CPAS_18_24_2021.geojson",                                     property: "tx_CPAS_18_24_2021" },
-  { name: "Taux GRAPA 65+",                                       file: "GRAPA_65+_2022.geojson",                                         property: "GRAPA_65+_2022" },
+  { name: "Avg_Revenue_2023",                                        file: "merged_statsector_revenue_BX_only_2023_partialmatch.geojson",       property: "MS_AVG_TOT_NET_TAXABLE_INC" },
+  { name: "Revenu Médian",                                           file: "fin_med_rev.geojson",                                              property: "fin_med_rev" },
+  { name: "Taux naissances sans revenu de travail",                  file: "fin_tx_births_noworkrevenue.geojson",                              property: "fin_tx_births_noworkrevenue" },
+  { name: "Taux naissances meres etrangeres",                        file: "fin_tx_naissances_mere_etrang.geojson",                            property: "fin_tx_naissances_mere_etrang" },
+  { name: "Taux emploi",                                             file: "fin_tx_emploi.geojson",                                           property: "fin_tx_emploi" },
+  { name: "Taux emploi 15 à 24 ans",                                 file: "fin_tx_emploi_15_24.geojson",                                     property: "fin_tx_emploi_15_24" },
+  { name: "Taux emploi 25 à 49 ans",                                 file: "fin_tx_emploi_25_49.geojson",                                     property: "fin_tx_emploi_25_49" },
+  { name: "Taux emploi 50 à 64 ans",                                 file: "fin_tx_emploi_50_64.geojson",                                     property: "fin_tx_emploi_50_64" },
+  { name: "Taux salariés",                                           file: "fin_tx_sal.geojson",                                              property: "fin_tx_sal" },
+  { name: "Taux indépendants",                                       file: "fin_tx_indep.geojson",                                            property: "fin_tx_indep" },
+  { name: "Taux ouvriers",                                           file: "fin_tx_ouvr.geojson",                                             property: "fin_tx_ouvr" },
+  { name: "Taux employés",                                           file: "fin_tx_employee.geojson",                                         property: "fin_tx_employee" },
+  { name: "Emplois Institutions Internationales",                    file: "fin_nb_internat_instit_jobs.geojson",                             property: "fin_nb_internat_instit_jobs" },
+  { name: "Taux fonctionnaires",                                     file: "fin_tx_fonct.geojson",                                            property: "fin_tx_fonct" },
+  { name: "Secteurs economiques majeures",                           file: "caract_economiq.geojson",                                         property: "caract_economiq" },
+  { name: "Sieges sociaux",                                          file: "fin_soc_siege.geojson",                                           property: "fin_soc_siege" },
+  { name: "Etablissements",                                          file: "fin_nb_etabls.geojson",                                           property: "fin_nb_etabls" },
+  { name: "Solde migration entreprises 2009 a 2020",                 file: "fin_soldmig_firms_total_2009_2020.geojson",                       property: "fin_soldmig_firms_total_2009_2020" },
+  { name: "Solde migration entreprises 2009 a 2020 Horeca",          file: "fin_soldmig_2009_2020_horeca.geojson",                            property: "fin_soldmig_2009_2020_horeca" },
+  { name: "Solde migration entreprises 2009 a 2020 commerce detail", file: "fin_soldmig_2009_2020_commrcdetail.geojson",                      property: "fin_soldmig_2009_2020_commrcdetail" },
+  { name: "Solde migration entreprises 2009 a 2020 IT",              file: "fin_soldmig_2009_2020_IT.geojson",                               property: "fin_soldmig_2009_2020_IT" },
+  { name: "Solde migration entreprises 2009 a 2020 RBC",             file: "fin_soldmig_RBC_2009_2022.geojson",                              property: "fin_soldmig_RBC_2009_2022" },
+  { name: "Solde migration entreprises 2009 a 2020 Régions",         file: "fin_soldmig_ firms_Wal_Flan_2009_2022.geojson",                  property: "fin_soldmig_firms_Wal_Flan_2009_2022" },
+  { name: "Taux chomage",                                            file: "fin_tx_chomg.geojson",                                           property: "fin_tx_chomg" },
+  { name: "Taux chomage LD",                                         file: "fin_tx_chom_longduree.geojson",                                  property: "fin_tx_chom_longduree" },
+  { name: "Taux chomage 15 a 24 ans",                                file: "fin_15_24yo_tx_chom.geojson",                                    property: "fin_15_24yo_tx_chom" },
+  { name: "Taux chomage 25 a 49 ans",                                file: "fin_tx_chom_25_49.geojson",                                      property: "fin_tx_chom_25_49" },
+  { name: "Taux chomage 50 a 64 ans",                                file: "fin_tx_chom_50_64.geojson",                                      property: "fin_tx_chom_50_64" },
+  { name: "Taux CPAS 18 a 24 ans",                                   file: "tx_CPAS_18_24_2021.geojson",                                     property: "tx_CPAS_18_24_2021" },
+  { name: "Taux GRAPA 65+",                                          file: "GRAPA_65+_2022.geojson",                                         property: "GRAPA_65+_2022" },
 
   // ---------------- Sociology ----------------
   { name: "Evolution Population 2012-2022 en %",                  file: "pop_evo_2012_2022.geojson",                                      property: "pop_tx_aug_2012_2022" },
@@ -220,7 +220,7 @@ const themeCache = {};
 
 async function preloadThemes() {
   for (const theme of ALL_THEMES) {
-    if (theme.name.startsWith('///')) continue;
+    if (themeCache[theme.name]) continue;
     try {
       const res = await fetch(theme.file);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -241,7 +241,6 @@ function startPreload() {
 
 var map = null;
 
-
 function initMap() {
   if (map) return;
   map = L.map('map', { zoomControl: false }).setView([50.85, 4.35], 10);
@@ -259,7 +258,6 @@ function initMap() {
   setTimeout(() => map.invalidateSize(), 100);
   setTimeout(() => map.invalidateSize(), 500);
 }
-
 
 // ============================
 // UTILITAIRES CARTE
@@ -285,12 +283,12 @@ function pointInFeature(lat, lon, feature) {
 
 function leafletRaycast(point, layer) {
   const latlngs = layer.getLatLngs ? layer.getLatLngs() : [];
-  const rings = Array.isArray(latlngs[0]) ? latlngs : [latlngs];
+  const rings    = Array.isArray(latlngs[0]) ? latlngs : [latlngs];
   const [py, px] = point;
   let inside = false;
   for (const ring of rings) {
     const flat = ring.flat ? ring.flat(Infinity) : ring;
-    const n = flat.length;
+    const n    = flat.length;
     for (let i = 0, j = n - 1; i < n; j = i++) {
       const xi = flat[i].lng, yi = flat[i].lat;
       const xj = flat[j].lng, yj = flat[j].lat;
@@ -319,7 +317,6 @@ function getValueFromTheme(theme, lat, lon) {
 // SCAN & SAVE — helpers
 // ============================
 
-// ── Overlay de progression ────────────────────────────────────
 function showProgress(current, total, label) {
   let overlay = document.getElementById('scan-overlay');
   if (!overlay) {
@@ -372,7 +369,7 @@ function waitForTiles(timeoutMs = 4000) {
     const check = () => {
       const loading = document.querySelectorAll('.leaflet-tile-loading');
       if (loading.length === 0 || Date.now() >= deadline) {
-        setTimeout(resolve, 300); // petit délai post-rendu
+        setTimeout(resolve, 300);
       } else {
         requestAnimationFrame(check);
       }
@@ -381,7 +378,6 @@ function waitForTiles(timeoutMs = 4000) {
   });
 }
 
-// ── Appliquer un thème et attendre son rendu complet ─────────
 function applyThemeAndWait(themeName) {
   return new Promise((resolve, reject) => {
     const theme = THEME_INDEX[themeName];
@@ -420,22 +416,16 @@ function applyThemeAndWait(themeName) {
   });
 }
 
-// ── Capture de la carte 
-
 function captureMapClean() {
   return new Promise((resolve, reject) => {
     const mapEl = document.getElementById('map');
-
-    // Masquer markers, cercles, popups
     const paneNames = ['markerPane', 'shadowPane', 'overlayPane', 'popupPane', 'tooltipPane'];
     const saved = {};
     paneNames.forEach(name => {
       const el = map.getPane(name);
       if (el) { saved[name] = el.style.display; el.style.display = 'none'; }
     });
-
     map.invalidateSize();
-
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         html2canvas(mapEl, {
@@ -444,14 +434,12 @@ function captureMapClean() {
           logging: false,
           scale: 1
         }).then(canvas => {
-          // Restaurer
           paneNames.forEach(name => {
             const el = map.getPane(name);
             if (el) el.style.display = saved[name] ?? '';
           });
           resolve(canvas.toDataURL('image/png'));
         }).catch(err => {
-          // Restaurer même en cas d'erreur
           paneNames.forEach(name => {
             const el = map.getPane(name);
             if (el) el.style.display = saved[name] ?? '';
@@ -463,97 +451,75 @@ function captureMapClean() {
   });
 }
 
-// ── Export Excel ──────────────────────────────────────────────
 function exportToExcel(rows) {
   const ws = XLSX.utils.json_to_sheet(rows);
   ws['!cols'] = [
-    { wch: 55 }, // Theme
-    { wch: 22 }, // Valeur
-    { wch: 45 }, // Adresse
-    { wch: 14 }, // Ville
-    { wch: 22 }, // Timestamp
+    { wch: 55 },
+    { wch: 22 },
+    { wch: 45 },
+    { wch: 14 },
+    { wch: 22 },
   ];
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Scan Results');
   XLSX.writeFile(wb, 'scan-results.xlsx');
 }
 
-// ── Génération PDF — une page par thème ──────────────────────
 function generatePDF(rows, screenshots) {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const W   = doc.internal.pageSize.getWidth();   // 210
-  const H   = doc.internal.pageSize.getHeight();  // 297
+  const W   = doc.internal.pageSize.getWidth();
+  const H   = doc.internal.pageSize.getHeight();
   const M   = 14;
   const ts  = rows[0]?.Timestamp || new Date().toLocaleString('fr-BE');
   const addr = rows[0]?.Adresse  || '—';
 
-  // ── Page de couverture ──────────────────────────────────────
   doc.setFillColor(15, 15, 25);
   doc.rect(0, 0, W, H, 'F');
-
-  // Bande accent
   doc.setFillColor(200, 255, 0);
   doc.rect(0, 0, 4, H, 'F');
-
   doc.setFontSize(24);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(200, 255, 0);
   doc.text('Smart-In', M, 36);
-
   doc.setFontSize(13);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(220, 220, 220);
   doc.text('Rapport d\'analyse — Bruxelles', M, 45);
-
   doc.setDrawColor(200, 255, 0);
   doc.setLineWidth(0.4);
   doc.line(M, 50, W - M, 50);
-
   doc.setFontSize(9);
   doc.setTextColor(160, 160, 180);
-  doc.text(`Adresse analysée :`, M, 60);
+  doc.text('Adresse analysée :', M, 60);
   doc.setTextColor(230, 230, 230);
   doc.setFont('helvetica', 'bold');
   doc.text(addr, M, 66);
-
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(160, 160, 180);
-  doc.text(`Date du scan :`, M, 76);
+  doc.text('Date du scan :', M, 76);
   doc.setTextColor(230, 230, 230);
   doc.text(ts, M, 82);
-
   doc.setTextColor(160, 160, 180);
-  doc.text(`Nombre de thèmes scannés :`, M, 92);
+  doc.text('Nombre de thèmes scannés :', M, 92);
   doc.setTextColor(200, 255, 0);
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
   doc.text(String(rows.length), M, 100);
 
-  // ── Une page par thème ──────────────────────────────────────
   rows.forEach((row, idx) => {
     doc.addPage();
-
-    // Fond
     doc.setFillColor(18, 18, 28);
     doc.rect(0, 0, W, H, 'F');
-
-    // Barre latérale accent
     doc.setFillColor(200, 255, 0);
     doc.rect(0, 0, 3, H, 'F');
-
-    // En-tête
     doc.setFillColor(25, 25, 40);
     doc.rect(3, 0, W - 3, 24, 'F');
-
-    // Numéro
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(120, 120, 140);
     doc.text(`${idx + 1} / ${rows.length}`, W - M, 8, { align: 'right' });
-
-    // Nom du thème (avec troncature)
-    const maxChars = 70;
+    const maxChars  = 70;
     const themeLabel = String(row.Theme).length > maxChars
       ? String(row.Theme).slice(0, maxChars - 1) + '…'
       : String(row.Theme);
@@ -561,40 +527,33 @@ function generatePDF(rows, screenshots) {
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(200, 255, 0);
     doc.text(themeLabel, M, 10);
-
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(100, 100, 120);
     doc.text(ts, M, 17);
 
-    // Bloc valeur
     let y = 30;
     doc.setFillColor(30, 30, 50);
     doc.roundedRect(M, y, W - M * 2, 22, 3, 3, 'F');
     doc.setFillColor(200, 255, 0);
     doc.roundedRect(M, y, 3, 22, 1, 1, 'F');
-
     doc.setFontSize(7.5);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(140, 140, 160);
     doc.text('VALEUR', M + 6, y + 7);
-
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
     doc.setTextColor(230, 230, 255);
     doc.text(String(row.Valeur ?? '—'), M + 6, y + 17);
     y += 28;
 
-    // Bloc adresse
     doc.setFillColor(25, 25, 40);
     doc.roundedRect(M, y, W - M * 2, 18, 3, 3, 'F');
-
     doc.setFontSize(7);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(100, 100, 120);
     doc.text('ADRESSE', M + 4, y + 6);
     doc.text('VILLE', M + (W - M * 2) / 2, y + 6);
-
     doc.setFontSize(8.5);
     doc.setTextColor(200, 200, 220);
     const addrDisplay = String(row.Adresse || '—');
@@ -602,13 +561,11 @@ function generatePDF(rows, screenshots) {
     doc.text(String(row.Ville || 'Bruxelles'), M + (W - M * 2) / 2, y + 13);
     y += 24;
 
-    // Screenshot
     const shot = screenshots[idx];
     if (shot) {
       try {
-        const imgW  = W - M * 2;
-        const imgH  = imgW * (9 / 16);
-        // Cadre
+        const imgW = W - M * 2;
+        const imgH = imgW * (9 / 16);
         doc.setDrawColor(40, 40, 65);
         doc.setLineWidth(0.4);
         doc.roundedRect(M, y, imgW, imgH, 2, 2, 'S');
@@ -627,7 +584,6 @@ function generatePDF(rows, screenshots) {
       y += 10;
     }
 
-    // Pied de page
     doc.setDrawColor(40, 40, 65);
     doc.setLineWidth(0.3);
     doc.line(M, H - 10, W - M, H - 10);
@@ -837,6 +793,17 @@ function loadBaseLayer() {
 }
 
 // ============================
+// FERMETURE DROPDOWNS AU CLIC EXTÉRIEUR
+// ============================
+
+function closeAllDropdowns() {
+  ['city-dropdown', 'theme-dropdown'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+}
+
+// ============================
 // DOMContentLoaded
 // ============================
 
@@ -871,14 +838,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  if (btnLogin) btnLogin.addEventListener('click', () => doLogin(passwordInput ? passwordInput.value : ''));
+  if (btnLogin)      btnLogin.addEventListener('click', () => doLogin(passwordInput ? passwordInput.value : ''));
   if (passwordInput) passwordInput.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(passwordInput.value); });
 
   // ── Message iframe ──────────────────────────────────────────
   window.addEventListener('message', (event) => {
     if (!event.data) return;
-    if (event.data.type === 'unlock') doLogin(event.data.password);
-    if (event.data.type === 'cityClick' && event.data.city === 'Brussels') map.setView([50.85, 4.35], 10);
+    if (event.data.type === 'unlock')    doLogin(event.data.password);
+    if (event.data.type === 'cityClick' && event.data.city === 'Brussels' && map) {
+      map.setView([50.85, 4.35], 10);
+    }
   });
 
   // ── Adresse ─────────────────────────────────────────────────
@@ -900,17 +869,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnZoomIn  = document.getElementById('zoom-in');
   const btnZoomOut = document.getElementById('zoom-out');
   const btnCenter  = document.getElementById('btn-center');
-  if (btnZoomIn)  btnZoomIn.addEventListener('click',  () => map.zoomIn());
-  if (btnZoomOut) btnZoomOut.addEventListener('click', () => map.zoomOut());
-  if (btnCenter)  btnCenter.addEventListener('click',  () => map.setView([50.85, 4.35], 10));
+  if (btnZoomIn)  btnZoomIn.addEventListener('click',  () => map && map.zoomIn());
+  if (btnZoomOut) btnZoomOut.addEventListener('click', () => map && map.zoomOut());
+  if (btnCenter)  btnCenter.addEventListener('click',  () => map && map.setView([50.85, 4.35], 10));
 
   // ── Toggle polygones ────────────────────────────────────────
   const btnToggle = document.getElementById('btn-toggle');
   if (btnToggle) {
+    // État initial : polygones ON (cohérent avec polygonsOn = true)
+    btnToggle.textContent = 'Polygones ON';
     btnToggle.addEventListener('click', function () {
       if (!bruxellesLayer) return;
-      if (polygonsOn) { map.removeLayer(bruxellesLayer); polygonsOn = false; this.innerText = 'Polygones OFF'; }
-      else            { bruxellesLayer.addTo(map);        polygonsOn = true;  this.innerText = 'Polygones ON'; }
+      if (polygonsOn) {
+        map.removeLayer(bruxellesLayer);
+        polygonsOn = false;
+        this.textContent = 'Polygones OFF';
+      } else {
+        bruxellesLayer.addTo(map);
+        polygonsOn = true;
+        this.textContent = 'Polygones ON';
+      }
     });
   }
 
@@ -920,15 +898,13 @@ document.addEventListener('DOMContentLoaded', () => {
     btnFiltersOff.addEventListener('click', () => {
       if (currentThemeLayer) { map.removeLayer(currentThemeLayer); currentThemeLayer = null; }
       activeTheme = null;
-      if (bruxellesLayer && !map.hasLayer(bruxellesLayer)) bruxellesLayer.addTo(map);
-      const fc = document.getElementById('filters-content');
-      if (fc) fc.innerHTML = 'choose a theme';
+      if (bruxellesLayer && map && !map.hasLayer(bruxellesLayer)) bruxellesLayer.addTo(map);
       polygonsOn = true;
-      if (btnToggle) btnToggle.innerText = 'Polygones ON';
+      if (btnToggle) btnToggle.textContent = 'Polygones ON';
       const legendDiv = document.querySelector('.legend');
       if (legendDiv) legendDiv.innerHTML = '';
       document.querySelectorAll('.theme-submenu div').forEach(i => i.classList.remove('selected'));
-      map.setView([50.85, 4.35], 10);
+      if (map) map.setView([50.85, 4.35], 10);
     });
   }
 
@@ -936,23 +912,33 @@ document.addEventListener('DOMContentLoaded', () => {
   function toggleDropdown(btnId, dropdownId) {
     const btn = document.getElementById(btnId);
     if (!btn) return;
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       const dd = document.getElementById(dropdownId);
       if (!dd) return;
-      ['city-dropdown', 'theme-dropdown', 'filters-dropdown'].forEach(id => {
-        if (id !== dropdownId) { const o = document.getElementById(id); if (o) o.style.display = 'none'; }
-      });
-      dd.style.display = dd.style.display === 'flex' ? 'none' : 'flex';
+      const isOpen = dd.style.display === 'flex';
+      closeAllDropdowns();
+      if (!isOpen) dd.style.display = 'flex';
     });
   }
   toggleDropdown('btn-city',    'city-dropdown');
   toggleDropdown('btn-theme',   'theme-dropdown');
-  toggleDropdown('btn-filters', 'filters-dropdown');
+
+  // Fermeture au clic extérieur
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#city-dropdown')   &&
+        !e.target.closest('#theme-dropdown')  &&
+        !e.target.closest('#btn-city')        &&
+        !e.target.closest('#btn-theme')) {
+      closeAllDropdowns();
+    }
+  });
 
   // ── Info panel ──────────────────────────────────────────────
   const btnInfo = document.getElementById('btn-info');
   if (btnInfo) {
-    btnInfo.addEventListener('click', () => {
+    btnInfo.addEventListener('click', (e) => {
+      e.stopPropagation();
       const panel = document.getElementById('info-panel');
       if (panel) panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
     });
@@ -1006,7 +992,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnScanSave = document.getElementById('btn-scan-save');
   if (btnScanSave) {
     btnScanSave.addEventListener('click', async () => {
-
       const themes    = ALL_THEMES.filter(t => !t.name.startsWith('///'));
       const total     = themes.length;
       const timestamp = new Date().toLocaleString('fr-BE');
@@ -1015,7 +1000,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const lat       = activeAddress?.lat  ?? null;
       const lon       = activeAddress?.lon  ?? null;
 
-      // Désactiver tous les boutons pendant le scan
       document.querySelectorAll('button').forEach(b => { b.disabled = true; });
       showProgress(0, total, 'Initialisation…');
 
@@ -1023,11 +1007,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const screenshots = [];
 
       try {
-for (let i = 0; i < themes.length; i++) {
+        for (let i = 0; i < themes.length; i++) {
           const theme = themes[i];
           showProgress(i, total, theme.name);
 
-          // 1. Charger et afficher le thème (attend rendu complet)
           try {
             await applyThemeAndWait(theme.name);
           } catch (e) {
@@ -1038,10 +1021,8 @@ for (let i = 0; i < themes.length; i++) {
             }
           }
 
-          // 2. Délai supplémentaire tuiles + SVG
           await sleep(600);
 
-          // 3. Valeur pour l'adresse
           let value = 'N/A';
           if (hasAddr && lat !== null && lon !== null) {
             value = getValueFromTheme(theme, lat, lon);
@@ -1049,7 +1030,6 @@ for (let i = 0; i < themes.length; i++) {
             value = '(global — aucune adresse sélectionnée)';
           }
 
-          // 4. Capture
           let shot = null;
           try {
             shot = await captureMapClean();
@@ -1069,12 +1049,10 @@ for (let i = 0; i < themes.length; i++) {
           showProgress(i + 1, total, theme.name);
         }
 
-        // 5. Export Excel
         showProgress(total, total, 'Export Excel…');
         await sleep(80);
         exportToExcel(excelRows);
 
-        // 6. Export PDF
         showProgress(total, total, 'Génération PDF…');
         await sleep(80);
         generatePDF(excelRows, screenshots);
@@ -1093,15 +1071,51 @@ for (let i = 0; i < themes.length; i++) {
   }
 
   // ── Resize ──────────────────────────────────────────────────
-  
-window.addEventListener('resize', () => {
-  setTimeout(() => {
-    if (map) {
-      map.invalidateSize();
-    }
-  }, 200);
-});
+  window.addEventListener('resize', () => {
+    setTimeout(() => {
+      if (map) map.invalidateSize();
+    }, 200);
+  });
 
-  
-  window._map = map;
+  // ── Tabs ────────────────────────────────────────────────────
+  const tabs  = document.querySelectorAll('.browser-tab');
+  const pages = document.querySelectorAll('.tab-page');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      tabs.forEach(t => t.classList.remove('active'));
+      pages.forEach(p => p.classList.remove('active-tab'));
+      tab.classList.add('active');
+      const targetPage = document.getElementById(target);
+      if (targetPage) targetPage.classList.add('active-tab');
+      history.pushState({ tab: target }, '', '#' + target);
+
+      // Invalider la carte si on revient sur app-tab
+      if (target === 'app-tab' && map) {
+        setTimeout(() => map.invalidateSize(), 100);
+      }
+    });
+  });
+
+  window.addEventListener('popstate', (e) => {
+    if (e.state && e.state.tab) {
+      const target = e.state.tab;
+      tabs.forEach(t => t.classList.remove('active'));
+      pages.forEach(p => p.classList.remove('active-tab'));
+      const activeTab  = document.querySelector(`[data-tab="${target}"]`);
+      const activePage = document.getElementById(target);
+      if (activeTab)  activeTab.classList.add('active');
+      if (activePage) activePage.classList.add('active-tab');
+    }
+  });
+
+  // ── Bouton retour ────────────────────────────────────────────
+  const btnBack = document.getElementById('btn-back-home');
+  if (btnBack) {
+    btnBack.addEventListener('click', () => {
+      window.location.href = 'europe-map.html';
+    });
+  }
+
 });
