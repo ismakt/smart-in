@@ -51,6 +51,39 @@
 <!-- FIX : id="main-app" + class="dashboard" alignés avec le JS -->
 <div class="dashboard" id="main-app" style="display:none;">
 
+
+
+<!-- ===================== TOP TABS ===================== -->
+<div class="top-tabs">
+
+  <button id="btn-back-home" class="nav-back">
+    ←
+  </button>
+
+  <div class="browser-tabs">
+
+    <button class="browser-tab active" data-tab="app-tab">
+      APP
+    </button>
+
+    <button class="browser-tab" data-tab="pricing-tab">
+      TARIFS
+    </button>
+
+    <button class="browser-tab" data-tab="contact-tab">
+      CONTACT
+    </button>
+
+    <button class="browser-tab" data-tab="about-tab">
+      ABOUT
+    </button>
+
+  </div>
+</div>
+
+
+<div id="app-tab" class="tab-page active-tab">  <!-- encapsullement de l'app; ouverture -->
+  
   <div class="left">
     <div class="brand">
       <h1>Vadilion Digital</h1>
@@ -387,7 +420,83 @@
     </div>
   </div>
 
+
+  </div> <!-- fermeture app-tab -->
+
+
+
+
+<!-- autres tabs -->
+
+  <!-- ===================== TARIFS ===================== -->
+<div id="pricing-tab" class="tab-page">
+
+  <div class="page-content">
+    <h1>Tarifs</h1>
+
+    <div class="pricing-grid">
+
+      <div class="pricing-card">
+        <h2>Basic</h2>
+        <p>€49/mois</p>
+      </div>
+
+      <div class="pricing-card">
+        <h2>Professional</h2>
+        <p>€199/mois</p>
+      </div>
+
+      <div class="pricing-card">
+        <h2>Enterprise</h2>
+        <p>Custom</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ===================== CONTACT ===================== -->
+<div id="contact-tab" class="tab-page">
+
+  <div class="page-content">
+    <h1>Contact</h1>
+
+    <p>Email: contact@vadilion.com</p>
+    <p>Brussels — Belgium</p>
+
+  </div>
+
+</div>
+
+<!-- ===================== ABOUT ===================== -->
+<div id="about-tab" class="tab-page">
+
+  <div class="page-content">
+    <h1>About Smart-In</h1>
+
+    <p>
+      Smart-In is a territorial intelligence platform designed
+      to evaluate real estate, economic and demographic dynamics
+      before capital deployment.
+    </p>
+
+  </div>
+
+</div>
+  
+
+  
 </div><!-- /main-app -->
+
+
+
+
+
+
+
+
+  
 
 <script src="assets/js/script.js"></script>
 </body>
