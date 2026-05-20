@@ -826,11 +826,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (contentCenter) { contentCenter.style.opacity = '1'; contentCenter.style.pointerEvents = 'auto'; }
       if (contentRight)  { contentRight.style.opacity  = '1'; contentRight.style.pointerEvents  = 'auto'; }
 
+
       requestAnimationFrame(() => {
-        initMap();
-        setTimeout(() => { if (map) map.invalidateSize(); }, 200);
-        setTimeout(() => { if (map) map.invalidateSize(); }, 700);
-      });
+  if (!map) {
+    initMap();
+  } else {
+    // Carte déjà initialisée — juste recaler les dimensions et recharger la couche de base si perdue
+    setTimeout(() => {
+      map.invalidateSize();
+      if (!bruxellesLayer || !map.hasLayer(bruxellesLayer)) loadBaseLayer();
+    }, 100);
+    setTimeout(() => map.invalidateSize(), 500);
+  }
+});
 
       startPreload();
     } else {
