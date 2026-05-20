@@ -1118,12 +1118,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ── Bouton retour ────────────────────────────────────────────
-  const btnBack = document.getElementById('btn-back-home');
-  if (btnBack) {
-    btnBack.addEventListener('click', () => {
-      window.location.href = 'europe-map.html';
-    });
-  }
+// ── Bouton retour ────────────────────────────────────────────
+const btnBack = document.getElementById('btn-back-home');
+
+if (btnBack) {
+  btnBack.addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
+}
 
 });
+
+
+
+
